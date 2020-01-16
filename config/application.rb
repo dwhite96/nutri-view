@@ -31,5 +31,16 @@ module NutriView
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.generators do |g|
+      g.assets = false
+      g.test_framework :rspec, fixture: false
+      g.view_specs = false
+      g.helpers_spec = false
+      g.stylesheets = false
+      g.javascripts = false
+      g.helper = false
+      g.jbuilder = false
+    end
   end
 end
