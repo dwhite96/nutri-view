@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :food_item do
-    data { '{}' }
+    data { '{"foo":"bar"}' }
   end
 end

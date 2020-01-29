@@ -35,6 +35,7 @@ module NutriView
     config.generators do |g|
       g.assets = false
       g.test_framework :rspec, fixture: false
+      g.controller_specs = false
       g.view_specs = false
       g.helpers_spec = false
       g.stylesheets = false
