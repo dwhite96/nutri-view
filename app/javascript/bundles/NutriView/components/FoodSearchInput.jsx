@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 
-const FoodSearchInput = () => {
+const FoodSearchInput = ({ searchFood }) => {
   return (
     <Formik
       initialValues={{ foodSearch: '' }}
@@ -14,8 +14,9 @@ const FoodSearchInput = () => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
+        searchFood(values);
+
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400);
       }}

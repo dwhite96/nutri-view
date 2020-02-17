@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import NutriView from '../components/NutriView';
 import * as actions from '../actions/nutriViewActionCreators';
+import NutriView from '../components/NutriView';
 
 // Which part of the Redux global state does our component want to receive as props?
 const mapStateToProps = (state) => ({ data: state.data });

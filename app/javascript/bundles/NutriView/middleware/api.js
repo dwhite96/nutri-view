@@ -1,56 +1,47 @@
-import fetch from 'cross-fetch'
-import ReactOnRails from 'react-on-rails'
-
 // Fetches an API response
 const callApi = (url, method, data) => {
   return fetch(url, {
-    method: method,
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': ReactOnRails.authenticityToken()
-    },
-    body: JSON.stringify(data)
+    method: method
   })
   .then(response =>
     response.json().then(json => {
       if (!response.ok) {
-        return Promise.reject(json)
-      }
+        return Promise.reject(json);
+      };
 
-      return json
+      return json;
     })
-  )
-}
+  );
+};
 
 // Action key that carries API call info interpreted by this Redux middleware.
-export const CALL_API = 'Call API'
+export const CALL_API = 'Call API';
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
-  const callAPI = action[CALL_API]
+  const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') {
-    return next(action)
-  }
+    return next(action);
+  };
 
-  const { types, url, method, data } = callAPI
+  const { types, url, method, data } = callAPI;
 
   if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected an array of three action types.')
-  }
+    throw new Error('Expected an array of three action types.');
+  };
   if (!types.every(type => typeof type === 'string')) {
-    throw new Error('Expected action types to be strings.')
-  }
+    throw new Error('Expected action types to be strings.');
+  };
 
   const actionWith = data => {
-    const finalAction = Object.assign({}, action, data)
-    delete finalAction[CALL_API]
-    return finalAction
-  }
+    const finalAction = Object.assign({}, action, data);
+    delete finalAction[CALL_API];
+    return finalAction;
+  };
 
-  const [ requestType, successType, failureType ] = types
-  next(actionWith({ type: requestType }))
+  const [ requestType, successType, failureType ] = types;
+  next(actionWith({ type: requestType }));
 
   return callApi(url, method, data).then(
     response => next(actionWith({
@@ -61,5 +52,5 @@ export default store => next => action => {
       type: failureType,
       error: error || 'Something bad happened'
     }))
-  )
-}
+  );
+};

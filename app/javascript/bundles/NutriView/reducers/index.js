@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 
-import { DISPLAY_FOOD_ITEM } from '../constants/nutriViewConstants';
+import { DISPLAY_SEARCHED_FOOD_ITEM } from '../constants/nutriViewConstants';
 
 const data = (state = '', action) => {
   switch (action.type) {
-    case DISPLAY_FOOD_ITEM:
-      return action.text;
+    case DISPLAY_SEARCHED_FOOD_ITEM:
+      return action.data;
     default:
       return state;
-  }
+  };
 };
 
 const reducers = combineReducers({ data });
