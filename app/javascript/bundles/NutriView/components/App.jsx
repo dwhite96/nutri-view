@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 import FoodSearchInput from '../containers/FoodSearchInputContainer';
 
-const NutriView = ({ data }) => (
+const App = () => (
   <div>
     <h3>Food Items Component</h3>
     <FoodSearchInput />
   </div>
 );
 
-// NutriView.propTypes = {
+// App.propTypes = {
 //   data: PropTypes.string.isRequired
 // };
 
-export default NutriView;
+export default App;

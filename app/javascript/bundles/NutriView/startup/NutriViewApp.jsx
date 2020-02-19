@@ -1,16 +1,18 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import ReactOnRails from 'react-on-rails';
 
 import configureStore from '../store/nutriViewStore';
-import NutriViewContainer from '../containers/NutriViewContainer';
+import App from '../components/App';
 
-// See documentation for https://github.com/reactjs/react-redux.
-// This is how you get props from the Rails view into the redux store.
-// This code here binds your smart component to the redux store.
-const NutriViewApp = (props) => (
-  <Provider store={configureStore(props)}>
-    <NutriViewContainer />
-  </Provider>
-);
+const NutriViewApp = () => {
+  const store = ReactOnRails.getStore('configureStore');
+
+  return(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
 
 export default NutriViewApp;
