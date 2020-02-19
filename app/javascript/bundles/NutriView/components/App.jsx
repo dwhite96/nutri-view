@@ -5,7 +5,7 @@ import FoodSearchInput from '../containers/FoodSearchInputContainer';
 
 const App = () => (
   <div>
-    <h3>Food Items Component</h3>
+    <h3>Food Search Component</h3>
     <FoodSearchInput />
   </div>
 );

@@ -3,16 +3,16 @@ import { Provider } from 'react-redux';
 import ReactOnRails from 'react-on-rails';
 
 import configureStore from '../store/nutriViewStore';
-import App from '../components/App';
+import FoodSearchInput from '../containers/FoodSearchInputContainer';
 
-const NutriViewApp = () => {
+const FoodSearchComponent = () => {
   const store = ReactOnRails.getStore('configureStore');
 
   return(
     <Provider store={store}>
-      <App />
+      <FoodSearchInput />
     </Provider>
   );
 };
 
-export default NutriViewApp;
+export default FoodSearchComponent;

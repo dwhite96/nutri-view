@@ -1,8 +1,8 @@
 import ReactOnRails from 'react-on-rails';
 
-import NutriViewApp from '../bundles/NutriView/startup/NutriViewApp';
+import FoodSearchComponent from '../bundles/NutriView/startup/FoodSearchComponent';
 import configureStore from '../bundles/NutriView/store/nutriViewStore';
 
-ReactOnRails.register({ NutriViewApp });
+ReactOnRails.register({ FoodSearchComponent });
 
 ReactOnRails.registerStore({ configureStore });
