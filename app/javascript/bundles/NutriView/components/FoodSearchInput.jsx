@@ -14,7 +14,7 @@ const FoodSearchInput = ({ searchFood }) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        searchFood(values);
+        searchFood(values.foodSearch);
 
         setTimeout(() => {
           setSubmitting(false);

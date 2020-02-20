@@ -21,7 +21,7 @@ const FDCFoodSearch = foodSearchTerms => ({
       FOOD_SEARCH_SUCCESS,
       FOOD_SEARCH_FAILURE
     ],
-    url: `https://api.nal.usda.gov/fdc/v1/search?api_key=${process.env.FDC_API_KEY}&generalSearchInput=${foodSearchTerms.foodSearch}`,
+    url: `https://api.nal.usda.gov/fdc/v1/search?api_key=${process.env.FDC_API_KEY}&generalSearchInput=${foodSearchTerms}`,
     method: 'GET'
   }
 });
