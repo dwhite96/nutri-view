@@ -1,3 +1,5 @@
+import fetch from 'cross-fetch';
+
 // Fetches an API response
 const callApi = (url, method, data) => {
   return fetch(url, {
