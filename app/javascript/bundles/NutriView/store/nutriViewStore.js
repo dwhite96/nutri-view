@@ -7,18 +7,15 @@ import reducers from '../reducers/index';
 
 const logger = createLogger();
 
-const configureStore = railsProps => {
-  console.log(railsProps);
-
-  return createStore(
+const configureStore = () => (
+  createStore(
     reducers,
-    railsProps,
     applyMiddleware(
       thunk,
       api,
-      logger
-    )
-  );
-};
+      logger,
+    ),
+  )
+);
 
 export default configureStore;

@@ -1,16 +1,32 @@
 import { combineReducers } from 'redux';
 
-import { DISPLAY_SEARCHED_FOOD_ITEM } from '../constants/nutriViewConstants';
+import {
+  FOOD_SEARCH_REQUEST,
+  FOOD_SEARCH_SUCCESS,
+  FOOD_SEARCH_FAILURE,
+} from '../constants/nutriViewConstants';
 
-const data = (state = '', action) => {
+const foodSearch = (state = { isFetching: false, response: {} }, action) => {
   switch (action.type) {
-    case DISPLAY_SEARCHED_FOOD_ITEM:
-      return action.data;
+    case FOOD_SEARCH_REQUEST:
+      return { ...state, isFetching: true };
+    case FOOD_SEARCH_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        response: action.data,
+      };
+    case FOOD_SEARCH_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        response: action.data,
+      };
     default:
       return state;
-  };
+  }
 };
 
-const reducers = combineReducers({ data });
+const reducers = combineReducers({ foodSearch });
 
 export default reducers;
