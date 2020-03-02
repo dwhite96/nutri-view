@@ -1,19 +1,17 @@
 import fetch from 'cross-fetch';
 
 // Fetches an API response
-const callApi = (url, method) => {
-  return fetch(url, {
-    method: method,
-  })
-    .then((response) =>
-      response.json().then((json) => {
+const callApi = (url, method) => (
+  fetch(url, { method })
+    .then((response) => response.json()
+      .then((json) => {
         if (!response.ok) {
           return Promise.reject(json);
         }
 
         return json;
-      }));
-};
+      }))
+);
 
 // Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_API = 'Call API';
@@ -26,7 +24,9 @@ export default (store) => (next) => (action) => {
     return next(action);
   }
 
-  const { types, url, method, data } = callAPI;
+  const {
+    types, url, method, data,
+  } = callAPI;
 
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
