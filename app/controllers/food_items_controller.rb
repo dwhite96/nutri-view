@@ -5,7 +5,7 @@ class FoodItemsController < ApplicationController
   # GET /food_items.json
   def index
     @food_items = FoodItem.all
-    redux_store("configureStore", props: { data: @food_items })
+    redux_store("configureStore")
   end
 
   # GET /food_items/1

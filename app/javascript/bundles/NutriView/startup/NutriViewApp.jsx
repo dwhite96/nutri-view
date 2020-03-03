@@ -5,7 +5,7 @@ import ReactOnRails from 'react-on-rails';
 const NutriViewApp = () => {
   const store = ReactOnRails.getStore('configureStore');
 
-  return(
+  return (
     <Provider store={store}>
     </Provider>
   );

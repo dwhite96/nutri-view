@@ -6,8 +6,9 @@ import FoodSearchInput from '../containers/FoodSearchInputContainer';
 
 const FoodSearchApp = () => {
   const store = ReactOnRails.getStore('configureStore');
+  console.log(store.getState());
 
-  return(
+  return (
     <Provider store={store}>
       <FoodSearchInput />
     </Provider>

@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 
-import { foodSearchRequest } from '../actions/nutriViewActionCreators';
+import { searchFood } from '../actions/nutriViewActionCreators';
 import FoodSearchInput from '../components/FoodSearchInput';
 
-const mapStateToProps = (state) => ({ data: state.data });
+const mapStateToProps = (state) => ({
+  isFetching: state.foodSearch.isFetching,
+  response: state.foodSearch.response,
+});
 
-const mapDispatchToProps = dispatch => ({
-  searchFood: searchTerms => dispatch(foodSearchRequest(searchTerms))
+const mapDispatchToProps = (dispatch) => ({
+  searchFood: (searchTerms) => dispatch(searchFood(searchTerms)),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(FoodSearchInput);
