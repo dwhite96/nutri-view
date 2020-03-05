@@ -2,46 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 
+import FoodResponseView from './FoodResponseView';
+
 const displayFetchingStatus = (isFetching) => {
   if (isFetching) {
     return (
       <h4>...searching</h4>
     );
   }
-};
-
-const displayReturnedResponse = (response) => {
-  const foods = response.foods; // eslint-disable-line prefer-destructuring
-  if (!foods || !foods.length) {
-    return (
-      <div>
-        <p>No food in response</p>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <ul>
-        {
-          foods.map((food) => (
-            <li key={food.fdcId}>
-              <div>
-                <p>
-                  <strong>Food Description: </strong>
-                  {food.description}
-                </p>
-                <p>
-                  <strong>Made by: </strong>
-                  {food.brandOwner}
-                </p>
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  );
 };
 
 const FoodSearchInput = ({ isFetching, response, searchFood }) => (
@@ -92,7 +60,7 @@ const FoodSearchInput = ({ isFetching, response, searchFood }) => (
       {displayFetchingStatus(isFetching)}
     </div>
     <div>
-      {displayReturnedResponse(response)}
+      <FoodResponseView response={response} />
     </div>
     <p>{isFetching}</p>
   </div>

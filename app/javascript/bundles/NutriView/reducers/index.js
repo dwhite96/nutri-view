@@ -20,7 +20,7 @@ const foodSearch = (state = { isFetching: false, response: {} }, action) => {
       return {
         ...state,
         isFetching: false,
-        response: action.data,
+        response: action.error,
       };
     default:
       return state;
