@@ -1,15 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import Loader from 'react-loader-spinner';
 
 import FoodResponseView from './FoodResponseView';
 
 const displayFetchingStatus = (isFetching) => {
   if (isFetching) {
     return (
-      <h4>...searching</h4>
+      <Loader
+        type="Oval"
+        color="#00BFFF"
+      />
     );
   }
+
+  return null;
 };
 
 const FoodSearchInput = ({ isFetching, response, searchFood }) => (
