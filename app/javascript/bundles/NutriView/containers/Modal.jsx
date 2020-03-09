@@ -22,8 +22,7 @@ const Modal = ({ isOpen, modalType, closeModal }) => {
       isOpen={isOpen}
       contentLabel="Food Search Input"
       appElement={document.getElementById('root')}
-      shouldCloseOnEsc={true}
-      shouldCloseOnOverlayClick={true}
+      onRequestClose={closeModal}
     >
       <button
         onClick={closeModal}
