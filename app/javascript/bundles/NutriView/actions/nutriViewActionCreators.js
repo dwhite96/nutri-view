@@ -3,10 +3,21 @@
 import { CALL_API } from '../middleware/api';
 
 import {
+  OPEN_MODAL,
+  CLOSE_MODAL,
   FOOD_SEARCH_REQUEST,
   FOOD_SEARCH_SUCCESS,
   FOOD_SEARCH_FAILURE,
 } from '../constants/nutriViewConstants';
+
+export const openModal = (modalType) => ({
+  type: OPEN_MODAL,
+  modalType,
+});
+
+export const closeModal = () => ({
+  type: CLOSE_MODAL,
+});
 
 // Call USDA FDC food search API.
 const FDCFoodSearch = (foodSearchTerms) => ({

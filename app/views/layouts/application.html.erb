@@ -11,13 +11,15 @@
   </head>
 
   <body>
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, class: name %>
-    <% end %>
+    <div id='root'>
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: name %>
+      <% end %>
 
-    <%= render 'shared/top_bar' %>
+      <%= render 'shared/top_bar' %>
 
-    <%= yield %>
+      <%= yield %>
+    </div>
 
     <%= redux_store_hydration_data %>
   </body>
