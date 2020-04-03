@@ -30,9 +30,7 @@ class FoodItemsController < ApplicationController
     respond_to do |format|
       if @food_item.save
         format.html { redirect_to @food_item, notice: 'Food item was successfully created.' }
-        format.json { render :show, status: :created, location: @food_item }
       else
-        format.html { render :new }
         format.json { render json: @food_item.errors, status: :unprocessable_entity }
       end
     end
@@ -70,6 +68,7 @@ class FoodItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def food_item_params
-      params.require(:food_item).permit(:data)
+      p params
+      params.permit!
     end
 end

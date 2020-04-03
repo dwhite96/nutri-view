@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FoodResponseView = ({ response }) => {
+const FoodResponseView = ({ response, saveFood }) => {
   // FDC foods array exists and has at least one food item
   if (Array.isArray(response.foods) && response.foods.length > 0) {
     return (
@@ -19,6 +19,13 @@ const FoodResponseView = ({ response }) => {
                     <strong>Made by: </strong>
                     {food.brandOwner}
                   </p>
+                  <button
+                    className="primary hollow button"
+                    type="button"
+                    onClick={() => saveFood(food.fdcId)}
+                  >
+                    Save Food
+                  </button>
                 </div>
               </li>
             ))
@@ -55,6 +62,7 @@ FoodResponseView.propTypes = {
     foods: PropTypes.Array,
     error: PropTypes.Object,
   }).isRequired,
+  saveFood: PropTypes.func.isRequired,
 };
 
 export default FoodResponseView;

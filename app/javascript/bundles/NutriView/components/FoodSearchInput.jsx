@@ -18,7 +18,12 @@ const displayFetchingStatus = (isFetching) => {
   return null;
 };
 
-const FoodSearchInput = ({ isFetching, response, searchFood }) => (
+const FoodSearchInput = ({
+  isFetching,
+  response,
+  searchFood,
+  saveFood,
+}) => (
   <div>
     <Formik
       initialValues={{ foodSearch: '' }}
@@ -65,10 +70,7 @@ const FoodSearchInput = ({ isFetching, response, searchFood }) => (
     <div>
       {displayFetchingStatus(isFetching)}
     </div>
-    <div>
-      <FoodResponseView response={response} />
-    </div>
-    <p>{isFetching}</p>
+    <FoodResponseView response={response} saveFood={saveFood} />
   </div>
 );
 
@@ -76,6 +78,7 @@ FoodSearchInput.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   response: PropTypes.shape({}).isRequired,
   searchFood: PropTypes.func.isRequired,
+  saveFood: PropTypes.func.isRequired,
 };
 
 export default FoodSearchInput;
