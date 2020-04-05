@@ -4,8 +4,8 @@ import { searchFood, saveFood } from '../actions/nutriViewActionCreators';
 import FoodSearchInput from '../components/FoodSearchInput';
 
 const mapStateToProps = (state) => ({
-  isFetching: state.foodRequest.isFetching,
-  response: state.foodRequest.response,
+  isFetching: state.foodSearchInput.isFetching,
+  response: state.foodSearchInput.response,
 });
 
 const mapDispatchToProps = (dispatch) => ({

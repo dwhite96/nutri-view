@@ -3,15 +3,9 @@ import { combineReducers } from 'redux';
 import {
   OPEN_MODAL,
   CLOSE_MODAL,
-  DISPLAY_ERROR_MESSAGE,
-  FOOD_SEARCH_REQUEST,
-  FOOD_SEARCH_SUCCESS,
-  FOOD_SEARCH_FAILURE,
   FOOD_REQUEST,
   FOOD_SUCCESS,
   FOOD_FAILURE,
-  FOOD_POST_REQUEST,
-  FOOD_POST_SUCCESS,
   FOOD_POST_FAILURE,
 } from '../constants/nutriViewConstants';
 
@@ -34,55 +28,8 @@ const modal = (state = { isOpen: false, modalType: null }, action) => {
   }
 };
 
-// const errorMessage = (state = { error: {} }, action) => {
-//   switch (action.type) {
-//     case DISPLAY_ERROR_MESSAGE:
-//       return {
-//         ...state,
-//         error: action.error,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-// const foodSearch = (state = { isFetching: false, response: {} }, action) => {
-//   switch (action.type) {
-//     case FOOD_SEARCH_REQUEST:
-//       return { ...state, isFetching: true };
-//     case FOOD_SEARCH_SUCCESS:
-//       return {
-//         ...state,
-//         isFetching: false,
-//         response: action.data,
-//       };
-//     case FOOD_SEARCH_FAILURE:
-//       return {
-//         ...state,
-//         isFetching: false,
-//         response: action.error,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-const foodRequest = (state = { isFetching: false, response: {} }, action) => {
+const foodSearchInput = (state = { isFetching: false, response: {} }, action) => {
   switch (action.type) {
-    case FOOD_SEARCH_REQUEST:
-      return { ...state, isFetching: true };
-    case FOOD_SEARCH_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        response: action.data,
-      };
-    case FOOD_SEARCH_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        response: action.error,
-      };
     case FOOD_REQUEST:
       return {
         ...state,
@@ -101,53 +48,25 @@ const foodRequest = (state = { isFetching: false, response: {} }, action) => {
         isFetching: false,
         response: action.error,
       };
-    case FOOD_POST_REQUEST:
-      return { ...state, isFetching: true };
-    case FOOD_POST_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        response: action.data,
-      };
     case FOOD_POST_FAILURE:
-      console.log(action.error);
       return {
         ...state,
         isFetching: false,
-        response: action.error,
+        response: {
+          error: {
+            data: action.error.data,
+            code: 'HTTP Status Code 422: Unprocessable Entity',
+          },
+        },
       };
     default:
       return state;
   }
 };
 
-// const foodPostRequest = (state = { isFetching: false, response: {} }, action) => {
-//   switch (action.type) {
-//     case FOOD_POST_REQUEST:
-//       return { ...state, isFetching: true };
-//     case FOOD_POST_SUCCESS:
-//       return {
-//         ...state,
-//         isFetching: false,
-//         response: action.data,
-//       };
-//     case FOOD_POST_FAILURE:
-//       return {
-//         ...state,
-//         isFetching: false,
-//         response: action.error,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
 const reducers = combineReducers({
   modal,
-  // errorMessage,
-  // foodSearch,
-  foodRequest,
-  // foodPostRequest,
+  foodSearchInput,
 });
 
 export default reducers;

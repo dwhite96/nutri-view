@@ -6,12 +6,8 @@ const callApi = (url, request) => (
     (response) => response.json()
       .then((json) => {
         if (!response.ok) {
-          console.log('response not ok');
-          console.log(json);
           return Promise.reject(json);
         }
-        console.log('response ok');
-        console.log(json);
 
         return json;
       }),
@@ -49,8 +45,6 @@ export default (store) => (next) => (action) => {
   const [requestType, successType, failureType] = types;
 
   next(actionWith({ type: requestType }));
-
-  console.log(request);
 
   return callApi(url, request).then(
     (response) => next(actionWith({

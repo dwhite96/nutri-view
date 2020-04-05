@@ -1,6 +1,8 @@
 class FoodItemsController < ApplicationController
   before_action :set_food_item, only: [:show, :edit, :update, :destroy]
 
+  wrap_parameters :food_item, include: [:data]
+
   # GET /food_items
   # GET /food_items.json
   def index
@@ -27,12 +29,10 @@ class FoodItemsController < ApplicationController
   def create
     @food_item = FoodItem.new(food_item_params)
 
-    respond_to do |format|
-      if @food_item.save
-        format.html { redirect_to @food_item, notice: 'Food item was successfully created.' }
-      else
-        format.json { render json: @food_item.errors, status: :unprocessable_entity }
-      end
+    if @food_item.save
+      render json: { message: 'Food item was successfully saved.' }, status: :created
+    else
+      render json: @food_item.errors, status: :unprocessable_entity
     end
   end
 
@@ -68,7 +68,6 @@ class FoodItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def food_item_params
-      p params
-      params.permit!
+      params.require(:food_item).permit!
     end
 end

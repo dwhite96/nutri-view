@@ -44,6 +44,14 @@ const FoodResponseView = ({ response, saveFood }) => {
     );
   }
 
+  if (response.message) {
+    return (
+      <div>
+        <p>{response.message}</p>
+      </div>
+    );
+  }
+
   if (response.error) {
     return (
       <div>
@@ -60,6 +68,7 @@ const FoodResponseView = ({ response, saveFood }) => {
 FoodResponseView.propTypes = {
   response: PropTypes.shape({
     foods: PropTypes.Array,
+    message: PropTypes.string,
     error: PropTypes.Object,
   }).isRequired,
   saveFood: PropTypes.func.isRequired,

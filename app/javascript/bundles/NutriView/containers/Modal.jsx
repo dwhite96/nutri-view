@@ -5,11 +5,9 @@ import ReactModal from 'react-modal';
 
 import { closeModal } from '../actions/nutriViewActionCreators';
 import FoodSearchInput from './FoodSearchInputContainer';
-import ErrorResponseView from './ErrorResponseView';
 
 const MODAL_COMPONENTS = {
   FOOD_SEARCH_INPUT: FoodSearchInput,
-  ERROR_RESPONSE_VIEW: ErrorResponseView,
 };
 
 const Modal = ({ isOpen, modalType, closeModal }) => {

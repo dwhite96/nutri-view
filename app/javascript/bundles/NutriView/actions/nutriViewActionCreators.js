@@ -6,15 +6,9 @@ import { CALL_API } from '../middleware/api';
 import {
   OPEN_MODAL,
   CLOSE_MODAL,
-  DISPLAY_ERROR_MESSAGE,
-  FOOD_SEARCH_REQUEST,
-  FOOD_SEARCH_SUCCESS,
-  FOOD_SEARCH_FAILURE,
   FOOD_REQUEST,
   FOOD_SUCCESS,
   FOOD_FAILURE,
-  FOOD_POST_REQUEST,
-  FOOD_POST_SUCCESS,
   FOOD_POST_FAILURE,
 } from '../constants/nutriViewConstants';
 
@@ -27,24 +21,13 @@ export const closeModal = () => ({
   type: CLOSE_MODAL,
 });
 
-export const errorMessage = (error) => ({
-  type: DISPLAY_ERROR_MESSAGE,
-  error,
-});
-
-// Error message thunk
-export const displayErrorMessage = (error) => (dispatch) => {
-  dispatch(openModal('ERROR_MESSAGE_VIEW'));
-  dispatch(errorMessage(error));
-};
-
 // Call USDA FDC food search API
 const FDCFoodSearch = (foodSearchTerms) => ({
   [CALL_API]: {
     types: [
-      FOOD_SEARCH_REQUEST,
-      FOOD_SEARCH_SUCCESS,
-      FOOD_SEARCH_FAILURE,
+      FOOD_REQUEST,
+      FOOD_SUCCESS,
+      FOOD_FAILURE,
     ],
     url: `https://api.nal.usda.gov/fdc/v1/search?api_key=${process.env.FDC_API_KEY}&generalSearchInput=${foodSearchTerms}`,
     request: {
@@ -58,8 +41,8 @@ export const searchFood = (foodSearchTerms) => (dispatch) => (
   dispatch(FDCFoodSearch(foodSearchTerms))
 );
 
-// Call USDA FDC food request API
-const FDCFoodRequest = (foodFDCID) => ({
+// Call USDA FDC food fetch API
+const FDCFoodFetch = (foodFDCID) => ({
   [CALL_API]: {
     types: [
       FOOD_REQUEST,
@@ -73,11 +56,12 @@ const FDCFoodRequest = (foodFDCID) => ({
   },
 });
 
+// Save food JSON data to Nutri-View app database
 const saveFoodToDatabase = (data) => ({
   [CALL_API]: {
     types: [
-      FOOD_POST_REQUEST,
-      FOOD_POST_SUCCESS,
+      FOOD_REQUEST,
+      FOOD_SUCCESS,
       FOOD_POST_FAILURE,
     ],
     url: 'http://localhost:3000/food_items',
@@ -85,17 +69,21 @@ const saveFoodToDatabase = (data) => ({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
-      body: data,
+      body: JSON.stringify(data),
     },
   },
 });
 
 // Save food thunk
 export const saveFood = (foodFDCID) => (dispatch) => (
-  dispatch(FDCFoodRequest(foodFDCID))
+  dispatch(FDCFoodFetch(foodFDCID))
     .then(
-      (response) => dispatch(saveFoodToDatabase(response.data)),
+      (response) => {
+        const data = { data: response.data };
+        dispatch(saveFoodToDatabase(data));
+      },
     )
 );
