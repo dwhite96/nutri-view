@@ -12,6 +12,8 @@ import {
   FOOD_POST_FAILURE,
 } from '../constants/nutriViewConstants';
 
+const FDCRootURL = 'https://api.nal.usda.gov/fdc/v1';
+
 export const openModal = (modalType) => ({
   type: OPEN_MODAL,
   modalType,
@@ -29,7 +31,7 @@ const FDCFoodSearch = (foodSearchTerms) => ({
       FOOD_SUCCESS,
       FOOD_FAILURE,
     ],
-    url: `https://api.nal.usda.gov/fdc/v1/search?api_key=${process.env.FDC_API_KEY}&generalSearchInput=${foodSearchTerms}`,
+    url: `${FDCRootURL}/foods/search?api_key=${process.env.FDC_API_KEY}&query=${foodSearchTerms}`,
     request: {
       method: 'GET',
     },
@@ -49,7 +51,7 @@ const FDCFoodFetch = (foodFDCID) => ({
       FOOD_SUCCESS,
       FOOD_FAILURE,
     ],
-    url: `https://api.nal.usda.gov/fdc/v1/${foodFDCID}?api_key=${process.env.FDC_API_KEY}`,
+    url: `${FDCRootURL}/food/${foodFDCID}?api_key=${process.env.FDC_API_KEY}`,
     request: {
       method: 'GET',
     },
