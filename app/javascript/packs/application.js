@@ -5,7 +5,6 @@
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'antd/dist/antd.dark.less';
 
 import './nutri-view-bundle';
 
