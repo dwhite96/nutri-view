@@ -5,7 +5,8 @@
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'foundation-sites/dist/css/foundation.min.css';
+import 'antd/dist/antd.dark.less';
+
 import './nutri-view-bundle';
 
 require('@rails/ujs').start();

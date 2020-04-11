@@ -8,10 +8,12 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   </head>
 
   <body>
-    <div id='root'>
+    <div id="root">
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, class: name %>
       <% end %>
@@ -19,8 +21,11 @@
       <%= render 'shared/top_bar' %>
 
       <%= yield %>
+
+      <%= render 'shared/footer' %>
     </div>
 
     <%= redux_store_hydration_data %>
+
   </body>
 </html>

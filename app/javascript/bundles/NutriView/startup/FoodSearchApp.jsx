@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactOnRails from 'react-on-rails';
+import { Button } from 'antd';
 
 import Modal from '../containers/Modal';
 import { openModal } from '../actions/nutriViewActionCreators';
@@ -12,13 +13,13 @@ const FoodSearchApp = () => {
   return (
     <Provider store={store}>
       <div>
-        <button
+        <Button
           onClick={() => store.dispatch(openModal('FOOD_SEARCH_INPUT'))}
           className="clear button"
           type="button"
         >
           Search Food
-        </button>
+        </Button>
         <Modal />
       </div>
     </Provider>
