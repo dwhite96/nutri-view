@@ -8,9 +8,12 @@ import reducers from '../reducers/index';
 
 const logger = createLogger();
 
-const configureStore = () => (
-  createStore(
+const configureStore = (railsProps) => {
+  console.log(railsProps);
+
+  return createStore(
     reducers,
+    railsProps,
     composeWithDevTools(
       applyMiddleware(
         thunk,
@@ -18,7 +21,7 @@ const configureStore = () => (
         logger,
       ),
     ),
-  )
-);
+  );
+};
 
 export default configureStore;

@@ -2,13 +2,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ReactOnRails from 'react-on-rails';
 
-const NutriViewApp = () => {
+import TopBar from '../containers/TopBarContainer';
+
+const TopBarApp = () => {
   const store = ReactOnRails.getStore('configureStore');
 
   return (
     <Provider store={store}>
+      <TopBar />
     </Provider>
   );
 };
 
-export default NutriViewApp;
+export default TopBarApp;

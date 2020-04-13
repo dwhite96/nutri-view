@@ -5,6 +5,8 @@ class MealsController < ApplicationController
   # GET /meals.json
   def index
     @meals = Meal.all
+
+    redux_store("configureStore")
   end
 
   # GET /meals/1

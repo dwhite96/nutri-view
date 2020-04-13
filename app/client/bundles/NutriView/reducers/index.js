@@ -64,9 +64,17 @@ const foodSearchInput = (state = { isFetching: false, response: {} }, action) =>
   }
 };
 
+const foodItems = (state = [], action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
 const reducers = combineReducers({
   modal,
   foodSearchInput,
+  foodItems,
 });
 
 export default reducers;

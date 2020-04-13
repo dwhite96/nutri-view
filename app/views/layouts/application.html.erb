@@ -20,12 +20,13 @@
 
       <%= render 'shared/top_bar' %>
 
-      <%= yield %>
+      <div id="content">
+        <%= yield %>
+      </div>
 
       <%= render 'shared/footer' %>
     </div>
 
     <%= redux_store_hydration_data %>
-
   </body>
 </html>
