@@ -1,37 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Table, Typography } from 'antd';
 
-const FoodResponseView = ({ response, saveFood }) => {
+const { Column } = Table;
+const { Text } = Typography;
+
+const FoodResponseView = ({ response, setSelectedFood }) => {
+  const { foods } = response;
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+
+    onSelect: (record) => {
+      setSelectedFood(record.fdcId);
+    },
+  };
+
   // FDC foods array exists and has at least one food item
-  if (Array.isArray(response.foods) && response.foods.length > 0) {
+  if (Array.isArray(foods) && foods.length > 0) {
     return (
-      <div>
-        <ul>
-          {
-            response.foods.map((food) => (
-              <li key={food.fdcId}>
-                <div>
-                  <p>
-                    <strong>Food Description: </strong>
-                    {food.description}
-                  </p>
-                  <p>
-                    <strong>Made by: </strong>
-                    {food.brandOwner}
-                  </p>
-                  <button
-                    className="primary hollow button"
-                    type="button"
-                    onClick={() => saveFood(food.fdcId)}
-                  >
-                    Save Food
-                  </button>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <Table
+        rowKey="fdcId"
+        rowSelection={{
+          type: 'radio',
+          ...rowSelection,
+        }}
+        dataSource={foods}
+        scroll={{ y: 600 }}
+        pagination={{
+          hideOnSinglePage: true,
+          defaultPageSize: 100,
+        }}
+      >
+        <Column title="Description" dataIndex="description" />
+        <Column title="Brand" dataIndex="brandOwner" />
+      </Table>
     );
   }
 
@@ -39,7 +44,7 @@ const FoodResponseView = ({ response, saveFood }) => {
   if (Array.isArray(response.foods) && response.foods.length === 0) {
     return (
       <div>
-        <p>No food in response</p>
+        <Text>No food in response</Text>
       </div>
     );
   }
@@ -47,7 +52,7 @@ const FoodResponseView = ({ response, saveFood }) => {
   if (response.message) {
     return (
       <div>
-        <p>{response.message}</p>
+        <Text>{response.message}</Text>
       </div>
     );
   }
@@ -55,13 +60,10 @@ const FoodResponseView = ({ response, saveFood }) => {
   if (response.error) {
     return (
       <div>
-        <p>
-          {response.error.code}
-        </p>
+        <Text>{response.error.code}</Text>
       </div>
     );
   }
-
   return null;
 };
 
@@ -71,7 +73,7 @@ FoodResponseView.propTypes = {
     message: PropTypes.string,
     error: PropTypes.Object,
   }).isRequired,
-  saveFood: PropTypes.func.isRequired,
+  setSelectedFood: PropTypes.func.isRequired,
 };
 
 export default FoodResponseView;

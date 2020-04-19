@@ -1,32 +1,11 @@
 import { combineReducers } from 'redux';
 
 import {
-  OPEN_MODAL,
-  CLOSE_MODAL,
   FOOD_REQUEST,
   FOOD_SUCCESS,
   FOOD_FAILURE,
   FOOD_POST_FAILURE,
 } from '../constants/nutriViewConstants';
-
-const modal = (state = { isOpen: false, modalType: null }, action) => {
-  switch (action.type) {
-    case OPEN_MODAL:
-      return {
-        ...state,
-        isOpen: true,
-        modalType: action.modalType,
-      };
-    case CLOSE_MODAL:
-      return {
-        ...state,
-        isOpen: false,
-        modalType: null,
-      };
-    default:
-      return state;
-  }
-};
 
 const foodSearchInput = (state = { isFetching: false, response: {} }, action) => {
   switch (action.type) {
@@ -72,7 +51,6 @@ const foodItems = (state = [], action) => {
 };
 
 const reducers = combineReducers({
-  modal,
   foodSearchInput,
   foodItems,
 });

@@ -4,8 +4,6 @@ import ReactOnRails from 'react-on-rails';
 import { CALL_API } from '../middleware/api';
 
 import {
-  OPEN_MODAL,
-  CLOSE_MODAL,
   FOOD_REQUEST,
   FOOD_SUCCESS,
   FOOD_FAILURE,
@@ -13,15 +11,6 @@ import {
 } from '../constants/nutriViewConstants';
 
 const FDCRootURL = 'https://api.nal.usda.gov/fdc/v1';
-
-export const openModal = (modalType) => ({
-  type: OPEN_MODAL,
-  modalType,
-});
-
-export const closeModal = () => ({
-  type: CLOSE_MODAL,
-});
 
 // Call USDA FDC food search API
 const FDCFoodSearch = (foodSearchTerms) => ({
