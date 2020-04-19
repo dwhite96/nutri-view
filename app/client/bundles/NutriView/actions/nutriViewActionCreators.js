@@ -4,10 +4,15 @@ import ReactOnRails from 'react-on-rails';
 import { CALL_API } from '../middleware/api';
 
 import {
-  FOOD_REQUEST,
-  FOOD_SUCCESS,
-  FOOD_FAILURE,
-  FOOD_POST_FAILURE,
+  FOOD_SEARCH_REQUEST,
+  FOOD_SEARCH_SUCCESS,
+  FOOD_SEARCH_FAILURE,
+  FOOD_FETCH_REQUEST,
+  FOOD_FETCH_SUCCESS,
+  FOOD_FETCH_FAILURE,
+  SAVE_FOOD_REQUEST,
+  SAVE_FOOD_SUCCESS,
+  SAVE_FOOD_FAILURE,
 } from '../constants/nutriViewConstants';
 
 const FDCRootURL = 'https://api.nal.usda.gov/fdc/v1';
@@ -16,9 +21,9 @@ const FDCRootURL = 'https://api.nal.usda.gov/fdc/v1';
 const FDCFoodSearch = (foodSearchTerms) => ({
   [CALL_API]: {
     types: [
-      FOOD_REQUEST,
-      FOOD_SUCCESS,
-      FOOD_FAILURE,
+      FOOD_SEARCH_REQUEST,
+      FOOD_SEARCH_SUCCESS,
+      FOOD_SEARCH_FAILURE,
     ],
     url: `${FDCRootURL}/foods/search?api_key=${process.env.FDC_API_KEY}&query=${foodSearchTerms}`,
     request: {
@@ -36,9 +41,9 @@ export const searchFood = (foodSearchTerms) => (dispatch) => (
 const FDCFoodFetch = (foodFDCID) => ({
   [CALL_API]: {
     types: [
-      FOOD_REQUEST,
-      FOOD_SUCCESS,
-      FOOD_FAILURE,
+      FOOD_FETCH_REQUEST,
+      FOOD_FETCH_SUCCESS,
+      FOOD_FETCH_FAILURE,
     ],
     url: `${FDCRootURL}/food/${foodFDCID}?api_key=${process.env.FDC_API_KEY}`,
     request: {
@@ -51,9 +56,9 @@ const FDCFoodFetch = (foodFDCID) => ({
 const saveFoodToDatabase = (data) => ({
   [CALL_API]: {
     types: [
-      FOOD_REQUEST,
-      FOOD_SUCCESS,
-      FOOD_POST_FAILURE,
+      SAVE_FOOD_REQUEST,
+      SAVE_FOOD_SUCCESS,
+      SAVE_FOOD_FAILURE,
     ],
     url: 'http://localhost:3000/food_items',
     request: {

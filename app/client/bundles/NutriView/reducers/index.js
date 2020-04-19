@@ -1,33 +1,68 @@
 import { combineReducers } from 'redux';
 
 import {
-  FOOD_REQUEST,
-  FOOD_SUCCESS,
-  FOOD_FAILURE,
-  FOOD_POST_FAILURE,
+  FOOD_SEARCH_REQUEST,
+  FOOD_SEARCH_SUCCESS,
+  FOOD_SEARCH_FAILURE,
+  FOOD_FETCH_REQUEST,
+  FOOD_FETCH_SUCCESS,
+  FOOD_FETCH_FAILURE,
+  SAVE_FOOD_REQUEST,
+  SAVE_FOOD_SUCCESS,
+  SAVE_FOOD_FAILURE,
 } from '../constants/nutriViewConstants';
 
 const foodSearchInput = (state = { isFetching: false, response: {} }, action) => {
   switch (action.type) {
-    case FOOD_REQUEST:
+    case FOOD_SEARCH_REQUEST:
       return {
         ...state,
         isFetching: true,
         response: {},
       };
-    case FOOD_SUCCESS:
+    case FOOD_SEARCH_SUCCESS:
       return {
         ...state,
         isFetching: false,
         response: action.data,
       };
-    case FOOD_FAILURE:
+    case FOOD_SEARCH_FAILURE:
       return {
         ...state,
         isFetching: false,
         response: action.error,
       };
-    case FOOD_POST_FAILURE:
+    case FOOD_FETCH_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        response: {},
+      };
+    case FOOD_FETCH_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        response: action.data,
+      };
+    case FOOD_FETCH_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        response: action.error,
+      };
+    case SAVE_FOOD_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        response: {},
+      };
+    case SAVE_FOOD_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        response: action.data,
+      };
+    case SAVE_FOOD_FAILURE:
       return {
         ...state,
         isFetching: false,
