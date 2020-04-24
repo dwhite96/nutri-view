@@ -53,8 +53,6 @@ const FoodSearchInputModal = ({
             },
           ]}
         >
-          <p>021130070688</p>
-
           <Search
             placeholder="Enter food search terms or UPC..."
             enterButton="Search"
@@ -63,10 +61,8 @@ const FoodSearchInputModal = ({
           />
         </Form.Item>
       </Form>
-      <div>
-        {displayFetchingStatus()}
-        <FoodResponseView response={response} setSelectedFood={setSelectedFood} />
-      </div>
+      {displayFetchingStatus()}
+      <FoodResponseView response={response} setSelectedFood={setSelectedFood} />
     </Modal>
   );
 };

@@ -28,7 +28,7 @@ const FoodResponseView = ({ response, setSelectedFood }) => {
           ...rowSelection,
         }}
         dataSource={foods}
-        scroll={{ y: 600 }}
+        scroll={{ y: 'calc(100vh - 400px' }}
         pagination={{
           hideOnSinglePage: true,
           defaultPageSize: 100,
