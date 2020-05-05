@@ -57,6 +57,9 @@ const mealData = [
   {
     number: 5,
   },
+  {
+    number: 6,
+  },
 ];
 
 const MealCollection = ({ meals }) => (
@@ -65,7 +68,7 @@ const MealCollection = ({ meals }) => (
 
 const MainMealsView = () => (
   <Row gutter={16} align="bottom">
-    <Col className="gutter-row" span={3}>
+    <Col className="gutter-row" flex="151px">
       <List size="small">
         <List.Item>
           Calories
@@ -88,7 +91,7 @@ const MainMealsView = () => (
       </List>
     </Col>
     <MealCollection meals={mealData} />
-    <Col className="gutter-row" span={3}>
+    <Col className="gutter-row" flex="155px">
       <Card size="small" title="Total" style={{ height: 225 }}>
         <li>Coffee</li>
       </Card>

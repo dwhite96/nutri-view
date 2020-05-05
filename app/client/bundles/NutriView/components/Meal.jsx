@@ -98,7 +98,7 @@ const Meal = ({ meal }) => {
   const mealNumber = `Meal ${meal.number}`;
 
   return (
-    <Col className="gutter-row" span={3}>
+    <Col className="gutter-row" flex="155px">
       <Card
         size="small"
         title={mealNumber}
