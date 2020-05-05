@@ -92,7 +92,7 @@ const MainMealsView = () => (
     </Col>
     <MealCollection meals={mealData} />
     <Col className="gutter-row" flex="155px">
-      <Card size="small" title="Total" style={{ height: 225 }}>
+      <Card size="small" title="Total" style={{ height: 245 }}>
         <li>Coffee</li>
       </Card>
       <Table

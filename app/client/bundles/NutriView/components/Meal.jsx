@@ -4,7 +4,7 @@ import {
   Col, Table, Card, Menu, Dropdown, Button,
 } from 'antd';
 import {
-  EditOutlined, EllipsisOutlined, SettingOutlined, DownOutlined,
+  PlusOutlined, DownOutlined,
 } from '@ant-design/icons';
 
 const { Column } = Table;
@@ -104,9 +104,7 @@ const Meal = ({ meal }) => {
         title={mealNumber}
         style={{ height: 245 }}
         actions={[
-          <SettingOutlined key="setting" />,
-          <EditOutlined key="edit" />,
-          <EllipsisOutlined key="ellipsis" />,
+          <Button size="small" icon={<PlusOutlined />}>Add food item</Button>,
         ]}
       >
         {mealItems}
