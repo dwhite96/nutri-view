@@ -9,39 +9,6 @@ import {
 
 const { Column } = Table;
 
-const data1 = [
-  {
-    fdcId: 357068,
-    value: '14',
-    '% Daily Value': '18%',
-  },
-  {
-    fdcId: 508576,
-    value: '14',
-    '% Daily Value': '9%',
-  },
-  {
-    fdcId: 506463,
-    value: '14',
-    '% Daily Value': '7%',
-  },
-  {
-    fdcId: 566821,
-    value: '14',
-    '% Daily Value': '12%',
-  },
-  {
-    fdcId: 506463,
-    value: '14',
-    '% Daily Value': '7%',
-  },
-  {
-    fdcId: 566821,
-    value: '14',
-    '% Daily Value': '12%',
-  },
-];
-
 const foods = [
   {
     id: '1',
@@ -99,25 +66,28 @@ const Meal = ({ meal }) => {
 
   return (
     <Col className="gutter-row" flex="155px">
-      <Card
-        size="small"
-        title={mealNumber}
-        style={{ height: 245 }}
-        actions={[
-          <Button size="small" icon={<PlusOutlined />}>Add food item</Button>,
-        ]}
-      >
-        {mealItems}
+      <Card bodyStyle={{ padding: 0 }}>
+        <Card
+          size="small"
+          title={mealNumber}
+          style={{ height: 243 }}
+          bordered={false}
+          actions={[
+            <Button size="small" icon={<PlusOutlined />}>Add food item</Button>,
+          ]}
+        >
+          {mealItems}
+        </Card>
+        <Table
+          rowKey="fdcId"
+          dataSource={meal.foodItems}
+          size="small"
+          pagination={{ hideOnSinglePage: true }}
+        >
+          <Column title="Amount /serving" dataIndex="value" width={40} />
+          <Column title="% Daily Value" dataIndex="% Daily Value" width={40} />
+        </Table>
       </Card>
-      <Table
-        rowKey="fdcId"
-        dataSource={data1}
-        size="small"
-        pagination={{ hideOnSinglePage: true }}
-      >
-        <Column title="Amount /serving" dataIndex="value" width={40} />
-        <Column title="% Daily Value" dataIndex="% Daily Value" width={40} />
-      </Table>
     </Col>
   );
 };
@@ -125,6 +95,7 @@ const Meal = ({ meal }) => {
 Meal.propTypes = {
   meal: PropTypes.shape({
     number: PropTypes.number.isRequired,
+    foodItems: PropTypes.arrayOf.isRequired,
   }).isRequired,
 };
 

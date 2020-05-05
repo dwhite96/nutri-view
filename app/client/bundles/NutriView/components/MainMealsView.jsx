@@ -44,21 +44,27 @@ const data3 = [
 const mealData = [
   {
     number: 1,
+    foodItems: data3,
   },
   {
     number: 2,
+    foodItems: data3,
   },
   {
     number: 3,
+    foodItems: data3,
   },
   {
     number: 4,
+    foodItems: data3,
   },
   {
     number: 5,
+    foodItems: data3,
   },
   {
     number: 6,
+    foodItems: data3,
   },
 ];
 
@@ -92,24 +98,31 @@ const MainMealsView = () => (
     </Col>
     <MealCollection meals={mealData} />
     <Col className="gutter-row" flex="155px">
-      <Card size="small" title="Total" style={{ height: 245 }}>
-        <li>Coffee</li>
+      <Card bodyStyle={{ padding: 0 }}>
+        <Card
+          size="small"
+          title="Total"
+          style={{ height: 243 }}
+          bordered={false}
+        >
+          <li>Coffee</li>
+        </Card>
+        <Table
+          rowKey="fdcId"
+          dataSource={data3}
+          size="small"
+          pagination={{ hideOnSinglePage: true }}
+        >
+          <Column title="Total Amount" dataIndex="value" width={40} />
+          <Column title="% Daily Value" dataIndex="% Daily Value" width={40} />
+        </Table>
       </Card>
-      <Table
-        rowKey="fdcId"
-        dataSource={data3}
-        size="small"
-        pagination={{ hideOnSinglePage: true }}
-      >
-        <Column title="Total Amount" dataIndex="value" width={40} />
-        <Column title="% Daily Value" dataIndex="% Daily Value" width={40} />
-      </Table>
     </Col>
   </Row>
 );
 
 // MainMealsView.propTypes = {
-//   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+//   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,: data3,
 // };
 
 export default MainMealsView;
