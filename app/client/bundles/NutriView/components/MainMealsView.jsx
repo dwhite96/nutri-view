@@ -110,7 +110,7 @@ const MainMealsView = ({ meals, addMeal }) => (
           <Card
             size="small"
             title="Total"
-            style={{ height: 243 }}
+            bodyStyle={{ height: 220 }}
             bordered={false}
           >
             <li>Coffee</li>
