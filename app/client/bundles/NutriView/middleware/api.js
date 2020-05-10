@@ -1,8 +1,12 @@
 import fetch from 'cross-fetch';
+import { message } from 'antd';
 
 // Fetches an API response
-const callApi = (url, request) => (
-  fetch(url, request).then(
+const callApi = (url, request) => {
+  console.log(url);
+  console.log(request);
+
+  return fetch(url, request).then(
     (response) => response.json()
       .then((json) => {
         if (!response.ok) {
@@ -11,11 +15,19 @@ const callApi = (url, request) => (
 
         return json;
       }),
-  )
-);
+  );
+};
 
 // Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_API = 'Call API';
+
+const triggerMessagePopup = (response) => {
+  if (response.error) {
+    message.error(response.error.error);
+  } else {
+    message.success(response.data.message);
+  }
+};
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
@@ -50,10 +62,13 @@ export default (store) => (next) => (action) => {
     (response) => next(actionWith({
       type: successType,
       data: response,
+      error: null,
     })),
     (error) => next(actionWith({
       type: failureType,
       error: error || 'Something bad happened',
     })),
+  ).then(
+    (response) => triggerMessagePopup(response),
   );
 };

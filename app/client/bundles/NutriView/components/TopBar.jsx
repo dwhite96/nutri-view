@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Layout, Row, Col, Menu, Button, message, Typography,
+  Layout, Row, Col, Menu, Button, Typography,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -28,54 +28,56 @@ const TopBar = ({
   };
 
   return (
-    <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-      <Row align="middle">
-        <Col span={3}>
-          <div>
-            <a
-              data-remote="true"
-              rel="nofollow"
-              href="/"
-            >
-              <Title level={3} style={{ marginBottom: 0 }}>
-                NutriView
-              </Title>
-            </a>
-          </div>
-        </Col>
-        <Col span={9}>
-          <div>
-            <Button
-              icon={<SearchOutlined />}
-              onClick={() => {
-                setVisible(true);
-              }}
-            >
-              Search Food
-            </Button>
-            <FoodSearchInputModal
-              visible={visible}
-              onSave={onSave}
-              onCancel={() => {
-                setVisible(false);
-              }}
-              isFetching={isFetching}
-              response={response}
-              searchFood={searchFood}
-            />
-          </div>
-        </Col>
-        <Col span={4} offset={8}>
-          <Menu theme="dark" mode="horizontal">
-            {/*
-              if user_signed_in? conditional would go here, then logout link
-            */}
-            <Menu.Item key="1">Sign up</Menu.Item>
-            <Menu.Item key="2">Login</Menu.Item>
-          </Menu>
-        </Col>
-      </Row>
-    </Header>
+    <div>
+      <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+        <Row align="middle">
+          <Col span={3}>
+            <div>
+              <a
+                data-remote="true"
+                rel="nofollow"
+                href="/"
+              >
+                <Title level={3} style={{ marginBottom: 0 }}>
+                  NutriView
+                </Title>
+              </a>
+            </div>
+          </Col>
+          <Col span={9}>
+            <div>
+              <Button
+                icon={<SearchOutlined />}
+                onClick={() => {
+                  setVisible(true);
+                }}
+              >
+                Search Food
+              </Button>
+              <FoodSearchInputModal
+                visible={visible}
+                onSave={onSave}
+                onCancel={() => {
+                  setVisible(false);
+                }}
+                isFetching={isFetching}
+                response={response}
+                searchFood={searchFood}
+              />
+            </div>
+          </Col>
+          <Col span={4} offset={8}>
+            <Menu theme="dark" mode="horizontal">
+              {/*
+                if user_signed_in? conditional would go here, then logout link
+              */}
+              <Menu.Item key="1">Sign up</Menu.Item>
+              <Menu.Item key="2">Login</Menu.Item>
+            </Menu>
+          </Col>
+        </Row>
+      </Header>
+    </div>
   );
 };
 

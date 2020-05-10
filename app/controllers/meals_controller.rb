@@ -6,7 +6,7 @@ class MealsController < ApplicationController
   def index
     @meals = Meal.all
 
-    redux_store("configureStore")
+    redux_store("configureStore", props: { mealCollection: { meals: @meals } })
   end
 
   # GET /meals/1
@@ -28,14 +28,10 @@ class MealsController < ApplicationController
   def create
     @meal = Meal.new(meal_params)
 
-    respond_to do |format|
-      if @meal.save
-        format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
-        format.json { render :show, status: :created, location: @meal }
-      else
-        format.html { render :new }
-        format.json { render json: @meal.errors, status: :unprocessable_entity }
-      end
+    if @meal.save
+      render json: { meal: @meal, message: 'Meal was successfully saved.' }, status: :created
+    else
+      render json: @meal.errors, status: :unprocessable_entity
     end
   end
 
@@ -64,13 +60,11 @@ class MealsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_meal
       @meal = Meal.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def meal_params
-      params.fetch(:meal, {})
+      params.require(:meal).permit(:number)
     end
 end

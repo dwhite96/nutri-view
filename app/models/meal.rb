@@ -2,7 +2,6 @@
 
 # Meal model
 class Meal < ApplicationRecord
-  validates :food_item, presence: true
   validates :number,
     presence:     true,
     uniqueness:   true,

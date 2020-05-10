@@ -12,6 +12,8 @@ import {
   SAVE_FOOD_FAILURE,
 } from '../constants/nutriViewConstants';
 
+import mealCollection from './mealCollection';
+
 const foodSearchInput = (state = { isFetching: false, response: {} }, action) => {
   switch (action.type) {
     case FOOD_SEARCH_REQUEST:
@@ -88,6 +90,7 @@ const foodItems = (state = [], action) => {
 const reducers = combineReducers({
   foodSearchInput,
   foodItems,
+  mealCollection,
 });
 
 export default reducers;
