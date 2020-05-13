@@ -1,8 +1,11 @@
+/* eslint-disable prefer-object-spread */
 import fetch from 'cross-fetch';
+import { normalize } from 'normalizr';
+import { camelizeKeys } from 'humps';
 import { message } from 'antd';
 
 // Fetches an API response
-const callApi = (url, request) => {
+const callApi = (url, request, schema) => {
   console.log(url);
   console.log(request);
 
@@ -12,8 +15,16 @@ const callApi = (url, request) => {
         if (!response.ok) {
           return Promise.reject(json);
         }
+        console.log('before normalized:', json);
 
-        return json;
+        const camelizedJson = camelizeKeys(json);
+        const normalizedJson = Object.assign(
+          {}, normalize(camelizedJson, schema),
+        );
+
+        console.log('after normalized:', normalizedJson);
+
+        return normalizedJson;
       }),
   );
 };
@@ -25,7 +36,7 @@ const triggerMessagePopup = (response) => {
   if (response.error) {
     message.error(response.error.error);
   } else {
-    message.success(response.data.message);
+    message.success(response.message);
   }
 };
 
@@ -38,7 +49,12 @@ export default (store) => (next) => (action) => {
     return next(action);
   }
 
-  const { types, url, request } = callAPI;
+  const {
+    types,
+    url,
+    request,
+    schema,
+  } = callAPI;
 
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
@@ -58,10 +74,10 @@ export default (store) => (next) => (action) => {
 
   next(actionWith({ type: requestType }));
 
-  return callApi(url, request).then(
+  return callApi(url, request, schema).then(
     (response) => next(actionWith({
       type: successType,
-      data: response,
+      response,
       error: null,
     })),
     (error) => next(actionWith({
