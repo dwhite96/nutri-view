@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Col, Table, Card, Button,
@@ -8,26 +8,35 @@ import {
 } from '@ant-design/icons';
 
 import MealItems from './MealItems';
+import AddFoodItemModal from './AddFoodItemModal';
 
 const { Column } = Table;
 
-const foods = [
-  // {
-  //   id: '1',
-  //   name: 'Cascadian Farm Protein Bar',
-  // },
-  // {
-  //   id: '2',
-  //   name: '2 Hard Boiled Eggs',
-  // },
-  // {
-  //   id: '3',
-  //   name: 'Cascadian Farm Protein Bar',
-  // },
-];
-
-const Meal = ({ meal }) => {
+const Meal = ({
+  meal,
+  foodItems,
+  nutrientsData,
+  addFoodItem,
+  addSelectedFoodItemToMeal,
+}) => {
+  const [visible, setVisible] = useState(false);
   const mealNumber = `Meal ${meal.number}`;
+
+  const onSave = (selectedFood) => {
+    console.log('Received values of form: ', selectedFood);
+
+    addSelectedFoodItemToMeal(selectedFood, meal)
+      .then(() => {
+        setVisible(false);
+      })
+      .catch((info) => {
+        console.log(':', info);
+      });
+  };
+
+  const handleAddFoodItemClick = () => {
+    addFoodItem().then(() => setVisible(true));
+  };
 
   return (
     <Col className="gutter-row" flex="155px" order={meal.number}>
@@ -38,14 +47,25 @@ const Meal = ({ meal }) => {
           bodyStyle={{ height: 225 }}
           bordered={false}
           actions={[
-            <Button size="small" icon={<PlusOutlined />}>Add food item</Button>,
+            <Button
+              size="small"
+              icon={<PlusOutlined />}
+              onClick={() => handleAddFoodItemClick()}
+            >
+              Add food item
+            </Button>,
+            <AddFoodItemModal
+              visible={visible}
+              onSave={onSave}
+              onCancel={() => setVisible(false)}
+            />,
           ]}
         >
-          <MealItems foods={foods} />
+          <MealItems foodItems={foodItems} />
         </Card>
         <Table
-          rowKey="fdcId"
-          dataSource={meal.foodItems}
+          rowKey="nutrient"
+          dataSource={nutrientsData}
           size="small"
           pagination={{ hideOnSinglePage: true }}
         >
@@ -60,8 +80,11 @@ const Meal = ({ meal }) => {
 Meal.propTypes = {
   meal: PropTypes.shape({
     number: PropTypes.number.isRequired,
-    foodItems: PropTypes.arrayOf.isRequired,
   }).isRequired,
+  foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  nutrientsData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addFoodItem: PropTypes.func.isRequired,
+  addSelectedFoodItemToMeal: PropTypes.func.isRequired,
 };
 
 export default Meal;

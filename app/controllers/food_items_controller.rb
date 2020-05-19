@@ -8,6 +8,11 @@ class FoodItemsController < ApplicationController
   def index
     @food_items = FoodItem.all
 
+    respond_to do |format|
+      format.html
+      format.json { render json: @food_items, status: :ok }
+    end
+
     redux_store("configureStore", props: { foodItems: @food_items })
   end
 
@@ -55,6 +60,7 @@ class FoodItemsController < ApplicationController
   # DELETE /food_items/1.json
   def destroy
     @food_item.destroy
+
     respond_to do |format|
       format.html { redirect_to food_items_url, notice: 'Food item was successfully destroyed.' }
       format.json { head :no_content }

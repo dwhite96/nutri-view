@@ -20,10 +20,10 @@ const menu = (
   </Menu>
 );
 
-const MealItems = ({ foods }) => {
-  if (Array.isArray(foods) && foods.length > 0) {
-    return foods.map((food) => (
-      <li key={food.id}>
+const MealItems = ({ foodItems }) => {
+  if (Array.isArray(foodItems) && foodItems.length > 0) {
+    return foodItems.map((foodItem) => (
+      <li key={foodItem.id}>
         <Dropdown overlay={menu} trigger={['click']}>
           <Button
             type="link"
@@ -37,7 +37,7 @@ const MealItems = ({ foods }) => {
             }}
           >
             <span>
-              <span>{food.name}</span>
+              <span>{foodItem.data.description}</span>
               &nbsp;
               <DownOutlined />
             </span>
@@ -51,9 +51,11 @@ const MealItems = ({ foods }) => {
 };
 
 MealItems.propTypes = {
-  foods: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+  foodItems: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    data: PropTypes.shape({
+      description: PropTypes.string.isRequired,
+    }).isRequired,
   })).isRequired,
 };
 

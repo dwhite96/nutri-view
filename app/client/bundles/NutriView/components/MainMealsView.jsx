@@ -4,7 +4,7 @@ import {
   Button, Row, Col, Table, Card, List,
 } from 'antd';
 
-import Meal from './Meal';
+import Meal from '../containers/MealContainer';
 
 const { Column } = Table;
 
@@ -20,6 +20,11 @@ const data3 = [
     '% Daily Value': '12%',
   },
   {
+    fdcId: 1,
+    value: '14',
+    '% Daily Value': '9%',
+  },
+  {
     fdcId: 357068,
     value: '14',
     '% Daily Value': '18%',
@@ -41,39 +46,44 @@ const data3 = [
   },
 ];
 
-const mealData = [
-  {
-    number: 1,
-    foodItems: data3,
-  },
-  {
-    number: 2,
-    foodItems: data3,
-  },
-  {
-    number: 3,
-    foodItems: data3,
-  },
-  {
-    number: 4,
-    foodItems: data3,
-  },
-  {
-    number: 5,
-    foodItems: data3,
-  },
-  {
-    number: 6,
-    foodItems: data3,
-  },
-];
+// const mealData = [
+//   {
+//     number: 1,
+//     foodItems: data3,
+//   },
+//   {
+//     number: 2,
+//     foodItems: data3,
+//   },
+//   {
+//     number: 3,
+//     foodItems: data3,
+//   },
+//   {
+//     number: 4,
+//     foodItems: data3,
+//   },
+//   {
+//     number: 5,
+//     foodItems: data3,
+//   },
+//   {
+//     number: 6,
+//     foodItems: data3,
+//   },
+// ];
 
 const MealCollection = ({ meals }) => (
-  meals.map((meal) => <Meal key={meal.number} meal={meal} />)
+  meals.map((meal) => (
+    <Meal
+      key={meal.number}
+      meal={meal}
+    />
+  ))
 );
 
 const MainMealsView = ({ meals, addMeal }) => (
-  <>
+  <div>
     <Button
       type="link"
       onClick={() => addMeal(3)}
@@ -82,13 +92,16 @@ const MainMealsView = ({ meals, addMeal }) => (
     </Button>
 
     <Row gutter={16} align="bottom">
-      <Col className="gutter-row" flex="151px" order={0}>
+      <Col className="gutter-row" flex="157px" order={0}>
         <List size="small">
           <List.Item>
             Calories
           </List.Item>
           <List.Item>
             Total Fat (g)
+          </List.Item>
+          <List.Item>
+            Cholesterol (mg)
           </List.Item>
           <List.Item>
             Sodium (mg)
@@ -104,7 +117,9 @@ const MainMealsView = ({ meals, addMeal }) => (
           </List.Item>
         </List>
       </Col>
+
       <MealCollection meals={meals} />
+
       <Col className="gutter-row" flex="155px" order={11}>
         <Card bodyStyle={{ padding: 0 }}>
           <Card
@@ -127,7 +142,7 @@ const MainMealsView = ({ meals, addMeal }) => (
         </Card>
       </Col>
     </Row>
-  </>
+  </div>
 );
 
 MainMealsView.propTypes = {

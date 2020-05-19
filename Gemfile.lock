@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/fast-jsonapi/fast_jsonapi
+  revision: ac34aa22f7882f54cb7cab352489930c012e1e1b
+  specs:
+    fast_jsonapi (1.7.1)
+      activesupport (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -112,6 +119,7 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
+    oj (3.10.6)
     orm_adapter (0.5.0)
     pg (1.2.1)
     pry (0.12.2)
@@ -240,9 +248,11 @@ DEPENDENCIES
   byebug
   devise
   factory_bot_rails
+  fast_jsonapi (~> 1.7.1)!
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   mini_racer
+  oj
   pg (>= 0.18, < 2.0)
   pry-rails
   puma (~> 4.1)

@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import ReactOnRails from 'react-on-rails';
 import { Layout } from 'antd';
 
-import MealsContainer from '../containers/MealsContainer';
+import MainMealsViewContainer from '../containers/MainMealsViewContainer';
 
 const { Content } = Layout;
 
@@ -14,7 +14,7 @@ const MainMealsApp = () => {
     <Provider store={store}>
       <Layout>
         <Content>
-          <MealsContainer />
+          <MainMealsViewContainer />
         </Content>
       </Layout>
     </Provider>

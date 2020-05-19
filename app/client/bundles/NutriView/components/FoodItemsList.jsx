@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import { Table } from 'antd';
 
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
+const FoodItemsList = ({ foodItems, setSelectedFood }) => {
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
 
-  getCheckboxProps: (record) => ({
-    fdcId: record.fdcId,
-  }),
-};
+    onSelect: (record) => {
+      setSelectedFood(record.id);
+    },
+  };
 
-const FoodItemsList = ({ foodItems }) => {
   const columns = [
     {
       title: 'Description',
@@ -27,6 +27,7 @@ const FoodItemsList = ({ foodItems }) => {
 
   return (
     <Table
+      size="small"
       rowKey="id"
       rowSelection={{
         type: 'radio',
@@ -45,6 +46,7 @@ const FoodItemsList = ({ foodItems }) => {
 
 FoodItemsList.propTypes = {
   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setSelectedFood: PropTypes.func.isRequired,
 };
 
 export default FoodItemsList;

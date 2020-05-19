@@ -2,75 +2,38 @@
 import { schema } from 'normalizr';
 
 const foodItem = new schema.Entity('foodItems');
+
+const meal = new schema.Entity('meals', {
+  foodItems: [foodItem],
+});
+
+const mealsSchema = [meal];
+
 const foodItemsSchema = [foodItem];
 
 export const Schemas = {
+  MEALS: mealsSchema,
   FOOD_ITEMS: foodItemsSchema,
 };
 
 /*
 
-foodItems: Array(2)
-0:
-created_at: "2020-05-06T05:24:28.814Z"
-data: {fdcId: 670382, gtinUpc: "021908476223", dataType: "Branded", foodClass: "Branded", brandOwner: "Small Planet Foods, Inc.", …}
-id: 1
-updated_at: "2020-05-06T05:24:28.814Z"
-1:
-created_at: "2020-05-06T05:28:53.619Z"
-data: {fdcId: 627490, gtinUpc: "014500015822", dataType: "Branded", foodClass: "Branded", brandOwner: "Pinnacle Foods Group LLC", …}
-id: 3
-updated_at: "2020-05-06T05:28:53.619Z"
-
-*/
-
-/*
-Meal State Shape
+non-normalized meals state shape from Rails:
 
 {
-  meals: [
-    {
-      meal1: {
+  data: [
+    id: 1,
+    number: 1,
+    food_items: [
+      {
         id: 1,
-        number: 1,
-        name: 'breakfast',
-        foodItems: [
-          {
-            foodItemId: 1,
-          },
-          {
-            foodItemId: 1,
-          },
-        ],
-      },
-    },
-    {
-      meal2: {},
-    },
-  ],
-  foodItems: [
-    {
-      foodItem: {
-        id: 1,
-        meals: [
-          {
-            mealId: 1,
-          },
-          {
-            mealId: 1,
-          },
-        ],
         data: {},
       },
-    },
-    {
-      foodItem: {},
-    },
+      {
+        id: 2,
+      },
+    ],
   ],
-  mealOrder: {
-    meal1: mealId,
-    meal2: mealId,
-  },
 }
 
 ****************************************
@@ -83,9 +46,57 @@ normalized state shape:
       byId: {
         1: {
           id: 1,
-          foodItemId: 1,
           number: 1,
           name: 'breakfast',
+          foodItems: [1, 2],
+          nutrientsData: {
+            byKey: {
+              calories: {
+                nutrient: 'calories',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+              fat: {
+                nutrient: 'fat',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+              cholesterol: {
+                nutrient: 'cholesterol',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+              sodium: {
+                nutrient: 'sodium',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+              carbohydrates: {
+                nutrient: 'carbohydrates',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+              sugars: {
+                nutrient: 'sugars',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+              protein: {
+                nutrient: 'protein',
+                value: 0,
+                '% Daily Value': '9%',
+              },
+            },
+            allKeys: [
+              'calories',
+              'fat',
+              'cholesterol',
+              'sodium',
+              'carbohydrates',
+              'sugars',
+              'protein',
+            ],
+          };
         },
         2: {},
       },
@@ -95,7 +106,6 @@ normalized state shape:
       byId: {
         1: {
           id: 1,
-          mealId: 1,
           data: {},
         },
         2: {},
@@ -105,16 +115,35 @@ normalized state shape:
     mealFoodItems: {
       byId: {
         1: {
-          id: 1,
           mealId: 1,
           foodItemId: 1,
         },
         2: {},
       },
-      allIds: [1, 2]
+      allIds: [1, 2],
     },
   },
   mealSortOrder: [],
 }
+
+*/
+
+/*
+
+Compute meal foodItems data pseudocode
+
+1. Iterate over meal foodItems array. Try to iterate over these foodItems once.
+2. While iterating, grab the foodItems.byId[id].
+3. Need 3 pieces of data: foodItem description, foodItem nutrients, foodItem nutrients added together.
+4. Add the 3 pieces of data to an object describing/holding this data.
+
+
+When first going to Meals#index, Rails should return User.Meals and associated FoodItems.
+When adding a FoodItem to Meal, Rails should return that FoodItem and Meal.
+When deleting a FoodItem, Rails should return a delete success status.
+
+When adding a Meal, Rails should return that new Meal.
+When changing a Meal (i.e. the number), Rails should return the updated Meal.
+When deleting a Meal, Rails should return delete success status.
 
 */

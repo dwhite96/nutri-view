@@ -1,10 +1,10 @@
 import {
-  ADD_FOOD_ITEM_REQUEST,
-  ADD_FOOD_ITEM_SUCCESS,
-  ADD_FOOD_ITEM_FAILURE,
   SAVED_FOOD_ITEMS_FETCH_REQUEST,
   SAVED_FOOD_ITEMS_FETCH_SUCCESS,
   SAVED_FOOD_ITEMS_FETCH_FAILURE,
+  SAVE_FOOD_ITEM_TO_MEAL_REQUEST,
+  SAVE_FOOD_ITEM_TO_MEAL_SUCCESS,
+  SAVE_FOOD_ITEM_TO_MEAL_FAILURE,
 } from '../constants/nutriViewConstants';
 
 const initialState = {
@@ -32,9 +32,19 @@ const foodItems = (state = initialState, action) => {
         ...state,
         isFetching: false,
       };
-    case ADD_FOOD_ITEM_REQUEST:
-    case ADD_FOOD_ITEM_SUCCESS:
-    case ADD_FOOD_ITEM_FAILURE:
+    case SAVE_FOOD_ITEM_TO_MEAL_REQUEST:
+      return {
+        ...state,
+        isFetching: false,
+      };
+    case SAVE_FOOD_ITEM_TO_MEAL_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        byId: action.response.entities.foodItems,
+        allIds: action.response.result,
+      };
+    case SAVE_FOOD_ITEM_TO_MEAL_FAILURE:
     default:
       return state;
   }

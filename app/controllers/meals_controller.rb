@@ -4,9 +4,11 @@ class MealsController < ApplicationController
   # GET /meals
   # GET /meals.json
   def index
-    @meals = Meal.all
+    @meals = Meal.includes(:food_items).all
 
-    redux_store("configureStore", props: { mealCollection: { meals: @meals } })
+    json_meals = { data: @meals.as_json(include: :food_items) }
+
+    redux_store("configureStore", props: json_meals)
   end
 
   # GET /meals/1
@@ -38,14 +40,14 @@ class MealsController < ApplicationController
   # PATCH/PUT /meals/1
   # PATCH/PUT /meals/1.json
   def update
-    respond_to do |format|
-      if @meal.update(meal_params)
-        format.html { redirect_to @meal, notice: 'Meal was successfully updated.' }
-        format.json { render :show, status: :ok, location: @meal }
-      else
-        format.html { render :edit }
-        format.json { render json: @meal.errors, status: :unprocessable_entity }
-      end
+    if params[:meal][:food_item_id]
+      @meal.food_items << FoodItem.find(params[:meal][:food_item_id].to_i)
+    end
+
+    if @meal.save
+      render json: { meal: @meal, message: 'Meal was successfully updated.' }, status: :ok
+    else
+      render json: @meal.errors, status: :unprocessable_entity
     end
   end
 
@@ -65,6 +67,6 @@ class MealsController < ApplicationController
     end
 
     def meal_params
-      params.require(:meal).permit(:number)
+      params.require(:meal).permit(:number, :food_item_id)
     end
 end
