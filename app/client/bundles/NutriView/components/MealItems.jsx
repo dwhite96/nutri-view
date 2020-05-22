@@ -23,7 +23,7 @@ const menu = (
 const MealItems = ({ foodItems }) => {
   if (Array.isArray(foodItems) && foodItems.length > 0) {
     return foodItems.map((foodItem) => (
-      <li key={foodItem.id}>
+      <li key={foodItem.id} style={{ marginBottom: 10 }}>
         <Dropdown overlay={menu} trigger={['click']}>
           <Button
             type="link"
@@ -31,13 +31,13 @@ const MealItems = ({ foodItems }) => {
             block="true"
             style={{
               whiteSpace: 'normal',
+              textAlign: 'left',
               border: 'none',
-              height: 44,
               padding: 0,
             }}
           >
-            <span>
-              <span>{foodItem.data.description}</span>
+            <span style={{ fontSize: '0.7em' }}>
+              {foodItem.data.description}
               &nbsp;
               <DownOutlined />
             </span>

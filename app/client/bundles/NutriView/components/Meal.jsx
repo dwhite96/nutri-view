@@ -44,7 +44,7 @@ const Meal = ({
         <Card
           size="small"
           title={mealNumber}
-          bodyStyle={{ height: 225 }}
+          bodyStyle={{ height: 290, padding: 4, overflow: 'scroll' }}
           bordered={false}
           actions={[
             <Button
@@ -54,14 +54,14 @@ const Meal = ({
             >
               Add food item
             </Button>,
-            <AddFoodItemModal
-              visible={visible}
-              onSave={onSave}
-              onCancel={() => setVisible(false)}
-            />,
           ]}
         >
           <MealItems foodItems={foodItems} />
+          <AddFoodItemModal
+            visible={visible}
+            onSave={onSave}
+            onCancel={() => setVisible(false)}
+          />
         </Card>
         <Table
           rowKey="nutrient"
