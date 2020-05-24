@@ -93,7 +93,8 @@ const buildPreloadedState = (railsProps) => {
 
       _.mapValues(initialNutrientsState, (nutrientValues, nutrientKey) => {
         const nutrient = nutrientValues;
-        nutrient.value += currentNutrients[nutrientKey].value;
+        const total = Number(nutrient.value) + Number(currentNutrients[nutrientKey].value);
+        nutrient.value = total.toFixed(1);
       });
     });
   });
