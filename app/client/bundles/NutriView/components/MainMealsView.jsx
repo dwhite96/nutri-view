@@ -46,33 +46,6 @@ const data3 = [
   },
 ];
 
-// const mealData = [
-//   {
-//     number: 1,
-//     foodItems: data3,
-//   },
-//   {
-//     number: 2,
-//     foodItems: data3,
-//   },
-//   {
-//     number: 3,
-//     foodItems: data3,
-//   },
-//   {
-//     number: 4,
-//     foodItems: data3,
-//   },
-//   {
-//     number: 5,
-//     foodItems: data3,
-//   },
-//   {
-//     number: 6,
-//     foodItems: data3,
-//   },
-// ];
-
 const MealCollection = ({ meals }) => (
   meals.map((meal) => (
     <Meal
@@ -86,7 +59,13 @@ const MainMealsView = ({ meals, addMeal }) => (
   <div>
     <Button
       type="link"
-      onClick={() => addMeal(3)}
+      onClick={() => {
+        if (Array.isArray(meals) && meals.length > 0) {
+          addMeal(meals[meals.length - 1].number + 1);
+        } else {
+          addMeal(1);
+        }
+      }}
     >
       Add Meal
     </Button>

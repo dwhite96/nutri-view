@@ -25,13 +25,8 @@ const Meal = ({
   const onSave = (selectedFood) => {
     console.log('Received values of form: ', selectedFood);
 
-    addSelectedFoodItemToMeal(selectedFood, meal)
-      .then(() => {
-        setVisible(false);
-      })
-      .catch((info) => {
-        console.log(':', info);
-      });
+    addSelectedFoodItemToMeal(selectedFood, meal);
+    setVisible(false);
   };
 
   const handleAddFoodItemClick = () => {

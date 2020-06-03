@@ -1,95 +1,47 @@
+import { combineReducers } from 'redux';
+import merge from 'lodash/merge';
+
 import {
-  ADD_MEAL_REQUEST,
-  ADD_MEAL_SUCCESS,
-  ADD_MEAL_FAILURE,
-  SAVE_FOOD_ITEM_TO_MEAL_REQUEST,
-  SAVE_FOOD_ITEM_TO_MEAL_SUCCESS,
-  SAVE_FOOD_ITEM_TO_MEAL_FAILURE,
+  ADD_MEAL,
+  UPDATE_MEAL,
 } from '../constants/nutriViewConstants';
 
-const initialState = {
-  isFetching: false,
-  byId: {},
-  allIds: [],
+const addMeal = (state, action) => {
+  const meal = action.data.entities.meals;
+
+  return {
+    ...state,
+    ...meal,
+  };
 };
 
-const foodItemsNutritionData = () => {
-  const nutrientsData = foodItems.map((foodItem) => {
-    const nutrients = foodItem.data.labelNutrients;
+const updateMeal = (state, { meal }) => (
+  merge({}, state, meal)
+);
 
-    return [
-      {
-        id: 7,
-        value: nutrients.calories.value,
-        '% Daily Value': '9%',
-      },
-      {
-        id: 7332242,
-        value: nutrients.fat.value,
-        '% Daily Value': '9%',
-      },
-      {
-        id: 1,
-        value: nutrients.cholesterol.value,
-        '% Daily Value': '9%',
-      },
-      {
-        id: 2,
-        value: nutrients.sodium.value,
-        '% Daily Value': '9%',
-      },
-      {
-        id: 3,
-        value: nutrients.carbohydrates.value,
-        '% Daily Value': '9%',
-      },
-      {
-        id: 4,
-        value: nutrients.sugars.value,
-        '% Daily Value': '9%',
-      },
-      {
-        id: 5,
-        value: nutrients.protein.value,
-        '% Daily Value': '9%',
-      },
-    ];
-  });
-
-  console.log(nutrientsData);
-  return nutrientsData[0];
-};
-
-const mealCollection = (state = initialState, action) => {
+const mealsByID = (state = {}, action) => {
   switch (action.type) {
-    case ADD_MEAL_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-      };
-    case ADD_MEAL_SUCCESS:
-      return {
-        ...state,
-        meals: [...state.meals, action.response.meal],
-        isFetching: false,
-      };
-    case ADD_MEAL_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-      };
-    case SAVE_FOOD_ITEM_TO_MEAL_REQUEST:
-      return {};
-    case SAVE_FOOD_ITEM_TO_MEAL_SUCCESS:
-      return {
-        ...state,
-        byId: action.response.entities.foodItems,
-        allIds: action.response.result,
-      };
-    case SAVE_FOOD_ITEM_TO_MEAL_FAILURE:
+    case ADD_MEAL:
+      return addMeal(state, action);
+    case UPDATE_MEAL:
+      return updateMeal(state, action);
     default:
       return state;
   }
 };
 
-export default mealCollection;
+const allMeals = (state = [], action) => {
+  switch (action.type) {
+    case ADD_MEAL:
+      return state.concat(action.data.result[0]);
+    default:
+      return state;
+  }
+};
+
+const meals = combineReducers({
+  byId: mealsByID,
+  allIds: allMeals,
+});
+
+export default meals;

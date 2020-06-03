@@ -10,10 +10,24 @@ import {
   SAVE_FOOD_REQUEST,
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
+  RAILS_FOOD_ITEMS_FETCH_REQUEST,
+  RAILS_FOOD_ITEMS_FETCH_SUCCESS,
+  RAILS_FOOD_ITEMS_FETCH_FAILURE,
 } from '../constants/nutriViewConstants';
 
 import meals from './meals';
 import foodItems from './foodItems';
+
+// const rootReducer = (state = {}, action) => {
+//   switch (action.type) {
+//     case SAVE_FOOD_ITEM_TO_MEAL_REQUEST:
+//       return {
+//         meals: action.data,
+//       };
+//     default:
+//       return state;
+//   }
+// };
 
 const foodSearchInput = (state = { isFetching: false, response: {} }, action) => {
   switch (action.type) {
@@ -81,8 +95,32 @@ const foodSearchInput = (state = { isFetching: false, response: {} }, action) =>
   }
 };
 
+const railsFoodList = (state = [], action) => {
+  switch (action.type) {
+    case RAILS_FOOD_ITEMS_FETCH_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case RAILS_FOOD_ITEMS_FETCH_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        response: action.data,
+      };
+    case RAILS_FOOD_ITEMS_FETCH_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
+    default:
+      return state;
+  }
+};
+
 const reducers = combineReducers({
   foodSearchInput,
+  railsFoodList,
   foodItems,
   meals,
 });

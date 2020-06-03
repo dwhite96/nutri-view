@@ -31,7 +31,9 @@ class MealsController < ApplicationController
     @meal = Meal.new(meal_params)
 
     if @meal.save
-      render json: { meal: @meal, message: 'Meal was successfully saved.' }, status: :created
+      render json: { meal: @meal, message: 'Meal was successfully saved.' },
+      include: :food_items,
+      status: :created
     else
       render json: @meal.errors, status: :unprocessable_entity
     end
@@ -45,7 +47,9 @@ class MealsController < ApplicationController
     end
 
     if @meal.save
-      render json: { meal: @meal, message: 'Meal was successfully updated.' }, status: :ok
+      render json: { meal: @meal, message: 'Meal was successfully updated.' },
+      include: :food_items,
+      status: :ok
     else
       render json: @meal.errors, status: :unprocessable_entity
     end

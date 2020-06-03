@@ -40,6 +40,7 @@ const FoodSearchInputModal = ({
         form.resetFields();
         onSave(selectedFood);
       }}
+      destroyOnClose="true"
     >
       <Form
         form={form}

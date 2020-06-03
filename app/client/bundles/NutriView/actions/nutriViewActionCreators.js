@@ -2,7 +2,6 @@
 import ReactOnRails from 'react-on-rails';
 
 import { CALL_API } from '../middleware/api';
-
 import {
   FOOD_SEARCH_REQUEST,
   FOOD_SEARCH_SUCCESS,
@@ -73,7 +72,7 @@ const saveFoodToDatabase = (data) => ({
   },
 });
 
-// Save food thunk
+// Save food to Rails database thunk
 export const saveFood = (foodFDCID) => (dispatch) => (
   dispatch(FDCFoodFetch(foodFDCID))
     .then(

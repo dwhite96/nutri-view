@@ -1,0 +1,87 @@
+/* eslint-disable import/prefer-default-export */
+import { normalize } from 'normalizr';
+import { camelizeKeys } from 'humps';
+
+const _ = require('lodash');
+
+export const normalizeData = (data, schema) => {
+  console.log('before normalized:', data);
+
+  const camelizedData = camelizeKeys(data);
+  const normalizedData = normalize(camelizedData, schema);
+
+  console.log('after normalized:', normalizedData);
+
+  return normalizedData;
+};
+
+
+export const addFoodItemNutrientsValues = (currentNutrients, newNutrients) => {
+  _.mapValues(currentNutrients, (nutrientValues, nutrientKey) => {
+    const nutrient = nutrientValues;
+    const total = Number(nutrient.value) + Number(newNutrients[nutrientKey].value);
+    nutrient.value = total.toFixed(1);
+  });
+};
+
+export const calculateMealNutrients = (meal, foodItems) => {
+  const mealWithNutrients = meal;
+
+  mealWithNutrients.nutrientsData = {
+    byKey: {
+      calories: {
+        nutrient: 'calories',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+      fat: {
+        nutrient: 'fat',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+      cholesterol: {
+        nutrient: 'cholesterol',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+      sodium: {
+        nutrient: 'sodium',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+      carbohydrates: {
+        nutrient: 'carbohydrates',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+      sugars: {
+        nutrient: 'sugars',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+      protein: {
+        nutrient: 'protein',
+        value: 0,
+        '% Daily Value': '9%',
+      },
+    },
+    allKeys: [
+      'calories',
+      'fat',
+      'cholesterol',
+      'sodium',
+      'carbohydrates',
+      'sugars',
+      'protein',
+    ],
+  };
+
+  const currentNutrients = mealWithNutrients.nutrientsData.byKey;
+
+  mealWithNutrients.foodItems.forEach((foodItemId) => {
+    const foodItem = foodItems.byId[foodItemId];
+    const newNutrients = foodItem.data.labelNutrients;
+
+    addFoodItemNutrientsValues(currentNutrients, newNutrients);
+  });
+};

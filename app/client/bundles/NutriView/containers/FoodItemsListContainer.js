@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 
 import FoodItemsList from '../components/FoodItemsList';
 
-const mapStateToProps = ({ foodItems }, ownProps) => ({
-  foodItems: foodItems.allIds.map((id) => foodItems.byId[id]),
+const mapStateToProps = ({ railsFoodList }, ownProps) => ({
+  foodItems: railsFoodList.response,
   setSelectedFood: ownProps.setSelectedFood,
 });
 

@@ -1,11 +1,8 @@
-/* eslint-disable prefer-object-spread */
 import fetch from 'cross-fetch';
-import { normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
 import { message } from 'antd';
 
 // Fetches an API response
-const callApi = (url, request, schema) => {
+const callApi = (url, request) => {
   console.log(url);
   console.log(request);
 
@@ -15,16 +12,8 @@ const callApi = (url, request, schema) => {
         if (!response.ok) {
           return Promise.reject(json);
         }
-        console.log('before normalized:', json);
 
-        const camelizedJson = camelizeKeys(json);
-        const normalizedJson = Object.assign(
-          {}, normalize(camelizedJson, schema),
-        );
-
-        console.log('after normalized:', normalizedJson);
-
-        return normalizedJson;
+        return json;
       }),
   );
 };
@@ -53,7 +42,6 @@ export default (store) => (next) => (action) => {
     types,
     url,
     request,
-    schema,
   } = callAPI;
 
   if (!Array.isArray(types) || types.length !== 3) {
@@ -74,17 +62,15 @@ export default (store) => (next) => (action) => {
 
   next(actionWith({ type: requestType }));
 
-  return callApi(url, request, schema).then(
+  return callApi(url, request).then(
     (response) => next(actionWith({
       type: successType,
-      response,
+      data: response,
       error: null,
     })),
     (error) => next(actionWith({
       type: failureType,
       error: error || 'Something bad happened',
     })),
-  ).then(
-    (response) => triggerMessagePopup(response),
   );
 };
