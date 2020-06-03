@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Row, Col, Table, Card, List,
+  PageHeader, Descriptions, Button, Row, Col, Table, Card, List,
 } from 'antd';
 
 import Meal from '../containers/MealContainer';
@@ -57,18 +57,27 @@ const MealCollection = ({ meals }) => (
 
 const MainMealsView = ({ meals, addMeal }) => (
   <div>
-    <Button
-      type="link"
-      onClick={() => {
-        if (Array.isArray(meals) && meals.length > 0) {
-          addMeal(meals[meals.length - 1].number + 1);
-        } else {
-          addMeal(1);
-        }
-      }}
+    <PageHeader
+      className="site-page-header"
+      title="Meals"
+      extra={[
+        <Button key="3">Operation</Button>,
+        <Button
+          key="1"
+          onClick={() => {
+            if (Array.isArray(meals) && meals.length > 0) {
+              addMeal(meals[meals.length - 1].number + 1);
+            } else {
+              addMeal(1);
+            }
+          }}
+        >
+          Add Meal
+        </Button>,
+      ]}
     >
-      Add Meal
-    </Button>
+      Daily Meal Plan
+    </PageHeader>
 
     <Row gutter={16} align="bottom">
       <Col className="gutter-row" flex="157px" order={0}>
