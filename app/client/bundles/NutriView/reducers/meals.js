@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
-import merge from 'lodash/merge';
+import _ from 'lodash';
 
 import {
   ADD_MEAL,
   UPDATE_MEAL,
+  DELETE_MEAL_SUCCESS,
 } from '../constants/nutriViewConstants';
 
 const addMeal = (state, action) => {
@@ -16,8 +17,17 @@ const addMeal = (state, action) => {
 };
 
 const updateMeal = (state, { meal }) => (
-  merge({}, state, meal)
+  _.merge({}, state, meal)
 );
+
+const deleteMeal = (state, action) => {
+  console.log(action);
+  const { mealId } = action.data;
+
+  const newState = { ...state, ...state };
+  delete newState[mealId];
+  return newState;
+};
 
 const mealsByID = (state = {}, action) => {
   switch (action.type) {
@@ -25,15 +35,28 @@ const mealsByID = (state = {}, action) => {
       return addMeal(state, action);
     case UPDATE_MEAL:
       return updateMeal(state, action);
+    case DELETE_MEAL_SUCCESS:
+      return deleteMeal(state, action);
     default:
       return state;
   }
+};
+
+const removeMealId = (state, action) => {
+  const { mealId } = action.data;
+
+  const newState = [...state];
+  _.remove(newState, function (n) { return n === mealId; });
+
+  return newState;
 };
 
 const allMeals = (state = [], action) => {
   switch (action.type) {
     case ADD_MEAL:
       return state.concat(action.data.result[0]);
+    case DELETE_MEAL_SUCCESS:
+      return removeMealId(state, action);
     default:
       return state;
   }

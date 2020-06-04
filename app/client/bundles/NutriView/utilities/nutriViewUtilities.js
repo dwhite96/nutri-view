@@ -15,54 +15,43 @@ export const normalizeData = (data, schema) => {
   return normalizedData;
 };
 
-
-export const addFoodItemNutrientsValues = (currentNutrients, newNutrients) => {
-  _.mapValues(currentNutrients, (nutrientValues, nutrientKey) => {
-    const nutrient = nutrientValues;
-    const total = Number(nutrient.value) + Number(newNutrients[nutrientKey].value);
-    nutrient.value = total.toFixed(1);
-  });
-};
-
-export const calculateMealNutrients = (meal, foodItems) => {
-  const mealWithNutrients = meal;
-
-  mealWithNutrients.nutrientsData = {
+export const baseNutrientsData = () => (
+  {
     byKey: {
       calories: {
         nutrient: 'calories',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
       fat: {
         nutrient: 'fat',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
       cholesterol: {
         nutrient: 'cholesterol',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
       sodium: {
         nutrient: 'sodium',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
       carbohydrates: {
         nutrient: 'carbohydrates',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
       sugars: {
         nutrient: 'sugars',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
       protein: {
         nutrient: 'protein',
         value: 0,
-        '% Daily Value': '9%',
+        '% Daily Value': '0%',
       },
     },
     allKeys: [
@@ -74,7 +63,20 @@ export const calculateMealNutrients = (meal, foodItems) => {
       'sugars',
       'protein',
     ],
-  };
+  }
+);
+
+export const addFoodItemNutrientsValues = (currentNutrients, newNutrients) => {
+  _.mapValues(currentNutrients, (nutrientValues, nutrientKey) => {
+    const nutrient = nutrientValues;
+    const total = Number(nutrient.value) + Number(newNutrients[nutrientKey].value);
+    nutrient.value = total.toFixed(1);
+  });
+};
+
+export const calculateMealNutrients = (meal, foodItems) => {
+  const mealWithNutrients = meal;
+  mealWithNutrients.nutrientsData = baseNutrientsData();
 
   const currentNutrients = mealWithNutrients.nutrientsData.byKey;
 

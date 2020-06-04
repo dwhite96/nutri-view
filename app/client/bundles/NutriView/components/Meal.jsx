@@ -4,7 +4,7 @@ import {
   Col, Table, Card, Button,
 } from 'antd';
 import {
-  PlusOutlined,
+  PlusOutlined, DeleteOutlined
 } from '@ant-design/icons';
 
 import MealItems from './MealItems';
@@ -16,6 +16,7 @@ const Meal = ({
   meal,
   foodItems,
   nutrientsData,
+  deleteMeal,
   addFoodItem,
   addSelectedFoodItemToMeal,
 }) => {
@@ -25,8 +26,12 @@ const Meal = ({
   const onSave = (selectedFood) => {
     console.log('Received values of form: ', selectedFood);
 
-    addSelectedFoodItemToMeal(selectedFood, meal);
+    addSelectedFoodItemToMeal(selectedFood, meal.id);
     setVisible(false);
+  };
+
+  const handleDeleteMealClick = () => {
+    deleteMeal(meal.id);
   };
 
   const handleAddFoodItemClick = () => {
@@ -39,6 +44,14 @@ const Meal = ({
         <Card
           size="small"
           title={mealNumber}
+          extra={(
+            <Button
+              size="small"
+              onClick={() => handleDeleteMealClick()}
+            >
+              <DeleteOutlined />
+            </Button>
+          )}
           bodyStyle={{ height: 290, padding: 4, overflow: 'scroll' }}
           bordered={false}
           actions={[
@@ -74,10 +87,12 @@ const Meal = ({
 
 Meal.propTypes = {
   meal: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired,
   }).isRequired,
   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   nutrientsData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteMeal: PropTypes.func.isRequired,
   addFoodItem: PropTypes.func.isRequired,
   addSelectedFoodItemToMeal: PropTypes.func.isRequired,
 };

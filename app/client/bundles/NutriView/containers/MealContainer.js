@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import Meal from '../components/Meal';
 import {
+  deleteMealClicked,
   addFoodItemClicked,
   addSelectedFoodItemToMealClicked,
 } from '../actions/mealActionCreators';
@@ -15,9 +16,10 @@ const mapStateToProps = ({ foodItems }, { meal }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  deleteMeal: (mealId) => dispatch(deleteMealClicked(mealId)),
   addFoodItem: (foodItemId) => dispatch(addFoodItemClicked(foodItemId)),
-  addSelectedFoodItemToMeal: (selectedFood, meal) => {
-    dispatch(addSelectedFoodItemToMealClicked(selectedFood, meal));
+  addSelectedFoodItemToMeal: (selectedFood, mealId) => {
+    dispatch(addSelectedFoodItemToMealClicked(selectedFood, mealId));
   },
 });
 
