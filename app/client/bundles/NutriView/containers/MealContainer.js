@@ -5,6 +5,7 @@ import {
   deleteMealClicked,
   addFoodItemClicked,
   addSelectedFoodItemToMealClicked,
+  removeFromMealButtonClicked,
 } from '../actions/mealActionCreators';
 
 const mapStateToProps = ({ foodItems }, { meal }) => ({
@@ -20,6 +21,9 @@ const mapDispatchToProps = (dispatch) => ({
   addFoodItem: (foodItemId) => dispatch(addFoodItemClicked(foodItemId)),
   addSelectedFoodItemToMeal: (selectedFood, mealId) => {
     dispatch(addSelectedFoodItemToMealClicked(selectedFood, mealId));
+  },
+  removeFoodItemFromMeal: (foodItem, mealId) => {
+    dispatch(removeFromMealButtonClicked(foodItem, mealId));
   },
 });
 

@@ -19,6 +19,7 @@ const Meal = ({
   deleteMeal,
   addFoodItem,
   addSelectedFoodItemToMeal,
+  removeFoodItemFromMeal,
 }) => {
   const [visible, setVisible] = useState(false);
   const mealNumber = `Meal ${meal.number}`;
@@ -64,7 +65,12 @@ const Meal = ({
             </Button>,
           ]}
         >
-          <MealItems foodItems={foodItems} />
+          <MealItems
+            mealId={meal.id}
+            foodItems={foodItems}
+            removeFoodItemFromMeal={removeFoodItemFromMeal}
+          />
+
           <AddFoodItemModal
             visible={visible}
             onSave={onSave}
@@ -95,6 +101,7 @@ Meal.propTypes = {
   deleteMeal: PropTypes.func.isRequired,
   addFoodItem: PropTypes.func.isRequired,
   addSelectedFoodItemToMeal: PropTypes.func.isRequired,
+  removeFoodItemFromMeal: PropTypes.func.isRequired,
 };
 
 export default Meal;

@@ -1,8 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
-
-const _ = require('lodash');
+import _ from 'lodash';
 
 export const normalizeData = (data, schema) => {
   console.log('before normalized:', data);

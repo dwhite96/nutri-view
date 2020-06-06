@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
+import _ from 'lodash';
 
 import {
   UPDATE_MEAL,
 } from '../constants/nutriViewConstants';
 
 const updateFoodItems = (state, { foodItems }) => (
-  { ...state, foodItems }
+  _.merge({}, state, foodItems)
 );
 
 const foodItemsByID = (state = {}, action) => {

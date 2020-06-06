@@ -16,12 +16,12 @@ const addMeal = (state, action) => {
   };
 };
 
-const updateMeal = (state, { meal }) => (
-  _.merge({}, state, meal)
-);
+const updateMeal = (state, { meal }) => ({
+  ...state,
+  [meal.id]: meal,
+});
 
 const deleteMeal = (state, action) => {
-  console.log(action);
   const { mealId } = action.data;
 
   const newState = { ...state, ...state };
