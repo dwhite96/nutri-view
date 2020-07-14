@@ -27,6 +27,7 @@ import {
   ADD_MEAL,
   UPDATE_MEAL,
 } from '../constants/nutriViewConstants';
+import { updateTotal } from './nutriViewActionCreators';
 
 // Post new meal to Rails database
 const mealAdded = (mealNumber) => ({
@@ -56,7 +57,7 @@ const addMeal = (data) => ({
 });
 
 // Add new meal thunk
-export const addMealButtonClicked = (mealNumber) => (dispatch) => (
+export const addMealButtonClicked = (mealNumber) => (dispatch, getState) => (
   dispatch(mealAdded(mealNumber))
     .then(
       (response) => {
@@ -68,6 +69,12 @@ export const addMealButtonClicked = (mealNumber) => (dispatch) => (
 
           dispatch(addMeal(normalizedData));
         }
+      },
+    )
+    .then(
+      () => {
+        const { meals } = getState(); // Using getState() to simply read meals data
+        dispatch(updateTotal(meals));
       },
     )
 );
@@ -92,8 +99,14 @@ const mealDeleted = (mealId) => ({
 });
 
 // Delete meal thunk
-export const deleteMealClicked = (mealId) => (dispatch) => (
+export const deleteMealClicked = (mealId) => (dispatch, getState) => (
   dispatch(mealDeleted(mealId))
+    .then(
+      () => {
+        const { meals } = getState(); // Using getState() to simply read meals data
+        dispatch(updateTotal(meals));
+      },
+    )
 );
 
 // Request all saved food items from Rails database
@@ -149,7 +162,7 @@ const updateMeal = (meal, foodItems) => ({
 });
 
 // Add food item to meal thunk
-export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispatch) => (
+export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispatch, getState) => (
   dispatch(addFoodItemToMeal(selectedFood, mealId))
     .then(
       (response) => {
@@ -164,6 +177,12 @@ export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispa
 
           dispatch(updateMeal(updatedMeal, foodItems));
         }
+      },
+    )
+    .then(
+      () => {
+        const { meals } = getState(); // Using getState() to simply read meals data
+        dispatch(updateTotal(meals));
       },
     )
 );
@@ -191,7 +210,7 @@ const removeFoodItemFromMeal = (foodItemId, mealId) => ({
 });
 
 // Remove food item from meal thunk
-export const removeFromMealButtonClicked = (foodItem, mealId) => (dispatch) => (
+export const removeFromMealButtonClicked = (foodItem, mealId) => (dispatch, getState) => (
   dispatch(removeFoodItemFromMeal(foodItem, mealId))
     .then(
       (response) => {
@@ -206,6 +225,12 @@ export const removeFromMealButtonClicked = (foodItem, mealId) => (dispatch) => (
 
           dispatch(updateMeal(updatedMeal, foodItems));
         }
+      },
+    )
+    .then(
+      () => {
+        const { meals } = getState(); // Using getState() to simply read meals data
+        dispatch(updateTotal(meals));
       },
     )
 );

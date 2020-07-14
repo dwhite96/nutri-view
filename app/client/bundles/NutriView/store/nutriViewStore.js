@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import api from '../middleware/api';
 import { Schemas } from '../middleware/schema';
 import reducers from '../reducers/index';
-import { normalizeData, calculateMealNutrients } from '../utilities/nutriViewUtilities';
+import { normalizeData, calculateMealNutrients, calculateTotal } from '../utilities/nutriViewUtilities';
 
 const logger = createLogger();
 
@@ -31,6 +31,8 @@ const buildPreloadedState = (railsProps) => {
 
     calculateMealNutrients(meal, foodItems);
   });
+
+  preloadedState.total = calculateTotal(meals);
 
   return preloadedState;
 };

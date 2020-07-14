@@ -13,10 +13,12 @@ import {
   RAILS_FOOD_ITEMS_FETCH_REQUEST,
   RAILS_FOOD_ITEMS_FETCH_SUCCESS,
   RAILS_FOOD_ITEMS_FETCH_FAILURE,
+  UPDATE_TOTAL,
 } from '../constants/nutriViewConstants';
 
 import meals from './meals';
 import foodItems from './foodItems';
+import { calculateTotal } from '../utilities/nutriViewUtilities';
 
 // const rootReducer = (state = {}, action) => {
 //   switch (action.type) {
@@ -118,11 +120,24 @@ const railsFoodList = (state = [], action) => {
   }
 };
 
+const total = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_TOTAL:
+      return {
+        ...state,
+        ...calculateTotal(action.meals),
+      };
+    default:
+      return state;
+  }
+};
+
 const reducers = combineReducers({
   foodSearchInput,
   railsFoodList,
-  foodItems,
   meals,
+  foodItems,
+  total,
 });
 
 export default reducers;

@@ -86,3 +86,18 @@ export const calculateMealNutrients = (meal, foodItems) => {
     addFoodItemNutrientsValues(currentNutrients, newNutrients);
   });
 };
+
+export const calculateTotal = (meals) => {
+  const totalWithNutrients = { nutrientsData: baseNutrientsData() };
+
+  const currentTotalNutrients = totalWithNutrients.nutrientsData.byKey;
+
+  meals.allIds.forEach((mealId) => {
+    const meal = meals.byId[mealId];
+    const mealNutrients = meal.nutrientsData.byKey;
+
+    addFoodItemNutrientsValues(currentTotalNutrients, mealNutrients);
+  });
+
+  return totalWithNutrients;
+};

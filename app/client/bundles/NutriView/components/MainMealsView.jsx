@@ -8,44 +8,6 @@ import Meal from '../containers/MealContainer';
 
 const { Column } = Table;
 
-const data3 = [
-  {
-    fdcId: 506463,
-    value: '14',
-    '% Daily Value': '7%',
-  },
-  {
-    fdcId: 566821,
-    value: '14',
-    '% Daily Value': '12%',
-  },
-  {
-    fdcId: 1,
-    value: '14',
-    '% Daily Value': '9%',
-  },
-  {
-    fdcId: 357068,
-    value: '14',
-    '% Daily Value': '18%',
-  },
-  {
-    fdcId: 508576,
-    value: '14',
-    '% Daily Value': '9%',
-  },
-  {
-    fdcId: 357068,
-    value: '14',
-    '% Daily Value': '18%',
-  },
-  {
-    fdcId: 508576,
-    value: '14',
-    '% Daily Value': '9%',
-  },
-];
-
 const MealCollection = ({ meals }) => (
   meals.map((meal) => (
     <Meal
@@ -55,7 +17,7 @@ const MealCollection = ({ meals }) => (
   ))
 );
 
-const MainMealsView = ({ meals, addMeal }) => (
+const MainMealsView = ({ meals, total, addMeal }) => (
   <div>
     <PageHeader
       className="site-page-header"
@@ -119,8 +81,8 @@ const MainMealsView = ({ meals, addMeal }) => (
             <li>Coffee</li>
           </Card>
           <Table
-            rowKey="fdcId"
-            dataSource={data3}
+            rowKey="nutrient"
+            dataSource={total}
             size="small"
             pagination={{ hideOnSinglePage: true }}
           >
@@ -135,6 +97,7 @@ const MainMealsView = ({ meals, addMeal }) => (
 
 MainMealsView.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  total: PropTypes.arrayOf(PropTypes.object).isRequired,
   addMeal: PropTypes.func.isRequired,
 };
 
