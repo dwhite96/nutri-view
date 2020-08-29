@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   include ReactOnRails::Controller
 
-  before_action :authenticate_user!
+  respond_to :html, :json
+
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected

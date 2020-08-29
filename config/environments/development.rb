@@ -63,4 +63,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.debug_exception_response_format = :api
+
+  config.hosts << ['localhost:3000', 'localhost:3035']
 end

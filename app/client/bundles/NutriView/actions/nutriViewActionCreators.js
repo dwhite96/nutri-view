@@ -3,6 +3,12 @@ import ReactOnRails from 'react-on-rails';
 
 import { CALL_API } from '../middleware/api';
 import {
+  REGISTRATION_REQUEST,
+  REGISTRATION_SUCCESS,
+  REGISTRATION_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
   FOOD_SEARCH_REQUEST,
   FOOD_SEARCH_SUCCESS,
   FOOD_SEARCH_FAILURE,
@@ -16,6 +22,72 @@ import {
 } from '../constants/nutriViewConstants';
 
 const FDCRootURL = 'https://api.nal.usda.gov/fdc/v1';
+
+// Rails backend Devise user registration request
+const registrationRequested = (registrationData) => ({
+  [CALL_API]: {
+    types: [
+      REGISTRATION_REQUEST,
+      REGISTRATION_SUCCESS,
+      REGISTRATION_FAILURE,
+    ],
+    url: 'http://localhost:3000/users.json',
+    request: {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': ReactOnRails.authenticityToken(),
+      },
+      body: JSON.stringify({
+        authenticity_token: ReactOnRails.authenticityToken(),
+        user: registrationData,
+      }),
+    },
+  },
+});
+
+// Registration request thunk
+export const registrationFormSubmitted = (registrationData) => (dispatch) => {
+  dispatch(registrationRequested(registrationData))
+    .then(() => {
+      window.location = '/'; // Redirect to root after registration - successful or not
+    });
+};
+
+// Rails backend Devise user login request
+const loginRequested = (loginData) => ({
+  [CALL_API]: {
+    types: [
+      LOGIN_REQUEST,
+      LOGIN_SUCCESS,
+      LOGIN_FAILURE,
+    ],
+    url: 'http://localhost:3000/users/sign_in.json',
+    request: {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': ReactOnRails.authenticityToken(),
+      },
+      body: JSON.stringify({
+        authenticity_token: ReactOnRails.authenticityToken(),
+        user: loginData,
+      }),
+    },
+  },
+});
+
+// Login request thunk
+export const loginFormSubmitted = (loginData) => (dispatch) => {
+  dispatch(loginRequested(loginData))
+    .then(() => {
+      window.location = '/'; // Redirect to root after login attempt - successful or not
+    });
+};
 
 // Call USDA FDC food search API
 const FDCFoodSearch = (foodSearchTerms) => ({

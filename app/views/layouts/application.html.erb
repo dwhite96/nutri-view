@@ -14,19 +14,23 @@
 
   <body>
     <div id="root">
-      <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, class: name %>
+      <% if user_signed_in? %>
+        <%= render 'shared/top_bar' %>
       <% end %>
 
-      <%= render 'shared/top_bar' %>
-
       <div id="content">
+        <% flash.each do |name, msg| %>
+          <%= content_tag :div, msg, class: name %>
+        <% end %>
+
         <%= yield %>
       </div>
 
-      <%= render 'shared/footer' %>
+      <% if user_signed_in? %>
+        <%= render 'shared/footer' %>
+      <% end %>
     </div>
 
-    <%= redux_store_hydration_data %>
+    # <%= redux_store_hydration_data %>
   </body>
 </html>

@@ -1,3 +1,5 @@
-<p id="notice"><%= notice %></p>
+<% if user_signed_in? %>
+  <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "link item" %>
+<% end %>
 
 <%= react_component("MainMealsApp") %>

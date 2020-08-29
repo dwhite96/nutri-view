@@ -3,6 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import _ from 'lodash';
 
 import api from '../middleware/api';
 import { Schemas } from '../middleware/schema';
@@ -12,6 +13,10 @@ import { normalizeData, calculateMealNutrients, calculateTotal } from '../utilit
 const logger = createLogger();
 
 const buildPreloadedState = (railsProps) => {
+  if (_.isEmpty(railsProps)) {
+    return railsProps;
+  }
+
   const normalizedData = normalizeData(railsProps.data, Schemas.MEALS);
 
   const preloadedState = {

@@ -1,4 +1,6 @@
 class MealsController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :set_meal, only: [
     :update,
     :add_food_item,
@@ -6,16 +8,25 @@ class MealsController < ApplicationController
     :destroy
   ]
 
-  # GET /meals.json
+  # GET /meals
   def index
     @meals = Meal.includes(:food_items).all
 
     json_meals = { data: @meals.as_json(include: :food_items) }
 
-    redux_store("configureStore", props: json_meals)
+    redux_store('configureStore', props: json_meals)
+
+    # if request.format.json?
+    #   render plain: { success: true }.to_json, status: :found, content_type: 'application/json'
+    # end
+
+    respond_to do |format|
+      format.html
+      format.json { render plain: { success: true }.to_json, status: :found, content_type: 'application/json' }
+    end
   end
 
-  # POST /meals.json
+  # POST /meals
   def create
     @meal = Meal.new(meal_params)
 
@@ -28,7 +39,7 @@ class MealsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /meals/1.json
+  # PATCH/PUT /meals/1
   def update
     if @meal.save
       render json: { meal: @meal, message: 'Meal was successfully updated.' },
@@ -39,7 +50,7 @@ class MealsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /meals/1.json
+  # PATCH/PUT /meals/1
   def add_food_item
     @meal.food_items << FoodItem.find(params[:meal][:food_item_id].to_i)
 
@@ -48,7 +59,7 @@ class MealsController < ApplicationController
       status: :ok
   end
 
-  # PATCH/PUT /meals/1/add_food_item.json
+  # PATCH/PUT /meals/1/add_food_item
   def remove_food_item
     @meal.food_items.delete FoodItem.find(params[:meal][:food_item_id].to_i)
 
@@ -57,7 +68,7 @@ class MealsController < ApplicationController
       status: :ok
   end
 
-  # DELETE /meals/1.json
+  # DELETE /meals/1
   def destroy
     @meal.destroy
 

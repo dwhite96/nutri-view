@@ -33,3 +33,6 @@ yarn-debug.log*
 
 .DS_Store
 .env
+
+# Ignore application configuration
+/config/application.yml

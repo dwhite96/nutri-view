@@ -6,16 +6,19 @@ const callApi = (url, request) => {
   console.log(url);
   console.log(request);
 
-  return fetch(url, request).then(
-    (response) => response.json()
-      .then((json) => {
-        if (!response.ok) {
-          return Promise.reject(json);
-        }
+  return fetch(url, request).then((response) => {
+    if (response.status === 204) {
+      return response;
+    }
 
-        return json;
-      }),
-  );
+    return response.json().then((json) => {
+      if (!response.ok) {
+        return Promise.reject(json);
+      }
+
+      return json;
+    });
+  });
 };
 
 // Action key that carries API call info interpreted by this Redux middleware.
