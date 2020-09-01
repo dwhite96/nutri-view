@@ -16,10 +16,6 @@ class MealsController < ApplicationController
 
     redux_store('configureStore', props: json_meals)
 
-    # if request.format.json?
-    #   render plain: { success: true }.to_json, status: :found, content_type: 'application/json'
-    # end
-
     respond_to do |format|
       format.html
       format.json { render plain: { success: true }.to_json, status: :found, content_type: 'application/json' }
