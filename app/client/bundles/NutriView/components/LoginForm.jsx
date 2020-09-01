@@ -24,14 +24,13 @@ const LoginForm = ({ loginFormSubmitted }) => {
         rules={[
           {
             required: true,
-            message: 'Please input your Email!',
+            message: 'Please input your Username!',
           },
         ]}
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
-          type="email"
-          placeholder="Email"
+          placeholder="Username"
           autoFocus
         />
       </Form.Item>

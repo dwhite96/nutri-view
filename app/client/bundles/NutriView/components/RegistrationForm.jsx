@@ -51,7 +51,7 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
     >
       <Form.Item
         name="email"
-        label="E-mail"
+        label="E-mail (Username)"
         rules={[
           {
             type: 'email',
@@ -64,8 +64,7 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
         ]}
       >
         <Input
-          type="email"
-          placeholder="Email"
+          type='email'
           autoFocus
         />
       </Form.Item>
