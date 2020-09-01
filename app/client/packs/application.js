@@ -7,6 +7,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import './nutri-view-bundle';
+import '../stylesheets/application';
 
 require('@rails/ujs').start();
 require('turbolinks').start();
