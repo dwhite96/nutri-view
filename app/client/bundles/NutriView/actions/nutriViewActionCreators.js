@@ -9,6 +9,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
   FOOD_SEARCH_REQUEST,
   FOOD_SEARCH_SUCCESS,
   FOOD_SEARCH_FAILURE,
@@ -86,6 +89,33 @@ export const loginFormSubmitted = (loginData) => (dispatch) => {
   dispatch(loginRequested(loginData))
     .then(() => {
       window.location = '/'; // Redirect to root after login attempt - successful or not
+    });
+};
+
+// Rails backend Devise user logout request
+const logoutRequested = () => ({
+  [CALL_API]: {
+    types: [
+      LOGOUT_REQUEST,
+      LOGOUT_SUCCESS,
+      LOGOUT_FAILURE,
+    ],
+    url: 'http://localhost:3000/users/sign_out',
+    request: {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'X-CSRF-Token': ReactOnRails.authenticityToken(),
+      },
+    },
+  },
+});
+
+// Logout request thunk
+export const logoutClicked = () => (dispatch) => {
+  dispatch(logoutRequested())
+    .then(() => {
+      window.location = '/'; // Redirect to root after logout attempt - successful or not
     });
 };
 

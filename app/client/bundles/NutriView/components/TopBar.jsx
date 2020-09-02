@@ -11,7 +11,7 @@ const { Header } = Layout;
 const { Title } = Typography;
 
 const TopBar = ({
-  isFetching, response, searchFood, saveFood,
+  isFetching, response, searchFood, saveFood, logout,
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -25,6 +25,16 @@ const TopBar = ({
       .catch((info) => {
         console.log(':', info);
       });
+  };
+
+  const handleClick = (e) => {
+    console.log(e);
+
+    switch (e.key) {
+      case 'profile': updateProfile(); break;
+      case 'logout': logout(); break;
+      default: console.log('Menu item key not found');
+    }
   };
 
   return (
@@ -44,7 +54,7 @@ const TopBar = ({
               </a>
             </div>
           </Col>
-          <Col span={9}>
+          <Col span={7}>
             <div>
               <Button
                 icon={<SearchOutlined />}
@@ -66,13 +76,13 @@ const TopBar = ({
               />
             </div>
           </Col>
-          <Col span={4} offset={8}>
-            <Menu theme="dark" mode="horizontal">
+          <Col span={6} offset={8}>
+            <Menu onClick={handleClick} theme="dark" mode="horizontal">
               {/*
                 if user_signed_in? conditional would go here, then logout link
               */}
-              <Menu.Item key="1">Sign up</Menu.Item>
-              <Menu.Item key="2">Login</Menu.Item>
+              <Menu.Item key="profile">Update Profile</Menu.Item>
+              <Menu.Item key="logout">Logout</Menu.Item>
             </Menu>
           </Col>
         </Row>
@@ -88,6 +98,7 @@ TopBar.propTypes = {
   }).isRequired,
   searchFood: PropTypes.func.isRequired,
   saveFood: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 export default TopBar;
