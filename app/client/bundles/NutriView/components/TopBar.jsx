@@ -78,9 +78,6 @@ const TopBar = ({
           </Col>
           <Col span={6} offset={8}>
             <Menu onClick={handleClick} theme="dark" mode="horizontal">
-              {/*
-                if user_signed_in? conditional would go here, then logout link
-              */}
               <Menu.Item key="profile">Update Profile</Menu.Item>
               <Menu.Item key="logout">Logout</Menu.Item>
             </Menu>
