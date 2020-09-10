@@ -64,5 +64,5 @@ Rails.application.configure do
 
   config.debug_exception_response_format = :api
 
-  config.hosts << ['localhost:3000', 'localhost:3035']
+  config.hosts << ['localhost:3035']
 end
