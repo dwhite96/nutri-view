@@ -28,10 +28,7 @@ const TopBar = ({
   };
 
   const handleClick = (e) => {
-    console.log(e);
-
     switch (e.key) {
-      case 'profile': updateProfile(); break;
       case 'logout': logout(); break;
       default: console.log('Menu item key not found');
     }
@@ -44,7 +41,6 @@ const TopBar = ({
           <Col span={3}>
             <div>
               <a
-                data-remote="true"
                 rel="nofollow"
                 href="/"
               >
@@ -78,7 +74,14 @@ const TopBar = ({
           </Col>
           <Col span={6} offset={8}>
             <Menu onClick={handleClick} theme="dark" mode="horizontal">
-              <Menu.Item key="profile">Update Profile</Menu.Item>
+              <Menu.Item key="profile">
+                <a
+                  rel="nofollow"
+                  href="/users/edit"
+                >
+                  Update Profile
+                </a>
+              </Menu.Item>
               <Menu.Item key="logout">Logout</Menu.Item>
             </Menu>
           </Col>

@@ -4,7 +4,7 @@ import {
   Row, Col, Typography, Form, Input, Button,
 } from 'antd';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const formItemLayout = {
   labelCol: {
@@ -38,25 +38,33 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = ({ registrationFormSubmitted }) => {
+const UserEditForm = ({ userEditFormSubmitted, userDeleteButtonClicked }) => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    registrationFormSubmitted(values);
+    userEditFormSubmitted(values);
+  };
+
+  const handleUserDeleteClick = () => {
+    if (confirm('Are you sure?')) { // eslint-disable-line
+      userDeleteButtonClicked();
+    }
+
+    return null;
   };
 
   return (
     <Row justify="center">
       <Col span={8}>
-        <Title level={1}>
-          NutriView
+        <Title level={3}>
+          My name will go here later
         </Title>
       </Col>
       <Col span={10}>
         <Form
           {...formItemLayout}
           form={form}
-          name="register"
+          name="user-edit"
           onFinish={onFinish}
           scrollToFirstError
         >
@@ -67,10 +75,6 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
               {
                 type: 'email',
                 message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
               },
             ]}
           >
@@ -83,13 +87,7 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
 
           <Form.Item
             name="password"
-            label="Password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-            ]}
+            label="New Password"
             hasFeedback
           >
             <Input.Password
@@ -99,14 +97,10 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
 
           <Form.Item
             name="password_confirmation"
-            label="Confirm Password"
+            label="Confirm New Password"
             dependencies={['password']}
             hasFeedback
             rules={[
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
                   if (!value || getFieldValue('password') === value) {
@@ -118,7 +112,25 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
               }),
             ]}
           >
-            <Input.Password />
+            <Input.Password
+              autoComplete="new-password"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="current_password"
+            label="Current Password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your current password!',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password
+              autoComplete="nothing" // Prevent browser from autofilling
+            />
           </Form.Item>
 
           <Form.Item
@@ -126,8 +138,6 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
             label="First Name"
             rules={[
               {
-                required: true,
-                message: 'Please input your first name!',
                 whitespace: true,
               },
             ]}
@@ -140,8 +150,6 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
             label="Last Name"
             rules={[
               {
-                required: true,
-                message: 'Please input your last name!',
                 whitespace: true,
               },
             ]}
@@ -151,8 +159,31 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Sign up
+              Update
             </Button>
+          </Form.Item>
+
+          <Form.Item {...tailFormItemLayout}>
+            <Title level={4}>
+              Account Cancellation
+            </Title>
+
+            <Paragraph>
+              Unhappy?
+              <Button
+                type="link"
+                onClick={handleUserDeleteClick}
+              >
+                Cancel my account
+              </Button>
+            </Paragraph>
+
+            <a
+              rel="nofollow"
+              href="/"
+            >
+              Back
+            </a>
           </Form.Item>
         </Form>
       </Col>
@@ -160,8 +191,9 @@ const RegistrationForm = ({ registrationFormSubmitted }) => {
   );
 };
 
-RegistrationForm.propTypes = {
-  registrationFormSubmitted: PropTypes.func.isRequired,
+UserEditForm.propTypes = {
+  userEditFormSubmitted: PropTypes.func.isRequired,
+  userDeleteButtonClicked: PropTypes.func.isRequired,
 };
 
-export default RegistrationForm;
+export default UserEditForm;

@@ -6,6 +6,12 @@ import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAILURE,
+  USER_EDIT_REQUEST,
+  USER_EDIT_SUCCESS,
+  USER_EDIT_FAILURE,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -56,6 +62,71 @@ export const registrationFormSubmitted = (registrationData) => (dispatch) => {
   dispatch(registrationRequested(registrationData))
     .then(() => {
       window.location = '/'; // Redirect to root after registration - successful or not
+    });
+};
+
+// Rails backend Devise user edit request
+const userEditRequested = (userData) => ({
+  [CALL_API]: {
+    types: [
+      USER_EDIT_REQUEST,
+      USER_EDIT_SUCCESS,
+      USER_EDIT_FAILURE,
+    ],
+    url: 'http://localhost:3000/users.json',
+    request: {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': ReactOnRails.authenticityToken(),
+      },
+      body: JSON.stringify({
+        authenticity_token: ReactOnRails.authenticityToken(),
+        user: userData,
+      }),
+    },
+  },
+});
+
+// User edit request thunk
+export const userEditFormSubmitted = (userData) => (dispatch) => {
+  dispatch(userEditRequested(userData))
+    .then(() => {
+      window.location = '/'; // Redirect to root after user update - successful or not
+    });
+};
+
+// Rails backend Devise user delete request
+const userDeleteRequested = () => ({
+  [CALL_API]: {
+    types: [
+      USER_DELETE_REQUEST,
+      USER_DELETE_SUCCESS,
+      USER_DELETE_FAILURE,
+    ],
+    url: 'http://localhost:3000/users.json',
+    request: {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': ReactOnRails.authenticityToken(),
+      },
+      body: JSON.stringify({
+        authenticity_token: ReactOnRails.authenticityToken(),
+      }),
+    },
+  },
+});
+
+// User delete request thunk
+export const userDeleteButtonClicked = () => (dispatch) => {
+  dispatch(userDeleteRequested())
+    .then(() => {
+      window.location = '/'; // Redirect to root after user delete - successful or not
     });
 };
 
