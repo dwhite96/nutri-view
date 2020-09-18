@@ -68,7 +68,10 @@ export const baseNutrientsData = () => (
 export const addFoodItemNutrientsValues = (currentNutrients, newNutrients) => {
   _.mapValues(currentNutrients, (nutrientValues, nutrientKey) => {
     const nutrient = nutrientValues;
-    const total = Number(nutrient.value) + Number(newNutrients[nutrientKey].value);
+
+    const newNutrientValue = (nutrientKey in newNutrients) ? newNutrients[nutrientKey].value : 0;
+
+    const total = Number(nutrient.value) + Number(newNutrientValue);
     nutrient.value = total.toFixed(1);
   });
 };

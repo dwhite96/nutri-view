@@ -101,8 +101,6 @@ export const deleteMealClicked = (mealId) => (dispatch, getState) => (
     .then(
       () => {
         window.location = '/'; // Redirect to root after deleting meal - successful or not
-        // const { meals } = getState(); // Using getState() to simply read meals data
-        // dispatch(updateTotal(meals));
       },
     )
 );
