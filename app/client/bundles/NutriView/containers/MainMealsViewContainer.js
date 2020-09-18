@@ -11,7 +11,7 @@ const mapStateToProps = ({ meals, total }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addMeal: (mealNumber) => dispatch(addMealButtonClicked(mealNumber)),
+  addMeal: () => dispatch(addMealButtonClicked()),
 });
 
 export default connect(

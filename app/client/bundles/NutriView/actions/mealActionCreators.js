@@ -30,7 +30,7 @@ import {
 import { updateTotal } from './nutriViewActionCreators';
 
 // Post new meal to Rails database
-const mealAdded = (mealNumber) => ({
+const mealAdded = () => ({
   [CALL_API]: {
     types: [
       ADD_MEAL_REQUEST,
@@ -44,9 +44,6 @@ const mealAdded = (mealNumber) => ({
         'Content-Type': 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
-      body: JSON.stringify({
-        meal: { number: mealNumber },
-      }),
     },
   },
 });
@@ -57,8 +54,8 @@ const addMeal = (data) => ({
 });
 
 // Add new meal thunk
-export const addMealButtonClicked = (mealNumber) => (dispatch, getState) => (
-  dispatch(mealAdded(mealNumber))
+export const addMealButtonClicked = () => (dispatch, getState) => (
+  dispatch(mealAdded())
     .then(
       (response) => {
         if (response.data) {
@@ -103,8 +100,9 @@ export const deleteMealClicked = (mealId) => (dispatch, getState) => (
   dispatch(mealDeleted(mealId))
     .then(
       () => {
-        const { meals } = getState(); // Using getState() to simply read meals data
-        dispatch(updateTotal(meals));
+        window.location = '/'; // Redirect to root after deleting meal - successful or not
+        // const { meals } = getState(); // Using getState() to simply read meals data
+        // dispatch(updateTotal(meals));
       },
     )
 );

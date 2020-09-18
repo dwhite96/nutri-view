@@ -10,9 +10,9 @@ class MealsController < ApplicationController
 
   # GET /meals
   def index
-    @meals = Meal.includes(:food_items).all
+    meals = current_user.meals.includes(:food_items).all
 
-    json_meals = { data: @meals.as_json(include: :food_items) }
+    json_meals = { data: meals.as_json(include: :food_items) }
 
     redux_store('configureStore', props: json_meals)
 
@@ -24,12 +24,20 @@ class MealsController < ApplicationController
 
   # POST /meals
   def create
-    @meal = Meal.new(meal_params)
+    if current_user.meals.empty?
+      last_meal_number = 0
+    else
+      last_meal_number = current_user.meals.last.number
+    end
+
+    @meal = current_user.meals.build
+    @meal.add_new_meal_number(last_meal_number)
 
     if @meal.save
-      render json: { meal: @meal, message: 'Meal was successfully saved.' },
-        include: :food_items,
-        status: :created
+      render json: { meal: @meal,
+          message: 'Meal was successfully saved.' },
+          include: :food_items,
+           status: :created
     else
       render json: @meal.errors, status: :unprocessable_entity
     end
@@ -38,9 +46,10 @@ class MealsController < ApplicationController
   # PATCH/PUT /meals/1
   def update
     if @meal.save
-      render json: { meal: @meal, message: 'Meal was successfully updated.' },
-        include: :food_items,
-        status: :ok
+      render json: { meal: @meal,
+          message: 'Meal was successfully updated.' },
+          include: :food_items,
+           status: :ok
     else
       render json: @meal.errors, status: :unprocessable_entity
     end
@@ -50,25 +59,31 @@ class MealsController < ApplicationController
   def add_food_item
     @meal.food_items << FoodItem.find(params[:meal][:food_item_id].to_i)
 
-    render json: { meal: @meal, message: 'Food item was successfully added to meal.' },
-      include: :food_items,
-      status: :ok
+    render json: { meal: @meal,
+        message: 'Food item was successfully added to meal.' },
+        include: :food_items,
+         status: :ok
   end
 
   # PATCH/PUT /meals/1/add_food_item
   def remove_food_item
     @meal.food_items.delete FoodItem.find(params[:meal][:food_item_id].to_i)
 
-    render json: { meal: @meal, message: 'Food item was successfully removed from meal.' },
-      include: :food_items,
-      status: :ok
+    render json: { meal: @meal,
+        message: 'Food item was successfully removed from meal.' },
+        include: :food_items,
+         status: :ok
   end
 
   # DELETE /meals/1
   def destroy
     @meal.destroy
 
-    render json: { mealId: @meal.id, message: 'Meal was successfully destroyed.' }
+    meals = current_user.meals.all
+
+    Meal.reorder_meal_numbers(meals)
+
+    render json: { status: :found, message: 'Meal was successfully destroyed.' }
   end
 
   private

@@ -24,7 +24,7 @@ const updateMeal = (state, { meal }) => ({
 const deleteMeal = (state, action) => {
   const { mealId } = action.data;
 
-  const newState = { ...state, ...state };
+  const newState = { ...state };
   delete newState[mealId];
   return newState;
 };

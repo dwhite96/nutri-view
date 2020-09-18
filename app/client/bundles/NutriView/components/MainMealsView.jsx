@@ -26,13 +26,7 @@ const MainMealsView = ({ meals, total, addMeal }) => (
         <Button key="3">Operation</Button>,
         <Button
           key="1"
-          onClick={() => {
-            if (Array.isArray(meals) && meals.length > 0) {
-              addMeal(meals[meals.length - 1].number + 1);
-            } else {
-              addMeal(1);
-            }
-          }}
+          onClick={() => addMeal()}
         >
           Add Meal
         </Button>,
