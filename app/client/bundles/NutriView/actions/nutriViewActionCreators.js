@@ -40,7 +40,7 @@ const registrationRequested = (registrationData) => ({
       REGISTRATION_SUCCESS,
       REGISTRATION_FAILURE,
     ],
-    url: 'http://localhost:3000/users.json',
+    url: '/users.json',
     request: {
       method: 'POST',
       credentials: 'include',
@@ -73,7 +73,7 @@ const userEditRequested = (userData) => ({
       USER_EDIT_SUCCESS,
       USER_EDIT_FAILURE,
     ],
-    url: 'http://localhost:3000/users.json',
+    url: '/users.json',
     request: {
       method: 'PATCH',
       credentials: 'include',
@@ -106,7 +106,7 @@ const userDeleteRequested = () => ({
       USER_DELETE_SUCCESS,
       USER_DELETE_FAILURE,
     ],
-    url: 'http://localhost:3000/users.json',
+    url: '/users.json',
     request: {
       method: 'DELETE',
       credentials: 'include',
@@ -138,7 +138,7 @@ const loginRequested = (loginData) => ({
       LOGIN_SUCCESS,
       LOGIN_FAILURE,
     ],
-    url: 'http://localhost:3000/users/sign_in.json',
+    url: '/users/sign_in.json',
     request: {
       method: 'POST',
       credentials: 'include',
@@ -171,7 +171,7 @@ const logoutRequested = () => ({
       LOGOUT_SUCCESS,
       LOGOUT_FAILURE,
     ],
-    url: 'http://localhost:3000/users/sign_out',
+    url: '/users/sign_out',
     request: {
       method: 'DELETE',
       credentials: 'include',
@@ -233,7 +233,7 @@ const saveFoodToDatabase = (data) => ({
       SAVE_FOOD_SUCCESS,
       SAVE_FOOD_FAILURE,
     ],
-    url: 'http://localhost:3000/food_items',
+    url: '/food_items',
     request: {
       method: 'POST',
       headers: {

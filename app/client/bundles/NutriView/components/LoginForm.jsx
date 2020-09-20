@@ -76,7 +76,7 @@ const LoginForm = ({ loginFormSubmitted }) => {
               Log in
             </Button>
             &nbsp; or &nbsp;
-            <a href="http://localhost:3000/users/sign_up">Sign up!</a>
+            <a href="/users/sign_up">Sign up!</a>
           </Form.Item>
         </Form>
       </Col>

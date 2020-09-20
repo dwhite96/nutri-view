@@ -37,7 +37,7 @@ const mealAdded = () => ({
       ADD_MEAL_SUCCESS,
       ADD_MEAL_FAILURE,
     ],
-    url: 'http://localhost:3000/meals.json',
+    url: '/meals.json',
     request: {
       method: 'POST',
       headers: {
@@ -84,7 +84,7 @@ const mealDeleted = (mealId) => ({
       DELETE_MEAL_SUCCESS,
       DELETE_MEAL_FAILURE,
     ],
-    url: `http://localhost:3000/meals/${mealId}.json`,
+    url: `/meals/${mealId}.json`,
     request: {
       method: 'DELETE',
       headers: {
@@ -113,7 +113,7 @@ const railsFoodItemsFetchRequested = () => ({
       RAILS_FOOD_ITEMS_FETCH_SUCCESS,
       RAILS_FOOD_ITEMS_FETCH_FAILURE,
     ],
-    url: 'http://localhost:3000/food_items.json',
+    url: '/food_items.json',
     request: {
       method: 'GET',
       headers: {
@@ -137,7 +137,7 @@ const addFoodItemToMeal = (foodItemId, mealId) => ({
       ADD_FOOD_ITEM_TO_MEAL_SUCCESS,
       ADD_FOOD_ITEM_TO_MEAL_FAILURE,
     ],
-    url: `http://localhost:3000/meals/${mealId}/add_food_item.json`,
+    url: `/meals/${mealId}/add_food_item.json`,
     request: {
       method: 'PATCH',
       headers: {
@@ -191,7 +191,7 @@ const removeFoodItemFromMeal = (foodItemId, mealId) => ({
       REMOVE_FOOD_ITEM_FROM_MEAL_SUCCESS,
       REMOVE_FOOD_ITEM_FROM_MEAL_FAILURE,
     ],
-    url: `http://localhost:3000/meals/${mealId}/remove_food_item.json`,
+    url: `/meals/${mealId}/remove_food_item.json`,
     request: {
       method: 'PATCH',
       headers: {
