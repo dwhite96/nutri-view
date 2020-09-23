@@ -28,7 +28,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'react_on_rails', '12.0.1'
 gem 'devise'
-gem 'figaro'
 gem 'rack-cors'
 
 group :development, :test do
