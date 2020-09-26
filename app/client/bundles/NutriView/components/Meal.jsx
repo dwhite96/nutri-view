@@ -4,7 +4,7 @@ import {
   Col, Table, Card, Button,
 } from 'antd';
 import {
-  PlusOutlined, DeleteOutlined
+  PlusOutlined, DeleteOutlined,
 } from '@ant-design/icons';
 
 import MealItems from './MealItems';
@@ -25,8 +25,6 @@ const Meal = ({
   const mealNumber = `Meal ${meal.number}`;
 
   const onSave = (selectedFood) => {
-    console.log('Received values of form: ', selectedFood);
-
     addSelectedFoodItemToMeal(selectedFood, meal.id);
     setVisible(false);
   };

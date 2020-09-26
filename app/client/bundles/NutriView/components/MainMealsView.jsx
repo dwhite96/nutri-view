@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  PageHeader, Descriptions, Button, Row, Col, Table, Card, List,
+  PageHeader, Button, Row, Col, Table, Card, List,
 } from 'antd';
 
 import Meal from '../containers/MealContainer';
@@ -66,18 +66,11 @@ const MainMealsView = ({ meals, total, addMeal }) => (
 
       <Col className="gutter-row" flex="155px" order={11}>
         <Card bodyStyle={{ padding: 0 }}>
-          <Card
-            size="small"
-            title="Total"
-            bodyStyle={{ height: 220 }}
-            bordered={false}
-          >
-            <li>Coffee</li>
-          </Card>
           <Table
             rowKey="nutrient"
             dataSource={total}
             size="small"
+            title={() => 'Total'}
             pagination={{ hideOnSinglePage: true }}
           >
             <Column title="Total Amount" dataIndex="value" width={40} />
