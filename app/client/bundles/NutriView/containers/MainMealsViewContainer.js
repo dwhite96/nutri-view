@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import MainMealsView from '../components/MainMealsView';
 import { addMealButtonClicked } from '../actions/mealActionCreators';
 
-const mapStateToProps = ({ meals, total }) => ({
+const mapStateToProps = ({ meals, nutrientTypes, total }) => ({
   meals: meals.allIds.map((id) => meals.byId[id]),
-  total: total.nutrientsData.allKeys.map((key) => (
-    total.nutrientsData.byKey[key]
+  total: nutrientTypes.map((key) => (
+    total.nutrientsData[key]
   )),
 });
 

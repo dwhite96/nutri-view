@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { produce } from 'immer';
+import { keys } from 'lodash';
 
 import {
   FOOD_SEARCH_REQUEST,
@@ -13,12 +15,17 @@ import {
   RAILS_FOOD_ITEMS_FETCH_REQUEST,
   RAILS_FOOD_ITEMS_FETCH_SUCCESS,
   RAILS_FOOD_ITEMS_FETCH_FAILURE,
-  UPDATE_TOTAL,
+  ADD_FOOD_ITEM_TO_MEAL,
+  SUBTRACT_FOOD_ITEM_FROM_MEAL,
 } from '../constants/nutriViewConstants';
 
 import meals from './meals';
 import foodItems from './foodItems';
-import { calculateTotal } from '../utilities/nutriViewUtilities';
+import nutrientTypes from './nutrientTypes';
+import {
+  addEachNutrientValues,
+  subtractEachNutrientValues,
+} from '../utilities/nutriViewUtilities';
 
 // const rootReducer = (state = {}, action) => {
 //   switch (action.type) {
@@ -120,13 +127,32 @@ const railsFoodList = (state = [], action) => {
   }
 };
 
+const addFoodItemNutrientsToTotal = (state, { foodItem }) => (
+  produce(state, (draft) => {
+    const foodItemId = Number(keys(foodItem)[0]);
+
+    const foodItemNutrients = foodItem[foodItemId].data.labelNutrients;
+
+    draft.nutrientsData = addEachNutrientValues(draft.nutrientsData, foodItemNutrients);
+  })
+);
+
+const subtractFoodItemNutrientsFromTotal = (state, { foodItem }) => (
+  produce(state, (draft) => {
+    const foodItemId = Number(keys(foodItem)[0]);
+
+    const foodItemNutrients = foodItem[foodItemId].data.labelNutrients;
+
+    draft.nutrientsData = subtractEachNutrientValues(draft.nutrientsData, foodItemNutrients);
+  })
+);
+
 const total = (state = {}, action) => {
   switch (action.type) {
-    case UPDATE_TOTAL:
-      return {
-        ...state,
-        ...calculateTotal(action.meals),
-      };
+    case ADD_FOOD_ITEM_TO_MEAL:
+      return addFoodItemNutrientsToTotal(state, action);
+    case SUBTRACT_FOOD_ITEM_FROM_MEAL:
+      return subtractFoodItemNutrientsFromTotal(state, action);
     default:
       return state;
   }
@@ -137,6 +163,7 @@ const reducers = combineReducers({
   railsFoodList,
   meals,
   foodItems,
+  nutrientTypes,
   total,
 });
 

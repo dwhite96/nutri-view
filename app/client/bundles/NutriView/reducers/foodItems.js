@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
-import _ from 'lodash';
+import { merge } from 'lodash';
 
 import {
-  UPDATE_MEAL,
+  ADD_FOOD_ITEM_TO_MEAL,
 } from '../constants/nutriViewConstants';
 
-const updateFoodItems = (state, { foodItems }) => (
-  _.merge({}, state, foodItems)
+const updateFoodItems = (state, { foodItem }) => (
+  merge({}, state, foodItem)
 );
 
 const foodItemsByID = (state = {}, action) => {
   switch (action.type) {
-    case UPDATE_MEAL:
+    case ADD_FOOD_ITEM_TO_MEAL:
       return updateFoodItems(state, action);
     default:
       return state;

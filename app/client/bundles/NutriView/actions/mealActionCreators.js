@@ -2,40 +2,35 @@
 import ReactOnRails from 'react-on-rails';
 
 import { CALL_API } from '../middleware/api';
-import { Schemas } from '../middleware/schema';
+import { normalizeData, Schemas } from '../utilities/schemas';
 import {
-  normalizeData,
-  baseNutrientsData,
-  calculateMealNutrients,
-} from '../utilities/nutriViewUtilities';
-import {
-  ADD_MEAL_REQUEST,
-  ADD_MEAL_SUCCESS,
-  ADD_MEAL_FAILURE,
+  CREATE_MEAL_REQUEST,
+  CREATE_MEAL_SUCCESS,
+  CREATE_MEAL_FAILURE,
   DELETE_MEAL_REQUEST,
   DELETE_MEAL_SUCCESS,
   DELETE_MEAL_FAILURE,
   RAILS_FOOD_ITEMS_FETCH_REQUEST,
   RAILS_FOOD_ITEMS_FETCH_SUCCESS,
   RAILS_FOOD_ITEMS_FETCH_FAILURE,
-  ADD_FOOD_ITEM_TO_MEAL_REQUEST,
-  ADD_FOOD_ITEM_TO_MEAL_SUCCESS,
-  ADD_FOOD_ITEM_TO_MEAL_FAILURE,
-  REMOVE_FOOD_ITEM_FROM_MEAL_REQUEST,
-  REMOVE_FOOD_ITEM_FROM_MEAL_SUCCESS,
-  REMOVE_FOOD_ITEM_FROM_MEAL_FAILURE,
+  SAVE_FOOD_ITEM_TO_MEAL_REQUEST,
+  SAVE_FOOD_ITEM_TO_MEAL_SUCCESS,
+  SAVE_FOOD_ITEM_TO_MEAL_FAILURE,
+  DELETE_FOOD_ITEM_FROM_MEAL_REQUEST,
+  DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS,
+  DELETE_FOOD_ITEM_FROM_MEAL_FAILURE,
   ADD_MEAL,
-  UPDATE_MEAL,
+  ADD_FOOD_ITEM_TO_MEAL,
+  SUBTRACT_FOOD_ITEM_FROM_MEAL,
 } from '../constants/nutriViewConstants';
-import { updateTotal } from './nutriViewActionCreators';
 
 // Post new meal to Rails database
 const mealAdded = () => ({
   [CALL_API]: {
     types: [
-      ADD_MEAL_REQUEST,
-      ADD_MEAL_SUCCESS,
-      ADD_MEAL_FAILURE,
+      CREATE_MEAL_REQUEST,
+      CREATE_MEAL_SUCCESS,
+      CREATE_MEAL_FAILURE,
     ],
     url: '/meals.json',
     request: {
@@ -54,24 +49,15 @@ const addMeal = (data) => ({
 });
 
 // Add new meal thunk
-export const addMealButtonClicked = () => (dispatch, getState) => (
+export const addMealButtonClicked = () => (dispatch) => (
   dispatch(mealAdded())
     .then(
       (response) => {
         if (response.data) {
           const normalizedData = normalizeData(response.data, Schemas.MEALS);
-          const newMealIndex = Object.keys(normalizedData.entities.meals)[0];
-
-          normalizedData.entities.meals[newMealIndex].nutrientsData = baseNutrientsData();
 
           dispatch(addMeal(normalizedData));
         }
-      },
-    )
-    .then(
-      () => {
-        const { meals } = getState(); // Using getState() to simply read meals data
-        dispatch(updateTotal(meals));
       },
     )
 );
@@ -96,7 +82,7 @@ const mealDeleted = (mealId) => ({
 });
 
 // Delete meal thunk
-export const deleteMealClicked = (mealId) => (dispatch, getState) => (
+export const deleteMealClicked = (mealId) => (dispatch) => (
   dispatch(mealDeleted(mealId))
     .then(
       () => {
@@ -130,12 +116,12 @@ export const addFoodItemClicked = () => (dispatch) => (
 );
 
 // Patch request to add food item to meal in Rails database
-const addFoodItemToMeal = (foodItemId, mealId) => ({
+const saveFoodItemToMealRequested = (foodItemId, mealId) => ({
   [CALL_API]: {
     types: [
-      ADD_FOOD_ITEM_TO_MEAL_REQUEST,
-      ADD_FOOD_ITEM_TO_MEAL_SUCCESS,
-      ADD_FOOD_ITEM_TO_MEAL_FAILURE,
+      SAVE_FOOD_ITEM_TO_MEAL_REQUEST,
+      SAVE_FOOD_ITEM_TO_MEAL_SUCCESS,
+      SAVE_FOOD_ITEM_TO_MEAL_FAILURE,
     ],
     url: `/meals/${mealId}/add_food_item.json`,
     request: {
@@ -151,45 +137,36 @@ const addFoodItemToMeal = (foodItemId, mealId) => ({
   },
 });
 
-const updateMeal = (meal, foodItems) => ({
-  type: UPDATE_MEAL,
-  meal,
-  foodItems: foodItems.byId,
+const addFoodItemToDisplayedMeal = (mealId, foodItem) => ({
+  type: ADD_FOOD_ITEM_TO_MEAL,
+  mealId,
+  foodItem,
 });
 
 // Add food item to meal thunk
-export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispatch, getState) => (
-  dispatch(addFoodItemToMeal(selectedFood, mealId))
+export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispatch) => (
+  dispatch(saveFoodItemToMealRequested(selectedFood, mealId))
     .then(
       (response) => {
         if (response.data) {
-          const normalizedData = normalizeData(response.data, Schemas.MEALS);
-          const updatedMeal = normalizedData.entities.meals[mealId];
-          const foodItems = {
-            byId: normalizedData.entities.foodItems,
-          };
+          const normalizedData = normalizeData(response.data, Schemas.FOOD_ITEMS);
 
-          calculateMealNutrients(updatedMeal, foodItems);
-
-          dispatch(updateMeal(updatedMeal, foodItems));
+          dispatch(addFoodItemToDisplayedMeal(
+            mealId,
+            normalizedData.entities.foodItems,
+          ));
         }
-      },
-    )
-    .then(
-      () => {
-        const { meals } = getState(); // Using getState() to simply read meals data
-        dispatch(updateTotal(meals));
       },
     )
 );
 
 // Patch request to delete food item from meal in Rails database
-const removeFoodItemFromMeal = (foodItemId, mealId) => ({
+const deleteFoodItemFromMealRequested = (foodItemId, mealId) => ({
   [CALL_API]: {
     types: [
-      REMOVE_FOOD_ITEM_FROM_MEAL_REQUEST,
-      REMOVE_FOOD_ITEM_FROM_MEAL_SUCCESS,
-      REMOVE_FOOD_ITEM_FROM_MEAL_FAILURE,
+      DELETE_FOOD_ITEM_FROM_MEAL_REQUEST,
+      DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS,
+      DELETE_FOOD_ITEM_FROM_MEAL_FAILURE,
     ],
     url: `/meals/${mealId}/remove_food_item.json`,
     request: {
@@ -205,28 +182,25 @@ const removeFoodItemFromMeal = (foodItemId, mealId) => ({
   },
 });
 
+const removeFoodItemFromDisplayedMeal = (mealId, foodItem) => ({
+  type: SUBTRACT_FOOD_ITEM_FROM_MEAL,
+  mealId,
+  foodItem,
+});
+
 // Remove food item from meal thunk
-export const removeFromMealButtonClicked = (foodItem, mealId) => (dispatch, getState) => (
-  dispatch(removeFoodItemFromMeal(foodItem, mealId))
+export const removeFromMealButtonClicked = (foodItem, mealId) => (dispatch) => (
+  dispatch(deleteFoodItemFromMealRequested(foodItem, mealId))
     .then(
       (response) => {
         if (response.data) {
-          const normalizedData = normalizeData(response.data, Schemas.MEALS);
-          const updatedMeal = normalizedData.entities.meals[mealId];
-          const foodItems = {
-            byId: normalizedData.entities.foodItems,
-          };
+          const normalizedData = normalizeData(response.data, Schemas.FOOD_ITEMS);
 
-          calculateMealNutrients(updatedMeal, foodItems);
-
-          dispatch(updateMeal(updatedMeal, foodItems));
+          dispatch(removeFoodItemFromDisplayedMeal(
+            mealId,
+            normalizedData.entities.foodItems,
+          ));
         }
-      },
-    )
-    .then(
-      () => {
-        const { meals } = getState(); // Using getState() to simply read meals data
-        dispatch(updateTotal(meals));
       },
     )
 );

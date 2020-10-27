@@ -70,11 +70,18 @@ const MainMealsView = ({ meals, total, addMeal }) => (
             rowKey="nutrient"
             dataSource={total}
             size="small"
+            tableLayout="fixed"
             title={() => 'Total'}
             pagination={{ hideOnSinglePage: true }}
           >
             <Column title="Total Amount" dataIndex="value" width={40} />
-            <Column title="% Daily Value" dataIndex="% Daily Value" width={40} />
+            <Column
+              title="% Daily Value"
+              dataIndex="percentDailyValue"
+              width={40}
+              align="right"
+              render={(text) => (text === null ? text : `${text}%`)}
+            />
           </Table>
         </Card>
       </Col>

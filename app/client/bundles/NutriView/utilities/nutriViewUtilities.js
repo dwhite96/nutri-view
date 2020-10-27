@@ -1,106 +1,69 @@
 /* eslint-disable import/prefer-default-export */
-import { normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
-import _ from 'lodash';
+import produce from 'immer';
+import { mapValues, add, subtract } from 'lodash';
 
-export const normalizeData = (data, schema) => {
-  console.log('before normalized:', data);
-
-  const camelizedData = camelizeKeys(data);
-  const normalizedData = normalize(camelizedData, schema);
-
-  console.log('after normalized:', normalizedData);
-
-  return normalizedData;
-};
-
-export const baseNutrientsData = () => (
-  {
-    byKey: {
-      calories: {
-        nutrient: 'calories',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-      fat: {
-        nutrient: 'fat',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-      cholesterol: {
-        nutrient: 'cholesterol',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-      sodium: {
-        nutrient: 'sodium',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-      carbohydrates: {
-        nutrient: 'carbohydrates',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-      sugars: {
-        nutrient: 'sugars',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-      protein: {
-        nutrient: 'protein',
-        value: 0,
-        '% Daily Value': '0%',
-      },
-    },
-    allKeys: [
-      'calories',
-      'fat',
-      'cholesterol',
-      'sodium',
-      'carbohydrates',
-      'sugars',
-      'protein',
-    ],
-  }
+const calcPercentDailyValue = (currentNutrient, nutrientValue) => (
+  (nutrientValue / currentNutrient.dailyReferenceValue) * 100
 );
 
-export const addFoodItemNutrientsValues = (currentNutrients, newNutrients) => {
-  _.mapValues(currentNutrients, (nutrientValues, nutrientKey) => {
-    const nutrient = nutrientValues;
-
+export const addEachNutrientValues = (currentNutrients, newNutrients) => (
+  mapValues(currentNutrients, (currentNutrient, nutrientKey) => {
     const newNutrientValue = (nutrientKey in newNutrients) ? newNutrients[nutrientKey].value : 0;
 
-    const total = Number(nutrient.value) + Number(newNutrientValue);
-    nutrient.value = total.toFixed(1);
-  });
-};
+    const newNutrientPercentDailyValue = calcPercentDailyValue(currentNutrient, newNutrientValue);
+
+    return produce(currentNutrient, (draft) => {
+      draft.value = add(
+        Number(currentNutrient.value),
+        Number(newNutrientValue),
+      ).toFixed(1);
+
+      const newPercentDailyValue = add(
+        Number(currentNutrient.percentDailyValue),
+        Number(newNutrientPercentDailyValue),
+      ).toFixed(0);
+
+      // Need to convert NaN case back to a Number so that short circuit evaluation works correctly
+      draft.percentDailyValue = Number(newPercentDailyValue) || null; // Null for no display
+    });
+  })
+);
+
+export const subtractEachNutrientValues = (currentNutrients, oldNutrients) => (
+  mapValues(currentNutrients, (currentNutrient, nutrientKey) => {
+    const oldNutrientValue = (nutrientKey in oldNutrients) ? oldNutrients[nutrientKey].value : 0;
+
+    const oldNutrientPercentDailyValue = calcPercentDailyValue(currentNutrient, oldNutrientValue);
+
+    return produce(currentNutrient, (draft) => {
+      draft.value = subtract(
+        Number(currentNutrient.value),
+        Number(oldNutrientValue),
+      ).toFixed(1);
+
+      const newPercentDailyValue = subtract(
+        Number(currentNutrient.percentDailyValue),
+        Number(oldNutrientPercentDailyValue),
+      ).toFixed(0);
+
+      // Need to convert NaN case back to a Number so that short circuit evaluation works correctly
+      draft.percentDailyValue = Number(newPercentDailyValue) || null; // Null for no display
+    });
+  })
+);
 
 export const calculateMealNutrients = (meal, foodItems) => {
-  const mealWithNutrients = meal;
-  mealWithNutrients.nutrientsData = baseNutrientsData();
+  let newMeal = { ...meal };
 
-  const currentNutrients = mealWithNutrients.nutrientsData.byKey;
+  newMeal.foodItems.forEach((foodItemId) => {
+    const foodItemNutrients = foodItems.byId[foodItemId].data.labelNutrients;
 
-  mealWithNutrients.foodItems.forEach((foodItemId) => {
-    const foodItem = foodItems.byId[foodItemId];
-    const newNutrients = foodItem.data.labelNutrients;
+    newMeal = produce(newMeal, (draft) => {
+      draft.nutrientsData = addEachNutrientValues(draft.nutrientsData, foodItemNutrients);
+    });
 
-    addFoodItemNutrientsValues(currentNutrients, newNutrients);
-  });
-};
-
-export const calculateTotal = (meals) => {
-  const totalWithNutrients = { nutrientsData: baseNutrientsData() };
-
-  const currentTotalNutrients = totalWithNutrients.nutrientsData.byKey;
-
-  meals.allIds.forEach((mealId) => {
-    const meal = meals.byId[mealId];
-    const mealNutrients = meal.nutrientsData.byKey;
-
-    addFoodItemNutrientsValues(currentTotalNutrients, mealNutrients);
+    return foodItemId;
   });
 
-  return totalWithNutrients;
+  return newMeal;
 };

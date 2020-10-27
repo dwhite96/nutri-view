@@ -27,7 +27,6 @@ import {
   SAVE_FOOD_REQUEST,
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
-  UPDATE_TOTAL,
 } from '../constants/nutriViewConstants';
 
 const FDCRootURL = 'https://api.nal.usda.gov/fdc/v1';
@@ -256,9 +255,3 @@ export const saveFood = (foodFDCID) => (dispatch) => (
       },
     )
 );
-
-// Update nutrients value totals for all meals on display
-export const updateTotal = (meals) => ({
-  type: UPDATE_TOTAL,
-  meals,
-});

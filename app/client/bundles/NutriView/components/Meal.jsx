@@ -79,10 +79,17 @@ const Meal = ({
           rowKey="nutrient"
           dataSource={nutrientsData}
           size="small"
+          tableLayout="fixed"
           pagination={{ hideOnSinglePage: true }}
         >
-          <Column title="Amount /serving" dataIndex="value" width={40} />
-          <Column title="% Daily Value" dataIndex="% Daily Value" width={40} />
+          <Column title="Amount /serving" dataIndex="value" width={41} />
+          <Column
+            title="% Daily Value"
+            dataIndex="percentDailyValue"
+            width={40}
+            align="right"
+            render={(text) => (text === null ? text : `${text}%`)}
+          />
         </Table>
       </Card>
     </Col>
