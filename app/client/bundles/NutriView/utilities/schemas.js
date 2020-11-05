@@ -109,6 +109,7 @@ export const buildInitialStateObject = (data) => {
       'protein',
     ],
     total: baseNutrientsData(),
+    dataFetchStatus: 'idle',
   };
 
   return topLevelObject;

@@ -3,18 +3,13 @@ import { produce } from 'immer';
 import { keys } from 'lodash';
 
 import {
-  FOOD_SEARCH_REQUEST,
   FOOD_SEARCH_SUCCESS,
   FOOD_SEARCH_FAILURE,
-  FOOD_FETCH_REQUEST,
   FOOD_FETCH_SUCCESS,
   FOOD_FETCH_FAILURE,
-  SAVE_FOOD_REQUEST,
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
-  RAILS_FOOD_ITEMS_FETCH_REQUEST,
   RAILS_FOOD_ITEMS_FETCH_SUCCESS,
-  RAILS_FOOD_ITEMS_FETCH_FAILURE,
   ADD_FOOD_ITEM_TO_MEAL,
   SUBTRACT_FOOD_ITEM_FROM_MEAL,
 } from '../constants/nutriViewConstants';
@@ -27,71 +22,36 @@ import {
   subtractEachNutrientValues,
 } from '../utilities/nutriViewUtilities';
 
-// const rootReducer = (state = {}, action) => {
-//   switch (action.type) {
-//     case SAVE_FOOD_ITEM_TO_MEAL_REQUEST:
-//       return {
-//         meals: action.data,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-const foodSearchInput = (state = { isFetching: false, response: {} }, action) => {
+const foodSearchInput = (state = { response: {} }, action) => {
   switch (action.type) {
-    case FOOD_SEARCH_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        response: {},
-      };
     case FOOD_SEARCH_SUCCESS:
       return {
         ...state,
-        isFetching: false,
         response: action.data,
       };
     case FOOD_SEARCH_FAILURE:
       return {
         ...state,
-        isFetching: false,
         response: action.error,
-      };
-    case FOOD_FETCH_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        response: {},
       };
     case FOOD_FETCH_SUCCESS:
       return {
         ...state,
-        isFetching: false,
         response: action.data,
       };
     case FOOD_FETCH_FAILURE:
       return {
         ...state,
-        isFetching: false,
         response: action.error,
-      };
-    case SAVE_FOOD_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        response: {},
       };
     case SAVE_FOOD_SUCCESS:
       return {
         ...state,
-        isFetching: false,
         response: action.data,
       };
     case SAVE_FOOD_FAILURE:
       return {
         ...state,
-        isFetching: false,
         response: {
           error: {
             data: action.error.data,
@@ -106,21 +66,10 @@ const foodSearchInput = (state = { isFetching: false, response: {} }, action) =>
 
 const railsFoodList = (state = [], action) => {
   switch (action.type) {
-    case RAILS_FOOD_ITEMS_FETCH_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-      };
     case RAILS_FOOD_ITEMS_FETCH_SUCCESS:
       return {
         ...state,
-        isFetching: false,
         response: action.data,
-      };
-    case RAILS_FOOD_ITEMS_FETCH_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
       };
     default:
       return state;
@@ -158,6 +107,17 @@ const total = (state = {}, action) => {
   }
 };
 
+const dataFetchStatus = (state = 'idle', action) => {
+  switch (action.type.includes('REQUEST')) {
+    case true:
+      return 'loading';
+    case false:
+      return 'idle';
+    default:
+      return state;
+  }
+};
+
 const reducers = combineReducers({
   foodSearchInput,
   railsFoodList,
@@ -165,6 +125,7 @@ const reducers = combineReducers({
   foodItems,
   nutrientTypes,
   total,
+  dataFetchStatus,
 });
 
 export default reducers;

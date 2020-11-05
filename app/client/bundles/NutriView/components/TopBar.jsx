@@ -11,7 +11,7 @@ const { Header } = Layout;
 const { Title } = Typography;
 
 const TopBar = ({
-  isFetching, response, searchFood, saveFood, logout,
+  response, searchFood, saveFood, logout,
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -66,7 +66,6 @@ const TopBar = ({
                 onCancel={() => {
                   setVisible(false);
                 }}
-                isFetching={isFetching}
                 response={response}
                 searchFood={searchFood}
               />
@@ -92,7 +91,6 @@ const TopBar = ({
 };
 
 TopBar.propTypes = {
-  isFetching: PropTypes.bool.isRequired,
   response: PropTypes.shape({
     message: PropTypes.string,
   }).isRequired,

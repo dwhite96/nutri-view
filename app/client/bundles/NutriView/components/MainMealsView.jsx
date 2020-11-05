@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  PageHeader, Button, Row, Col, Table, Card, List,
+  PageHeader, Button, Row, Col, Table, Card, List, Typography, Spin,
 } from 'antd';
 
 import Meal from '../containers/MealContainer';
 
 const { Column } = Table;
+
+const { Text } = Typography;
 
 const MealCollection = ({ meals }) => (
   meals.map((meal) => (
@@ -17,22 +19,25 @@ const MealCollection = ({ meals }) => (
   ))
 );
 
-const MainMealsView = ({ meals, total, addMeal }) => (
+const Content = () => (
+  <Text>Daily Meal Plan</Text>
+);
+
+const MainMealsView = ({
+  meals, dataFetchStatus, total, addMeal,
+}) => (
   <div>
     <PageHeader
       className="site-page-header"
       title="Meals"
       extra={[
-        <Button key="3">Operation</Button>,
-        <Button
-          key="1"
-          onClick={() => addMeal()}
-        >
+        <Spin key="1" spinning={dataFetchStatus === 'loading'} />,
+        <Button key="2" onClick={() => addMeal()}>
           Add Meal
         </Button>,
       ]}
     >
-      Daily Meal Plan
+      <Content />
     </PageHeader>
 
     <Row gutter={16} align="bottom">
@@ -74,7 +79,11 @@ const MainMealsView = ({ meals, total, addMeal }) => (
             title={() => 'Total'}
             pagination={{ hideOnSinglePage: true }}
           >
-            <Column title="Total Amount" dataIndex="value" width={40} />
+            <Column
+              title="Total Amount"
+              dataIndex="value"
+              width={40}
+            />
             <Column
               title="% Daily Value"
               dataIndex="percentDailyValue"
@@ -92,6 +101,7 @@ const MainMealsView = ({ meals, total, addMeal }) => (
 MainMealsView.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.object).isRequired,
   total: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dataFetchStatus: PropTypes.string.isRequired,
   addMeal: PropTypes.func.isRequired,
 };
 

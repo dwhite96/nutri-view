@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal, Form, Input, Spin,
-} from 'antd';
+import { Modal, Form, Input } from 'antd';
 
 import FoodResponseView from './FoodResponseView';
 
@@ -12,22 +10,11 @@ const FoodSearchInputModal = ({
   visible,
   onSave,
   onCancel,
-  isFetching,
   response,
   searchFood,
 }) => {
   const [selectedFood, setSelectedFood] = useState(0);
   const [form] = Form.useForm();
-
-  const displayFetchingStatus = () => {
-    if (isFetching) {
-      return (
-        <Spin />
-      );
-    }
-
-    return null;
-  };
 
   return (
     <Modal
@@ -62,7 +49,6 @@ const FoodSearchInputModal = ({
           />
         </Form.Item>
       </Form>
-      {displayFetchingStatus()}
       <FoodResponseView response={response} setSelectedFood={setSelectedFood} />
     </Modal>
   );
@@ -72,7 +58,6 @@ FoodSearchInputModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   response: PropTypes.shape({}).isRequired,
   searchFood: PropTypes.func.isRequired,
 };
