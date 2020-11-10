@@ -6,12 +6,13 @@ import {
 import { SearchOutlined } from '@ant-design/icons';
 
 import FoodSearchInputModal from './FoodSearchInputModal';
+import TriggerMessagePopup from './TriggerMessagePopup';
 
 const { Header } = Layout;
 const { Title } = Typography;
 
 const TopBar = ({
-  response, searchFood, saveFood, logout,
+  response, dataFetchResponseMessages, searchFood, saveFood, logout,
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -71,6 +72,9 @@ const TopBar = ({
               />
             </div>
           </Col>
+          <Col>
+            <TriggerMessagePopup content={dataFetchResponseMessages} />
+          </Col>
           <Col span={6} offset={8}>
             <Menu onClick={handleClick} theme="dark" mode="horizontal">
               <Menu.Item key="profile">
@@ -93,6 +97,9 @@ const TopBar = ({
 TopBar.propTypes = {
   response: PropTypes.shape({
     message: PropTypes.string,
+  }).isRequired,
+  dataFetchResponseMessages: PropTypes.shape({
+    error: PropTypes.string,
   }).isRequired,
   searchFood: PropTypes.func.isRequired,
   saveFood: PropTypes.func.isRequired,

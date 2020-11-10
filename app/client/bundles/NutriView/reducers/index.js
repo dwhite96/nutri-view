@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { produce } from 'immer';
-import { keys } from 'lodash';
+import { keys, hasIn } from 'lodash';
 
 import {
   FOOD_SEARCH_SUCCESS,
@@ -118,6 +118,28 @@ const dataFetchStatus = (state = 'idle', action) => {
   }
 };
 
+const dataFetchResponseMessages = (state = {}, action) => {
+  const { type, error } = action;
+
+  if (type.includes('FAILURE') && hasIn(error, 'error.message')) {
+    return {
+      ...state,
+      ...{
+        error: error.error.message,
+      },
+    };
+  }
+
+  if (type.includes('FAILURE') && hasIn(error, 'error')) {
+    return {
+      ...state,
+      ...action.error,
+    };
+  }
+
+  return state;
+};
+
 const reducers = combineReducers({
   foodSearchInput,
   railsFoodList,
@@ -126,6 +148,7 @@ const reducers = combineReducers({
   nutrientTypes,
   total,
   dataFetchStatus,
+  dataFetchResponseMessages,
 });
 
 export default reducers;

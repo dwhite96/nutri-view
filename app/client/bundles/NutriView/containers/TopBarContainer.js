@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import TopBar from '../components/TopBar';
 import { searchFood, saveFood, logoutClicked } from '../actions/nutriViewActionCreators';
 
-const mapStateToProps = (state) => ({
-  isFetching: state.foodSearchInput.isFetching,
-  response: state.foodSearchInput.response,
+const mapStateToProps = ({ foodSearchInput, dataFetchResponseMessages }) => ({
+  response: foodSearchInput.response,
+  dataFetchResponseMessages,
 });
 
 const mapDispatchToProps = (dispatch) => ({

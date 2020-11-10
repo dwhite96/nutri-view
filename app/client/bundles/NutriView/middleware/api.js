@@ -1,9 +1,8 @@
 import fetch from 'cross-fetch';
-import { message } from 'antd';
 
 // Fetches an API response
-const callApi = (url, request) => {
-  return fetch(url, request).then((response) => {
+const callApi = (url, request) => (
+  fetch(url, request).then((response) => {
     if (response.status === 204) {
       return response;
     }
@@ -15,34 +14,24 @@ const callApi = (url, request) => {
 
       return json;
     });
-  });
-};
+  })
+);
 
 // Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_API = 'Call API';
 
-// const triggerMessagePopup = (response) => {
-//   if (response.error) {
-//     message.error(response.error.error);
-//   } else {
-//     message.success(response.message);
-//   }
-// };
-
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
+/* eslint-disable no-unused-vars */
 export default (store) => (next) => (action) => {
+/* eslint-disable no-unused-vars */
   const callAPI = action[CALL_API];
 
   if (typeof callAPI === 'undefined') {
     return next(action);
   }
 
-  const {
-    types,
-    url,
-    request,
-  } = callAPI;
+  const { types, url, request } = callAPI;
 
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
@@ -66,11 +55,10 @@ export default (store) => (next) => (action) => {
     (response) => next(actionWith({
       type: successType,
       data: response,
-      error: null,
     })),
     (error) => next(actionWith({
       type: failureType,
-      error: error || 'Something bad happened',
+      error: error || { error: 'Something bad happened' },
     })),
   );
 };

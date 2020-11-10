@@ -259,6 +259,8 @@ normalized state shape:
         },
       },
     },
+    dataFetchStatus: 'idle',
+    dataFetchResponseMessages: {},
   },
 }
 
