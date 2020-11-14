@@ -46,6 +46,7 @@ const FoodSearchInputModal = ({
             enterButton="Search"
             size="large"
             onSearch={(value) => searchFood(value)}
+            autoFocus
           />
         </Form.Item>
       </Form>
