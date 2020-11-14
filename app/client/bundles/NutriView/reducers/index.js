@@ -12,7 +12,7 @@ import {
   DELETE_MEAL_SUCCESS,
   RAILS_FOOD_ITEMS_FETCH_SUCCESS,
   ADD_FOOD_ITEM_TO_MEAL,
-  SUBTRACT_FOOD_ITEM_FROM_MEAL,
+  DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS,
 } from '../constants/nutriViewConstants';
 
 import meals from './meals';
@@ -87,11 +87,9 @@ const addFoodItemNutrientsToTotal = (state, { foodItem }) => (
   })
 );
 
-const subtractFoodItemNutrientsFromTotal = (state, { foodItem }) => (
+const subtractFoodItemNutrientsFromTotal = (state, action) => (
   produce(state, (draft) => {
-    const foodItemId = Number(keys(foodItem)[0]);
-
-    const foodItemNutrients = foodItem[foodItemId].data.labelNutrients;
+    const foodItemNutrients = action.sharedStateData.data.labelNutrients;
 
     draft.nutrientsData = subtractEachNutrientValues(draft.nutrientsData, foodItemNutrients);
   })
@@ -99,9 +97,9 @@ const subtractFoodItemNutrientsFromTotal = (state, { foodItem }) => (
 
 const subtractMealNutrientsFromTotal = (state, { sharedStateData }) => (
   produce(state, (draft) => {
-    const mealNutrientsData = sharedStateData.nutrientsData;
+    const foodItemNutrients = sharedStateData.nutrientsData;
 
-    draft.nutrientsData = subtractEachNutrientValues(draft.nutrientsData, mealNutrientsData);
+    draft.nutrientsData = subtractEachNutrientValues(draft.nutrientsData, foodItemNutrients);
   })
 );
 
@@ -111,7 +109,7 @@ const total = (state = {}, action) => {
       return subtractMealNutrientsFromTotal(state, action);
     case ADD_FOOD_ITEM_TO_MEAL:
       return addFoodItemNutrientsToTotal(state, action);
-    case SUBTRACT_FOOD_ITEM_FROM_MEAL:
+    case DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS:
       return subtractFoodItemNutrientsFromTotal(state, action);
     default:
       return state;

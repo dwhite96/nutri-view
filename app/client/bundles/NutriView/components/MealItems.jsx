@@ -8,10 +8,10 @@ import {
 } from '@ant-design/icons';
 
 const MealItems = ({ mealId, foodItems, removeFoodItemFromMeal }) => {
-  const handleClick = ({ key }, foodItemId) => {
+  const handleClick = ({ key }, foodItem) => {
     switch (key) {
       case 'Remove from meal':
-        return removeFoodItemFromMeal(foodItemId, mealId);
+        return removeFoodItemFromMeal(foodItem, mealId);
       case 'Move to another meal':
       default:
         return null;
@@ -21,7 +21,7 @@ const MealItems = ({ mealId, foodItems, removeFoodItemFromMeal }) => {
   if (Array.isArray(foodItems) && foodItems.length > 0) {
     return foodItems.map((foodItem) => {
       const menu = (
-        <Menu onClick={(e) => handleClick(e, foodItem.id)}>
+        <Menu onClick={(e) => handleClick(e, foodItem)}>
           <Menu.Item key="Remove from meal">
             Remove from meal
           </Menu.Item>

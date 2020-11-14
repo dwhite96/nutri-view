@@ -72,7 +72,7 @@ class MealsController < ApplicationController
   def remove_food_item
     @meal.food_items.delete @food_item
 
-    render json: { food_item: @food_item,
+    render json: { meal: @meal,
         message: 'Food item was successfully removed from meal.' },
          status: :ok
   end

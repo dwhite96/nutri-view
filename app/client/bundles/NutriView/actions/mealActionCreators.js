@@ -21,7 +21,6 @@ import {
   DELETE_FOOD_ITEM_FROM_MEAL_FAILURE,
   ADD_MEAL,
   ADD_FOOD_ITEM_TO_MEAL,
-  SUBTRACT_FOOD_ITEM_FROM_MEAL,
 } from '../constants/nutriViewConstants';
 
 // Post new meal to Rails database
@@ -157,13 +156,14 @@ export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispa
 );
 
 // Patch request to delete food item from meal in Rails database
-const deleteFoodItemFromMealRequested = (foodItemId, mealId) => ({
+const deleteFoodItemFromMealRequested = (foodItem, mealId) => ({
   [CALL_API]: {
     types: [
       DELETE_FOOD_ITEM_FROM_MEAL_REQUEST,
       DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS,
       DELETE_FOOD_ITEM_FROM_MEAL_FAILURE,
     ],
+    sharedStateData: foodItem,
     url: `/meals/${mealId}/remove_food_item.json`,
     request: {
       method: 'PATCH',
@@ -172,31 +172,13 @@ const deleteFoodItemFromMealRequested = (foodItemId, mealId) => ({
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
       body: JSON.stringify({
-        meal: { food_item_id: foodItemId },
+        meal: { food_item_id: foodItem.id },
       }),
     },
   },
 });
 
-const removeFoodItemFromDisplayedMeal = (mealId, foodItem) => ({
-  type: SUBTRACT_FOOD_ITEM_FROM_MEAL,
-  mealId,
-  foodItem,
-});
-
 // Remove food item from meal thunk
 export const removeFromMealButtonClicked = (foodItem, mealId) => (dispatch) => (
   dispatch(deleteFoodItemFromMealRequested(foodItem, mealId))
-    .then(
-      (response) => {
-        if (response.data) {
-          const normalizedData = normalizeData(response.data, Schemas.FOOD_ITEMS);
-
-          dispatch(removeFoodItemFromDisplayedMeal(
-            mealId,
-            normalizedData.entities.foodItems,
-          ));
-        }
-      },
-    )
 );
