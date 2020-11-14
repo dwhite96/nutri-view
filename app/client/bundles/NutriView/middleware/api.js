@@ -31,7 +31,12 @@ export default (store) => (next) => (action) => {
     return next(action);
   }
 
-  const { types, url, request } = callAPI;
+  const {
+    types,
+    sharedStateData,
+    url,
+    request,
+  } = callAPI;
 
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.');
@@ -55,6 +60,7 @@ export default (store) => (next) => (action) => {
     (response) => next(actionWith({
       type: successType,
       data: response,
+      sharedStateData,
     })),
     (error) => next(actionWith({
       type: failureType,

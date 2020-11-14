@@ -12,15 +12,17 @@ class MealsController < ApplicationController
 
   # GET /meals
   def index
-    meals = current_user.meals.includes(:food_items).all
+    @meals = current_user.meals.includes(:food_items).order(:number).all
 
-    json_meals = { data: meals.as_json(include: :food_items) }
+    json_meals = { data: @meals.as_json(include: :food_items) }
 
     redux_store('configureStore', props: json_meals)
 
     respond_to do |format|
       format.html
-      format.json { render plain: { success: true }.to_json, status: :found, content_type: 'application/json' }
+      format.json { render plain: { success: true }.to_json,
+                          status: :found,
+                    content_type: 'application/json' }
     end
   end
 
@@ -79,11 +81,14 @@ class MealsController < ApplicationController
   def destroy
     @meal.destroy
 
-    meals = current_user.meals.all
+    @meals = current_user.meals.includes(:food_items).order(:number).all
 
-    Meal.reorder_meal_numbers(meals)
+    Meal.reorder_meal_numbers(@meals)
 
-    render json: { status: :found, message: 'Meal was successfully destroyed.' }
+    render json: { meal: @meal,
+          meals: @meals,
+         status: :found,
+        message: 'Meal was successfully destroyed.' }
   end
 
   private

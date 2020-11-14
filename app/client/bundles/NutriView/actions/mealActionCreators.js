@@ -63,14 +63,15 @@ export const addMealButtonClicked = () => (dispatch) => (
 );
 
 // Delete meal from Rails database
-const mealDeleted = (mealId) => ({
+const mealDeleted = (meal) => ({
   [CALL_API]: {
     types: [
       DELETE_MEAL_REQUEST,
       DELETE_MEAL_SUCCESS,
       DELETE_MEAL_FAILURE,
     ],
-    url: `/meals/${mealId}.json`,
+    sharedStateData: meal,
+    url: `/meals/${meal.id}.json`,
     request: {
       method: 'DELETE',
       headers: {
@@ -82,13 +83,8 @@ const mealDeleted = (mealId) => ({
 });
 
 // Delete meal thunk
-export const deleteMealClicked = (mealId) => (dispatch) => (
-  dispatch(mealDeleted(mealId))
-    .then(
-      () => {
-        window.location = '/'; // Redirect to root after deleting meal - successful or not
-      },
-    )
+export const deleteMealClicked = (meal) => (dispatch) => (
+  dispatch(mealDeleted(meal))
 );
 
 // Request all saved food items from Rails database

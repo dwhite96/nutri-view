@@ -5,14 +5,14 @@ import {
   ADD_FOOD_ITEM_TO_MEAL,
 } from '../constants/nutriViewConstants';
 
-const updateFoodItems = (state, { foodItem }) => (
+const mergeFoodItem = (state, { foodItem }) => (
   merge({}, state, foodItem)
 );
 
 const foodItemsByID = (state = {}, action) => {
   switch (action.type) {
     case ADD_FOOD_ITEM_TO_MEAL:
-      return updateFoodItems(state, action);
+      return mergeFoodItem(state, action);
     default:
       return state;
   }

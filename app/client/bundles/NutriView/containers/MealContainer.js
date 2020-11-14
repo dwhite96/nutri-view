@@ -17,7 +17,7 @@ const mapStateToProps = ({ foodItems, nutrientTypes }, { meal }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteMeal: (mealId) => dispatch(deleteMealClicked(mealId)),
+  deleteMeal: (meal) => dispatch(deleteMealClicked(meal)),
   addFoodItem: (foodItemId) => dispatch(addFoodItemClicked(foodItemId)),
   addSelectedFoodItemToMeal: (selectedFood, mealId) => {
     dispatch(addSelectedFoodItemToMealClicked(selectedFood, mealId));

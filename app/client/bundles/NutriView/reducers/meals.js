@@ -7,10 +7,10 @@ import {
   subtractEachNutrientValues,
 } from '../utilities/nutriViewUtilities';
 import {
+  DELETE_MEAL_SUCCESS,
   ADD_MEAL,
   ADD_FOOD_ITEM_TO_MEAL,
   SUBTRACT_FOOD_ITEM_FROM_MEAL,
-  DELETE_MEAL_SUCCESS,
 } from '../constants/nutriViewConstants';
 
 const addMeal = (state, action) => {
@@ -50,14 +50,24 @@ const subtractFoodItemNutrientsFromMeal = (state, { mealId, foodItem }) => (
   })
 );
 
+const updateMealNumbers = (state, { meals }) => (
+  produce(state, (draft) => {
+    meals.forEach((meal) => {
+      draft[meal.id].number = meal.number;
+    });
+  })
+);
+
 const deleteMeal = (state, action) => {
-  const { mealId } = action.data;
+  const mealId = action.data.meal.id;
 
   const newState = { ...state };
 
   delete newState[mealId];
 
-  return newState;
+  const updatedMeals = updateMealNumbers(newState, action.data);
+
+  return updatedMeals;
 };
 
 const mealsByID = (state = {}, action) => {
@@ -76,7 +86,7 @@ const mealsByID = (state = {}, action) => {
 };
 
 const removeMealId = (state, action) => {
-  const { mealId } = action.data;
+  const mealId = action.data.meal.id;
 
   const newState = [...state];
 

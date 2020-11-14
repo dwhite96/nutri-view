@@ -30,7 +30,7 @@ const Meal = ({
   };
 
   const handleDeleteMealClick = () => {
-    deleteMeal(meal.id);
+    deleteMeal(meal);
   };
 
   const handleAddFoodItemClick = () => {

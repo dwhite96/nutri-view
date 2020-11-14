@@ -9,6 +9,7 @@ import {
   FOOD_FETCH_FAILURE,
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
+  DELETE_MEAL_SUCCESS,
   RAILS_FOOD_ITEMS_FETCH_SUCCESS,
   ADD_FOOD_ITEM_TO_MEAL,
   SUBTRACT_FOOD_ITEM_FROM_MEAL,
@@ -96,8 +97,18 @@ const subtractFoodItemNutrientsFromTotal = (state, { foodItem }) => (
   })
 );
 
+const subtractMealNutrientsFromTotal = (state, { sharedStateData }) => (
+  produce(state, (draft) => {
+    const mealNutrientsData = sharedStateData.nutrientsData;
+
+    draft.nutrientsData = subtractEachNutrientValues(draft.nutrientsData, mealNutrientsData);
+  })
+);
+
 const total = (state = {}, action) => {
   switch (action.type) {
+    case DELETE_MEAL_SUCCESS:
+      return subtractMealNutrientsFromTotal(state, action);
     case ADD_FOOD_ITEM_TO_MEAL:
       return addFoodItemNutrientsToTotal(state, action);
     case SUBTRACT_FOOD_ITEM_FROM_MEAL:
