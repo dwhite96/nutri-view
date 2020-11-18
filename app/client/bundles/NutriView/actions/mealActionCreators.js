@@ -10,9 +10,6 @@ import {
   DELETE_MEAL_REQUEST,
   DELETE_MEAL_SUCCESS,
   DELETE_MEAL_FAILURE,
-  RAILS_FOOD_ITEMS_FETCH_REQUEST,
-  RAILS_FOOD_ITEMS_FETCH_SUCCESS,
-  RAILS_FOOD_ITEMS_FETCH_FAILURE,
   SAVE_FOOD_ITEM_TO_MEAL_REQUEST,
   SAVE_FOOD_ITEM_TO_MEAL_SUCCESS,
   SAVE_FOOD_ITEM_TO_MEAL_FAILURE,
@@ -84,30 +81,6 @@ const mealDeleted = (meal) => ({
 // Delete meal thunk
 export const deleteMealClicked = (meal) => (dispatch) => (
   dispatch(mealDeleted(meal))
-);
-
-// Request all saved food items from Rails database
-const railsFoodItemsFetchRequested = () => ({
-  [CALL_API]: {
-    types: [
-      RAILS_FOOD_ITEMS_FETCH_REQUEST,
-      RAILS_FOOD_ITEMS_FETCH_SUCCESS,
-      RAILS_FOOD_ITEMS_FETCH_FAILURE,
-    ],
-    url: '/food_items.json',
-    request: {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': ReactOnRails.authenticityToken(),
-      },
-    },
-  },
-});
-
-// Open add food item to meal modal and fetch Rails food items thunk
-export const addFoodItemClicked = () => (dispatch) => (
-  dispatch(railsFoodItemsFetchRequested())
 );
 
 // Patch request to add food item to meal in Rails database

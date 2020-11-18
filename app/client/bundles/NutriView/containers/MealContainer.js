@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import Meal from '../components/Meal';
 import {
   deleteMealClicked,
-  addFoodItemClicked,
   addSelectedFoodItemToMealClicked,
   removeFromMealButtonClicked,
 } from '../actions/mealActionCreators';
+import { searchFood, nutriViewDatabaseSearch } from '../actions/nutriViewActionCreators';
 
 const mapStateToProps = ({ foodItems, nutrientTypes }, { meal }) => ({
   meal,
@@ -18,7 +18,8 @@ const mapStateToProps = ({ foodItems, nutrientTypes }, { meal }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteMeal: (meal) => dispatch(deleteMealClicked(meal)),
-  addFoodItem: (foodItemId) => dispatch(addFoodItemClicked(foodItemId)),
+  searchFood: (searchTerms) => dispatch(searchFood(searchTerms)),
+  nutriViewDatabaseSearch: (searchTerms) => dispatch(nutriViewDatabaseSearch(searchTerms)),
   addSelectedFoodItemToMeal: (selectedFood, mealId) => {
     dispatch(addSelectedFoodItemToMealClicked(selectedFood, mealId));
   },

@@ -24,6 +24,9 @@ import {
   FOOD_FETCH_REQUEST,
   FOOD_FETCH_SUCCESS,
   FOOD_FETCH_FAILURE,
+  NUTRI_VIEW_DATABASE_SEARCH_REQUEST,
+  NUTRI_VIEW_DATABASE_SEARCH_SUCCESS,
+  NUTRI_VIEW_DATABASE_SEARCH_FAILURE,
   SAVE_FOOD_REQUEST,
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
@@ -224,6 +227,31 @@ const FDCFoodFetch = (foodFDCID) => ({
   },
 });
 
+// Request all saved food items from Rails database
+const nutriViewDatabaseSearchRequested = (foodSearchTerms) => ({
+  [CALL_API]: {
+    types: [
+      NUTRI_VIEW_DATABASE_SEARCH_REQUEST,
+      NUTRI_VIEW_DATABASE_SEARCH_SUCCESS,
+      NUTRI_VIEW_DATABASE_SEARCH_FAILURE,
+    ],
+    url: '/food_items.json',
+    request: {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': ReactOnRails.authenticityToken(),
+      },
+      body: JSON.stringify(foodSearchTerms),
+    },
+  },
+});
+
+// Open add food item to meal modal and fetch Rails food items thunk
+export const nutriViewDatabaseSearch = (foodSearchTerms) => (dispatch) => (
+  dispatch(nutriViewDatabaseSearchRequested(foodSearchTerms))
+);
+
 // Save food JSON data to Nutri-View app database
 const saveFoodToDatabase = (data) => ({
   [CALL_API]: {
@@ -237,7 +265,6 @@ const saveFoodToDatabase = (data) => ({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
       body: JSON.stringify(data),

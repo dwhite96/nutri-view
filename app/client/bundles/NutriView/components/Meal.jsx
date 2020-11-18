@@ -17,7 +17,8 @@ const Meal = ({
   foodItems,
   nutrientsData,
   deleteMeal,
-  addFoodItem,
+  searchFood,
+  nutriViewDatabaseSearch,
   addSelectedFoodItemToMeal,
   removeFoodItemFromMeal,
 }) => {
@@ -33,9 +34,7 @@ const Meal = ({
     deleteMeal(meal);
   };
 
-  const handleAddFoodItemClick = () => {
-    addFoodItem().then(() => setVisible(true));
-  };
+  const handleAddFoodItemClick = () => setVisible(true);
 
   return (
     <Col className="gutter-row" flex="155px" order={meal.number}>
@@ -73,6 +72,8 @@ const Meal = ({
             visible={visible}
             onSave={onSave}
             onCancel={() => setVisible(false)}
+            searchFood={searchFood}
+            nutriViewDatabaseSearch={nutriViewDatabaseSearch}
           />
         </Card>
         <Table
@@ -104,7 +105,8 @@ Meal.propTypes = {
   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   nutrientsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteMeal: PropTypes.func.isRequired,
-  addFoodItem: PropTypes.func.isRequired,
+  searchFood: PropTypes.func.isRequired,
+  nutriViewDatabaseSearch: PropTypes.func.isRequired,
   addSelectedFoodItemToMeal: PropTypes.func.isRequired,
   removeFoodItemFromMeal: PropTypes.func.isRequired,
 };

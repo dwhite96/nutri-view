@@ -33,7 +33,7 @@ const FoodItemsList = ({ foodItems, setSelectedFood }) => {
         type: 'radio',
         ...rowSelection,
       }}
-      dataSource={foodItems}
+      dataSource={foodItems.response}
       columns={columns}
       scroll={{ y: 'calc(100vh - 400px' }}
       pagination={{
