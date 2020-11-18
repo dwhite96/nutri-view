@@ -6,7 +6,8 @@ class Meal < ApplicationRecord
             presence: true,
         numericality: { only_integer: true, less_than: 11 }
 
-  has_and_belongs_to_many :food_items
+  has_many :meal_food_items
+  has_many :food_items, through: meal_food_items
 
   def self.reorder_meal_numbers(meals)
     meals.each_with_index do |meal, index|

@@ -4,5 +4,6 @@
 class FoodItem < ApplicationRecord
   validates :data, presence: true
 
-  has_and_belongs_to_many :meals
+  has_many :meal_food_items
+  has_many :meals, through: :meal_food_items
 end
