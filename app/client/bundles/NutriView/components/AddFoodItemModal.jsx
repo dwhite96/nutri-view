@@ -11,7 +11,6 @@ const AddFoodItemModal = ({
   visible,
   onSave,
   onCancel,
-  searchFood,
   nutriViewDatabaseSearch,
 }) => {
   const [selectedFood, setSelectedFood] = useState(0);
@@ -59,7 +58,6 @@ AddFoodItemModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  searchFood: PropTypes.func.isRequired,
   nutriViewDatabaseSearch: PropTypes.func.isRequired,
 };
 

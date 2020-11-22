@@ -2,8 +2,12 @@
 
 # FoodItem model
 class FoodItem < ApplicationRecord
+  include PgSearch::Model
+
   validates :data, presence: true
 
   has_many :meal_food_items
   has_many :meals, through: :meal_food_items
+
+  pg_search_scope :search_data, against: :data
 end

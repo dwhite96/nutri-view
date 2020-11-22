@@ -235,14 +235,13 @@ const nutriViewDatabaseSearchRequested = (foodSearchTerms) => ({
       NUTRI_VIEW_DATABASE_SEARCH_SUCCESS,
       NUTRI_VIEW_DATABASE_SEARCH_FAILURE,
     ],
-    url: '/food_items.json',
+    url: `/food_items/search_data.json?search=${foodSearchTerms}`,
     request: {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
-      body: JSON.stringify(foodSearchTerms),
     },
   },
 });

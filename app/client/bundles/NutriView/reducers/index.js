@@ -10,7 +10,7 @@ import {
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
   DELETE_MEAL_SUCCESS,
-  RAILS_FOOD_ITEMS_FETCH_SUCCESS,
+  NUTRI_VIEW_DATABASE_SEARCH_SUCCESS,
   ADD_FOOD_ITEM_TO_MEAL,
   DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS,
 } from '../constants/nutriViewConstants';
@@ -67,11 +67,11 @@ const foodSearchInput = (state = { response: {} }, action) => {
 
 const railsFoodList = (state = [], action) => {
   switch (action.type) {
-    case RAILS_FOOD_ITEMS_FETCH_SUCCESS:
-      return {
+    case NUTRI_VIEW_DATABASE_SEARCH_SUCCESS:
+      return [
         ...state,
-        response: action.data,
-      };
+        ...action.data.food_items,
+      ];
     default:
       return state;
   }

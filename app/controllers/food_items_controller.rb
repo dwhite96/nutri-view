@@ -18,6 +18,14 @@ class FoodItemsController < ApplicationController
     redux_store("configureStore", props: { foodItems: @food_items })
   end
 
+  # GET /food_items/search_data
+  # GET /food_items/search_data.json
+  def search_data
+    @food_items = FoodItem.search_data(params[:search])
+
+    render json: { food_items: @food_items }
+  end
+
   # GET /food_items/1
   # GET /food_items/1.json
   def show
