@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Table } from 'antd';
+import { includes } from 'lodash';
 
-const FoodItemsList = ({ foodItems, setSelectedFood }) => {
+const FoodItemsList = ({ foodItems, mealFoodItemIds, setSelectedFood }) => {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -12,6 +12,11 @@ const FoodItemsList = ({ foodItems, setSelectedFood }) => {
     onSelect: (record) => {
       setSelectedFood(record.id);
     },
+
+    getCheckboxProps: (record) => ({
+      // Disable checkbox for food item already in meal
+      disabled: includes(mealFoodItemIds, record.id),
+    }),
   };
 
   const columns = [
@@ -46,6 +51,7 @@ const FoodItemsList = ({ foodItems, setSelectedFood }) => {
 
 FoodItemsList.propTypes = {
   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mealFoodItemIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   setSelectedFood: PropTypes.func.isRequired,
 };
 

@@ -17,7 +17,6 @@ const Meal = ({
   foodItems,
   nutrientsData,
   deleteMeal,
-  searchFood,
   nutriViewDatabaseSearch,
   addSelectedFoodItemToMeal,
   removeFoodItemFromMeal,
@@ -72,7 +71,7 @@ const Meal = ({
             visible={visible}
             onSave={onSave}
             onCancel={() => setVisible(false)}
-            searchFood={searchFood}
+            mealFoodItemIds={meal.foodItems}
             nutriViewDatabaseSearch={nutriViewDatabaseSearch}
           />
         </Card>
@@ -101,11 +100,11 @@ Meal.propTypes = {
   meal: PropTypes.shape({
     id: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired,
+    foodItems: PropTypes.arrayOf(PropTypes.number).isRequired,
   }).isRequired,
   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   nutrientsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteMeal: PropTypes.func.isRequired,
-  searchFood: PropTypes.func.isRequired,
   nutriViewDatabaseSearch: PropTypes.func.isRequired,
   addSelectedFoodItemToMeal: PropTypes.func.isRequired,
   removeFoodItemFromMeal: PropTypes.func.isRequired,

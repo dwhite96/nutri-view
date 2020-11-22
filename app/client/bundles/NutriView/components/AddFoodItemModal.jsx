@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Input } from 'antd';
 
-// import FoodResponseView from './FoodResponseView';
 import FoodItemsListContainer from '../containers/FoodItemsListContainer';
 
 const { Search } = Input;
@@ -11,6 +10,7 @@ const AddFoodItemModal = ({
   visible,
   onSave,
   onCancel,
+  mealFoodItemIds,
   nutriViewDatabaseSearch,
 }) => {
   const [selectedFood, setSelectedFood] = useState(0);
@@ -48,8 +48,10 @@ const AddFoodItemModal = ({
           />
         </Form.Item>
       </Form>
-      {/* <FoodResponseView response={response} setSelectedFood={setSelectedFood} /> */}
-      <FoodItemsListContainer setSelectedFood={setSelectedFood} />
+      <FoodItemsListContainer
+        mealFoodItemIds={mealFoodItemIds}
+        setSelectedFood={setSelectedFood}
+      />
     </Modal>
   );
 };
@@ -58,6 +60,7 @@ AddFoodItemModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  mealFoodItemIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   nutriViewDatabaseSearch: PropTypes.func.isRequired,
 };
 
