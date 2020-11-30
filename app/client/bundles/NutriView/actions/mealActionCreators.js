@@ -83,23 +83,25 @@ export const deleteMealClicked = (meal) => (dispatch) => (
   dispatch(mealDeleted(meal))
 );
 
-// Patch request to add food item to meal in Rails database
-const saveFoodItemToMealRequested = (foodItemId, mealId) => ({
+// Put request to add food item to meal in Rails database
+const saveFoodItemToMealRequested = (selectedFood, mealId, foodData) => ({
   [CALL_API]: {
     types: [
       SAVE_FOOD_ITEM_TO_MEAL_REQUEST,
       SAVE_FOOD_ITEM_TO_MEAL_SUCCESS,
       SAVE_FOOD_ITEM_TO_MEAL_FAILURE,
     ],
-    url: `/meals/${mealId}/add_food_item.json`,
+    url: '/meal_food_items.json',
     request: {
-      method: 'PATCH',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
       body: JSON.stringify({
-        meal: { food_item_id: foodItemId },
+        meal_id: mealId,
+        food_item_id: selectedFood,
+        servings: foodData.servings,
       }),
     },
   },
@@ -112,8 +114,8 @@ const addFoodItemToDisplayedMeal = (mealId, foodItem) => ({
 });
 
 // Add food item to meal thunk
-export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispatch) => (
-  dispatch(saveFoodItemToMealRequested(selectedFood, mealId))
+export const addSelectedFoodItemToMealClicked = (selectedFood, mealId, servings) => (dispatch) => (
+  dispatch(saveFoodItemToMealRequested(selectedFood, mealId, servings))
     .then(
       (response) => {
         if (response.data) {
@@ -128,7 +130,7 @@ export const addSelectedFoodItemToMealClicked = (selectedFood, mealId) => (dispa
     )
 );
 
-// Patch request to delete food item from meal in Rails database
+// Delete request to delete food item from meal in Rails database
 const deleteFoodItemFromMealRequested = (foodItem, mealId) => ({
   [CALL_API]: {
     types: [
@@ -137,15 +139,16 @@ const deleteFoodItemFromMealRequested = (foodItem, mealId) => ({
       DELETE_FOOD_ITEM_FROM_MEAL_FAILURE,
     ],
     sharedStateData: foodItem,
-    url: `/meals/${mealId}/remove_food_item.json`,
+    url: '/meal_food_items.json',
     request: {
-      method: 'PATCH',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
       body: JSON.stringify({
-        meal: { food_item_id: foodItem.id },
+        meal_id: mealId,
+        food_item_id: foodItem.id,
       }),
     },
   },

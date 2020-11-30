@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import { includes } from 'lodash';
 
-const FoodItemsList = ({ foodItems, mealFoodItemIds, setSelectedFood }) => {
+const FoodItemsList = ({
+  foodSearchList, mealFoodItemIds, setSelectedFood, changeModalForm,
+}) => {
+  const [disabled, setDisabled] = useState(true);
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -11,6 +15,7 @@ const FoodItemsList = ({ foodItems, mealFoodItemIds, setSelectedFood }) => {
 
     onSelect: (record) => {
       setSelectedFood(record.id);
+      setDisabled(false);
     },
 
     getCheckboxProps: (record) => ({
@@ -31,28 +36,34 @@ const FoodItemsList = ({ foodItems, mealFoodItemIds, setSelectedFood }) => {
   ];
 
   return (
-    <Table
-      size="small"
-      rowKey="id"
-      rowSelection={{
-        type: 'radio',
-        ...rowSelection,
-      }}
-      dataSource={foodItems}
-      columns={columns}
-      scroll={{ y: 'calc(100vh - 400px' }}
-      pagination={{
-        hideOnSinglePage: true,
-        defaultPageSize: 100,
-      }}
-    />
+    <div>
+      <Table
+        size="small"
+        rowKey="id"
+        rowSelection={{
+          type: 'radio',
+          ...rowSelection,
+        }}
+        dataSource={foodSearchList}
+        columns={columns}
+        scroll={{ y: 'calc(100vh - 400px' }}
+        pagination={{
+          hideOnSinglePage: true,
+          defaultPageSize: 100,
+        }}
+      />
+      <Button type="primary" onClick={changeModalForm} disabled={disabled}>
+        Next
+      </Button>
+    </div>
   );
 };
 
 FoodItemsList.propTypes = {
-  foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  foodSearchList: PropTypes.arrayOf(PropTypes.object).isRequired,
   mealFoodItemIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   setSelectedFood: PropTypes.func.isRequired,
+  changeModalForm: PropTypes.func.isRequired,
 };
 
 export default FoodItemsList;

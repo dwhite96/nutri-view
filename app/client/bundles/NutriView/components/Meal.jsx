@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 
 import MealItems from './MealItems';
-import AddFoodItemModal from './AddFoodItemModal';
+import AddFoodItemModalContainer from '../containers/AddFoodItemModalContainer';
 
 const { Column } = Table;
 
@@ -17,17 +17,11 @@ const Meal = ({
   foodItems,
   nutrientsData,
   deleteMeal,
-  nutriViewDatabaseSearch,
-  addSelectedFoodItemToMeal,
   removeFoodItemFromMeal,
 }) => {
   const [visible, setVisible] = useState(false);
-  const mealNumber = `Meal ${meal.number}`;
 
-  const onSave = (selectedFood) => {
-    addSelectedFoodItemToMeal(selectedFood, meal.id);
-    setVisible(false);
-  };
+  const mealNumber = `Meal ${meal.number}`;
 
   const handleDeleteMealClick = () => {
     deleteMeal(meal);
@@ -67,12 +61,11 @@ const Meal = ({
             removeFoodItemFromMeal={removeFoodItemFromMeal}
           />
 
-          <AddFoodItemModal
+          <AddFoodItemModalContainer
             visible={visible}
-            onSave={onSave}
-            onCancel={() => setVisible(false)}
+            setVisible={setVisible}
+            mealId={meal.id}
             mealFoodItemIds={meal.foodItems}
-            nutriViewDatabaseSearch={nutriViewDatabaseSearch}
           />
         </Card>
         <Table
@@ -105,8 +98,6 @@ Meal.propTypes = {
   foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   nutrientsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteMeal: PropTypes.func.isRequired,
-  nutriViewDatabaseSearch: PropTypes.func.isRequired,
-  addSelectedFoodItemToMeal: PropTypes.func.isRequired,
   removeFoodItemFromMeal: PropTypes.func.isRequired,
 };
 

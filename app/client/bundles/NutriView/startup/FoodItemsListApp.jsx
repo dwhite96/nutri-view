@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import ReactOnRails from 'react-on-rails';
 import { Layout } from 'antd';
 
-import FoodItemsList from '../containers/FoodItemsListContainer';
+// import FoodItemsList from '../containers/FoodItemsListContainer';
 
 const { Content } = Layout;
 

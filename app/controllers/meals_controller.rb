@@ -1,14 +1,7 @@
 class MealsController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_meal, only: %i[
-    update
-    add_food_item
-    remove_food_item
-    destroy
-  ]
-
-  before_action :set_food_item, only: %i[add_food_item remove_food_item]
+  before_action :set_meal, only: %i[update destroy]
 
   # GET /meals
   def index
@@ -59,24 +52,6 @@ class MealsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /meals/1/add_food_item
-  def add_food_item
-    @meal.food_items << @food_item
-
-    render json: { food_item: @food_item,
-        message: 'Food item was successfully added to meal.' },
-         status: :ok
-  end
-
-  # PATCH/PUT /meals/1/remove_food_item
-  def remove_food_item
-    @meal.food_items.delete @food_item
-
-    render json: { meal: @meal,
-        message: 'Food item was successfully removed from meal.' },
-         status: :ok
-  end
-
   # DELETE /meals/1
   def destroy
     @meal.destroy
@@ -94,10 +69,6 @@ class MealsController < ApplicationController
   private
     def set_meal
       @meal = Meal.find(params[:id])
-    end
-
-    def set_food_item
-      @food_item = FoodItem.find(params[:meal][:food_item_id].to_i)
     end
 
     def meal_params

@@ -11,6 +11,7 @@ import {
   SAVE_FOOD_FAILURE,
   DELETE_MEAL_SUCCESS,
   NUTRI_VIEW_DATABASE_SEARCH_SUCCESS,
+  CLEAR_FOOD_SEARCH_LIST,
   ADD_FOOD_ITEM_TO_MEAL,
   DELETE_FOOD_ITEM_FROM_MEAL_SUCCESS,
 } from '../constants/nutriViewConstants';
@@ -72,6 +73,8 @@ const railsFoodList = (state = [], action) => {
         ...state,
         ...action.data.food_items,
       ];
+    case CLEAR_FOOD_SEARCH_LIST:
+      return [];
     default:
       return state;
   }

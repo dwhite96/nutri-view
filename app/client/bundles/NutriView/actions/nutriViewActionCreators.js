@@ -27,6 +27,7 @@ import {
   NUTRI_VIEW_DATABASE_SEARCH_REQUEST,
   NUTRI_VIEW_DATABASE_SEARCH_SUCCESS,
   NUTRI_VIEW_DATABASE_SEARCH_FAILURE,
+  CLEAR_FOOD_SEARCH_LIST,
   SAVE_FOOD_REQUEST,
   SAVE_FOOD_SUCCESS,
   SAVE_FOOD_FAILURE,
@@ -250,6 +251,10 @@ const nutriViewDatabaseSearchRequested = (foodSearchTerms) => ({
 export const nutriViewDatabaseSearch = (foodSearchTerms) => (dispatch) => (
   dispatch(nutriViewDatabaseSearchRequested(foodSearchTerms))
 );
+
+export const clearFoodSearchList = () => ({
+  type: CLEAR_FOOD_SEARCH_LIST,
+});
 
 // Save food JSON data to Nutri-View app database
 const saveFoodToDatabase = (data) => ({
