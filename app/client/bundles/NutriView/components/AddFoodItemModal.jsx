@@ -69,7 +69,7 @@ const AddFoodItemModal = ({
       onOk={() => {
         form
           .validateFields()
-          .then((values) => onSave(selectedFood, values))
+          .then((values) => onSave(values))
           .then(() => form.resetFields());
       }}
       cancelText="Cancel"

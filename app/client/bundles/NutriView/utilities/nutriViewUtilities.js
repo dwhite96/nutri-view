@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import produce from 'immer';
-import { mapValues, add, subtract } from 'lodash';
+import {
+  mapValues, add, subtract, multiply,
+} from 'lodash';
 
 const calcPercentDailyValue = (currentNutrient, nutrientValue) => (
   (nutrientValue / currentNutrient.dailyReferenceValue) * 100
@@ -52,17 +54,32 @@ export const subtractEachNutrientValues = (currentNutrients, oldNutrients) => (
   })
 );
 
-export const calculateMealNutrients = (meal, foodItems) => {
+export const adjustByServings = (foodItemNutrients, servings) => (
+  mapValues(foodItemNutrients, (foodItemNutrient) => (
+    produce(foodItemNutrient, (draft) => {
+      draft.value = multiply(
+        Number(foodItemNutrient.value),
+        Number(servings),
+      ).toFixed(1);
+    })
+  ))
+);
+
+export const calculateMealNutrients = (meal, mealFoodItems, foodItems) => {
   let newMeal = { ...meal };
 
-  newMeal.foodItems.forEach((foodItemId) => {
-    const foodItemNutrients = foodItems.byId[foodItemId].data.labelNutrients;
+  newMeal.mealFoodItems.forEach((mealFoodItemId) => {
+    const mealFoodItem = mealFoodItems.byId[mealFoodItemId];
+
+    const foodItemNutrients = foodItems.byId[mealFoodItem.foodItemId].data.labelNutrients;
+
+    const adjustedfoodItemNutrients = adjustByServings(foodItemNutrients, mealFoodItem.servings);
 
     newMeal = produce(newMeal, (draft) => {
-      draft.nutrientsData = addEachNutrientValues(draft.nutrientsData, foodItemNutrients);
+      draft.nutrientsData = addEachNutrientValues(draft.nutrientsData, adjustedfoodItemNutrients);
     });
 
-    return foodItemId;
+    return mealFoodItemId;
   });
 
   return newMeal;

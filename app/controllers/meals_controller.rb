@@ -5,9 +5,12 @@ class MealsController < ApplicationController
 
   # GET /meals
   def index
-    @meals = current_user.meals.includes(:food_items).order(:number).all
+    @meals = current_user.meals
+                         .includes(:food_items, :meal_food_items)
+                         .order(:number)
+                         .all
 
-    json_meals = { data: @meals.as_json(include: :food_items) }
+    json_meals = { data: @meals.as_json(include: [:food_items, :meal_food_items]) }
 
     redux_store('configureStore', props: json_meals)
 

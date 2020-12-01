@@ -10,7 +10,8 @@ class MealFoodItemsController < ApplicationController
     @meal_food_item = @meal.meal_food_items.build(meal_food_item_params)
 
     if @meal_food_item.save
-      render json: { food_item: @food_item,
+      render json: { mealFoodItem: { mealFoodItem: @meal_food_item },
+         foodItem: { foodItem: @food_item },
           message: 'Food item was successfully added to meal.' },
            status: :ok
     else
@@ -20,9 +21,15 @@ class MealFoodItemsController < ApplicationController
 
   # DELETE /meal_food_items
   def destroy
-    @meal.meal_food_items.find_by(food_item_id: @food_item.id).destroy
+    meal_food_item = @meal.meal_food_items.find_by(food_item_id: @food_item.id)
 
-    render json: { meal: @meal,
+    meal_food_item_id = meal_food_item.id
+
+    servings = meal_food_item.servings
+
+    meal_food_item.destroy
+
+    render json: { meal: @meal, mealFoodItemId: meal_food_item_id, servings: servings,
         message: 'Food item was successfully removed from meal.' },
          status: :ok
   end

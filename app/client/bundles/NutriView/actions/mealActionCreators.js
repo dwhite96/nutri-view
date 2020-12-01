@@ -107,9 +107,10 @@ const saveFoodItemToMealRequested = (selectedFood, mealId, foodData) => ({
   },
 });
 
-const addFoodItemToDisplayedMeal = (mealId, foodItem) => ({
+const addFoodItemToDisplayedMeal = (mealId, mealFoodItem, foodItem) => ({
   type: ADD_FOOD_ITEM_TO_MEAL,
   mealId,
+  mealFoodItem,
   foodItem,
 });
 
@@ -119,11 +120,17 @@ export const addSelectedFoodItemToMealClicked = (selectedFood, mealId, servings)
     .then(
       (response) => {
         if (response.data) {
-          const normalizedData = normalizeData(response.data, Schemas.FOOD_ITEMS);
+          const normalizedMealFoodItem = normalizeData(
+            response.data.mealFoodItem,
+            Schemas.MEAL_FOOD_ITEMS,
+          );
+
+          const normalizedFoodItem = normalizeData(response.data.foodItem, Schemas.FOOD_ITEMS);
 
           dispatch(addFoodItemToDisplayedMeal(
             mealId,
-            normalizedData.entities.foodItems,
+            normalizedMealFoodItem.entities.mealFoodItems,
+            normalizedFoodItem.entities.foodItems,
           ));
         }
       },

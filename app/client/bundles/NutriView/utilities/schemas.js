@@ -57,11 +57,14 @@ export const baseNutrientsData = () => ({
   },
 });
 
+const mealFoodItem = new schema.Entity('mealFoodItems');
+
 const foodItem = new schema.Entity('foodItems');
 
 const meal = new schema.Entity(
   'meals',
   {
+    mealFoodItems: [mealFoodItem],
     foodItems: [foodItem],
   },
   {
@@ -72,12 +75,15 @@ const meal = new schema.Entity(
   },
 );
 
+const mealFoodItemsSchema = [mealFoodItem];
+
 const mealsSchema = [meal];
 
 const foodItemsSchema = [foodItem];
 
 export const Schemas = {
   MEALS: mealsSchema,
+  MEAL_FOOD_ITEMS: mealFoodItemsSchema,
   FOOD_ITEMS: foodItemsSchema,
 };
 
@@ -95,6 +101,9 @@ export const buildInitialStateObject = (data) => {
     meals: {
       byId: normalizedData.entities.meals,
       allIds: normalizedData.result,
+    },
+    mealFoodItems: {
+      byId: normalizedData.entities.mealFoodItems,
     },
     foodItems: {
       byId: normalizedData.entities.foodItems,
@@ -147,6 +156,7 @@ normalized state shape:
           id: 1,
           number: 1,
           name: 'breakfast',
+          mealFoodItems: [1, 2],
           foodItems: [1, 2],
           nutrientsData: {
             calories: {
@@ -201,6 +211,17 @@ normalized state shape:
       },
       allIds: [1, 2],
     },
+    mealFoodItems: {
+      byId: {
+        1: {
+          id: 1,
+          mealId: 1,
+          foodItemId: 1,
+          servings: 2,
+        },
+        2: {},
+      },
+    },
     foodItems: {
       byId: {
         1: {
@@ -209,7 +230,6 @@ normalized state shape:
         },
         2: {},
       },
-      allIds: [1, 2],
     },
     nutrientTypes: [
       'calories',

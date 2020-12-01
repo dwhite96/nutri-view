@@ -17,11 +17,13 @@ import {
 } from '../constants/nutriViewConstants';
 
 import meals from './meals';
+import mealFoodItems from './mealFoodItems';
 import foodItems from './foodItems';
 import nutrientTypes from './nutrientTypes';
 import {
   addEachNutrientValues,
   subtractEachNutrientValues,
+  adjustByServings,
 } from '../utilities/nutriViewUtilities';
 
 const foodSearchInput = (state = { response: {} }, action) => {
@@ -80,13 +82,20 @@ const railsFoodList = (state = [], action) => {
   }
 };
 
-const addFoodItemNutrientsToTotal = (state, { foodItem }) => (
+const addFoodItemNutrientsToTotal = (state, { mealFoodItem, foodItem }) => (
   produce(state, (draft) => {
+    const mealFoodItemId = Number(keys(mealFoodItem)[0]);
+
     const foodItemId = Number(keys(foodItem)[0]);
 
     const foodItemNutrients = foodItem[foodItemId].data.labelNutrients;
 
-    draft.nutrientsData = addEachNutrientValues(draft.nutrientsData, foodItemNutrients);
+    const adjustedFoodItemNutrients = adjustByServings(
+      foodItemNutrients,
+      mealFoodItem[mealFoodItemId].servings,
+    );
+
+    draft.nutrientsData = addEachNutrientValues(draft.nutrientsData, adjustedFoodItemNutrients);
   })
 );
 
@@ -94,7 +103,15 @@ const subtractFoodItemNutrientsFromTotal = (state, action) => (
   produce(state, (draft) => {
     const foodItemNutrients = action.sharedStateData.data.labelNutrients;
 
-    draft.nutrientsData = subtractEachNutrientValues(draft.nutrientsData, foodItemNutrients);
+    const adjustedFoodItemNutrients = adjustByServings(
+      foodItemNutrients,
+      action.data.servings,
+    );
+
+    draft.nutrientsData = subtractEachNutrientValues(
+      draft.nutrientsData,
+      adjustedFoodItemNutrients,
+    );
   })
 );
 
@@ -156,6 +173,7 @@ const reducers = combineReducers({
   foodSearchInput,
   railsFoodList,
   meals,
+  mealFoodItems,
   foodItems,
   nutrientTypes,
   total,

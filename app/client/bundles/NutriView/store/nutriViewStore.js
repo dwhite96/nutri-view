@@ -22,9 +22,9 @@ const buildPreloadedState = (railsProps) => {
   const { meals } = preloadedState;
 
   meals.allIds.forEach((mealId) => {
-    const { foodItems } = preloadedState;
+    const { mealFoodItems, foodItems } = preloadedState;
 
-    meals.byId[mealId] = calculateMealNutrients(meals.byId[mealId], foodItems);
+    meals.byId[mealId] = calculateMealNutrients(meals.byId[mealId], mealFoodItems, foodItems);
 
     preloadedState.total.nutrientsData = addEachNutrientValues(
       preloadedState.total.nutrientsData,

@@ -5,6 +5,7 @@ import { remove, keys, without } from 'lodash';
 import {
   addEachNutrientValues,
   subtractEachNutrientValues,
+  adjustByServings,
 } from '../utilities/nutriViewUtilities';
 import {
   DELETE_MEAL_SUCCESS,
@@ -22,17 +23,26 @@ const addMeal = (state, action) => {
   };
 };
 
-const addFoodItemNutrientsToMeal = (state, { mealId, foodItem }) => (
+const addFoodItemNutrientsToMeal = (state, { mealId, mealFoodItem, foodItem }) => (
   produce(state, (draft) => {
     const meal = draft[mealId];
+
+    const mealFoodItemId = Number(keys(mealFoodItem)[0]);
 
     const foodItemId = Number(keys(foodItem)[0]);
 
     const foodItemNutrients = foodItem[foodItemId].data.labelNutrients;
 
-    meal.nutrientsData = addEachNutrientValues(meal.nutrientsData, foodItemNutrients);
+    const adjustedFoodItemNutrients = adjustByServings(
+      foodItemNutrients,
+      mealFoodItem[mealFoodItemId].servings,
+    );
+
+    meal.nutrientsData = addEachNutrientValues(meal.nutrientsData, adjustedFoodItemNutrients);
 
     meal.foodItems = meal.foodItems.concat(foodItemId);
+
+    meal.mealFoodItems = meal.mealFoodItems.concat(mealFoodItemId);
   })
 );
 
@@ -44,9 +54,13 @@ const subtractFoodItemNutrientsFromMeal = (state, action) => (
 
     const foodItemNutrients = foodItem.data.labelNutrients;
 
-    meal.nutrientsData = subtractEachNutrientValues(meal.nutrientsData, foodItemNutrients);
+    const adjustedFoodItemNutrients = adjustByServings(foodItemNutrients, action.data.servings);
+
+    meal.nutrientsData = subtractEachNutrientValues(meal.nutrientsData, adjustedFoodItemNutrients);
 
     meal.foodItems = without(meal.foodItems, foodItem.id);
+
+    meal.mealFoodItems = without(meal.mealFoodItems, action.data.mealFoodItemId);
   })
 );
 
