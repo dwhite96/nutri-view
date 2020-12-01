@@ -137,14 +137,21 @@ const total = (state = {}, action) => {
 };
 
 const dataFetchStatus = (state = 'idle', action) => {
-  switch (action.type.includes('REQUEST')) {
-    case true:
-      return 'loading';
-    case false:
-      return 'idle';
-    default:
-      return state;
+  const { type } = action;
+
+  if (type.includes('REQUEST')) {
+    return 'loading';
   }
+
+  if (type.includes('SUCCESS')) {
+    return 'idle';
+  }
+
+  if (type.includes('FAILURE')) {
+    return 'idle';
+  }
+
+  return state;
 };
 
 const dataFetchResponseMessages = (state = {}, action) => {

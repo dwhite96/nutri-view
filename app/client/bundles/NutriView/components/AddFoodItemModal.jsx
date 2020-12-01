@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form } from 'antd';
+import { Modal, Form, Spin } from 'antd';
 
 import DisplayFoodSearchForm from './DisplayFoodSearchForm';
 import DisplayFoodDataForm from './DisplayFoodDataForm';
@@ -11,6 +11,7 @@ const AddFoodItemModal = ({
   mealId,
   mealFoodItemIds,
   foodSearchList,
+  dataFetchStatus,
   nutriViewDatabaseSearch,
   addSelectedFoodItemToMeal,
   clearFoodSearchList,
@@ -77,7 +78,9 @@ const AddFoodItemModal = ({
       width={1000}
       destroyOnClose
     >
-      {modalContent}
+      <Spin key="1" spinning={dataFetchStatus === 'loading'}>
+        {modalContent}
+      </Spin>
     </Modal>
   );
 };
@@ -88,6 +91,7 @@ AddFoodItemModal.propTypes = {
   mealId: PropTypes.number.isRequired,
   mealFoodItemIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   foodSearchList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dataFetchStatus: PropTypes.string.isRequired,
   nutriViewDatabaseSearch: PropTypes.func.isRequired,
   addSelectedFoodItemToMeal: PropTypes.func.isRequired,
   clearFoodSearchList: PropTypes.func.isRequired,

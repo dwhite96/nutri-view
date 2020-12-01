@@ -4,12 +4,13 @@ import { nutriViewDatabaseSearch, clearFoodSearchList } from '../actions/nutriVi
 import { addSelectedFoodItemToMealClicked } from '../actions/mealActionCreators';
 import AddFoodItemModal from '../components/AddFoodItemModal';
 
-const mapStateToProps = ({ railsFoodList }, ownProps) => ({
+const mapStateToProps = ({ railsFoodList, dataFetchStatus }, ownProps) => ({
   visible: ownProps.visible,
   setVisible: ownProps.setVisible,
   mealId: ownProps.mealId,
   mealFoodItemIds: ownProps.mealFoodItemIds,
   foodSearchList: railsFoodList,
+  dataFetchStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
