@@ -63,7 +63,6 @@ const AddFoodItemModal = ({
   return (
     <Modal
       title="Add food item to meal"
-      centered
       visible={visible}
       okText="Save"
       okButtonProps={{ disabled: modalOkButtonDisabled }}
