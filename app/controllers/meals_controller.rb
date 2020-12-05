@@ -24,20 +24,14 @@ class MealsController < ApplicationController
 
   # POST /meals
   def create
-    if current_user.meals.empty?
-      last_meal_number = 0
-    else
-      last_meal_number = current_user.meals.last.number
-    end
+    new_meal_number = Meal.generate_meal_number(current_user)
 
-    @meal = current_user.meals.build
-    @meal.add_new_meal_number(last_meal_number)
+    @meal = current_user.meals.build(number: new_meal_number)
 
     if @meal.save
-      render json: { meal: @meal,
-          message: 'Meal was successfully saved.' },
-          include: :food_items,
-           status: :created
+      render json: { meal: @meal.as_json(include: [:food_items, :meal_food_items]),
+          message: 'Meal was successfully saved.',
+           status: :created }
     else
       render json: @meal.errors, status: :unprocessable_entity
     end
@@ -46,10 +40,9 @@ class MealsController < ApplicationController
   # PATCH/PUT /meals/1
   def update
     if @meal.save
-      render json: { meal: @meal,
-          message: 'Meal was successfully updated.' },
-          include: :food_items,
-           status: :ok
+      render json: { meal: @meal.as_json(include: [:food_items, :meal_food_items]),
+          message: 'Meal was successfully updated.',
+           status: :ok }
     else
       render json: @meal.errors, status: :unprocessable_entity
     end
@@ -65,8 +58,8 @@ class MealsController < ApplicationController
 
     render json: { meal: @meal,
           meals: @meals,
-         status: :found,
-        message: 'Meal was successfully destroyed.' }
+        message: 'Meal was successfully destroyed.',
+         status: :found }
   end
 
   private

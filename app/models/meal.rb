@@ -6,6 +6,8 @@ class Meal < ApplicationRecord
             presence: true,
         numericality: { only_integer: true, less_than: 11 }
 
+  belongs_to :user
+
   has_many :meal_food_items, dependent: :destroy
 
   has_many :food_items, through: :meal_food_items
@@ -17,7 +19,11 @@ class Meal < ApplicationRecord
     end
   end
 
-  def add_new_meal_number(previous_meal_number)
-    self.number = previous_meal_number + 1
+  def self.generate_meal_number(current_user)
+    if current_user.meals.empty?
+      1
+    else
+      current_user.meals.last.number + 1
+    end
   end
 end
