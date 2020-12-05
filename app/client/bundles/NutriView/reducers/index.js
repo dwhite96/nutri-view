@@ -63,6 +63,11 @@ const foodSearchInput = (state = { response: {} }, action) => {
           },
         },
       };
+    case CLEAR_FOOD_SEARCH_LIST:
+      return {
+        ...state,
+        response: {},
+      };
     default:
       return state;
   }

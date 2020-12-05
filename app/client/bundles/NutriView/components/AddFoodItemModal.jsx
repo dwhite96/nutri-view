@@ -41,6 +41,12 @@ const AddFoodItemModal = ({
     clearFoodSearchList();
   };
 
+  const getSelectedFoodData = () => {
+    const foodItem = foodSearchList.find((food) => food.id === selectedFood);
+
+    return foodItem.data;
+  };
+
   if (formSection === 1) {
     modalContent = (
       <DisplayFoodSearchForm
@@ -56,7 +62,8 @@ const AddFoodItemModal = ({
     modalContent = (
       <DisplayFoodDataForm
         form={form}
-        foodData={foodSearchList[0].data}
+        // foodData={foodSearchList[selectedFood].data}
+        foodData={getSelectedFoodData()}
       />
     );
   }

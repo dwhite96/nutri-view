@@ -10,6 +10,7 @@ const FoodResponseView = ({ response, setSelectedFood }) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
+      // eslint-disable-next-line no-console
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
 

@@ -17,7 +17,7 @@ const DisplayFoodSearchForm = ({
   <div>
     <Form
       form={form}
-      name="form_in_modal"
+      name="rails_food_search_form"
       preserve={false}
     >
       <Form.Item

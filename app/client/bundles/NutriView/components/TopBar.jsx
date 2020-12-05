@@ -12,21 +12,15 @@ const { Header } = Layout;
 const { Title } = Typography;
 
 const TopBar = ({
-  response, dataFetchResponseMessages, searchFood, saveFood, logout,
+  response,
+  dataFetchStatus,
+  dataFetchResponseMessages,
+  searchFood,
+  clearFoodSearchList,
+  saveFood,
+  logout,
 }) => {
   const [visible, setVisible] = useState(false);
-
-  const onSave = (selectedFood) => {
-    console.log('Received values of form: ', selectedFood);
-
-    saveFood(selectedFood)
-      .then(() => {
-        setVisible(false);
-      })
-      .catch((info) => {
-        console.log(':', info);
-      });
-  };
 
   const handleClick = (e) => {
     switch (e.key) {
@@ -63,12 +57,12 @@ const TopBar = ({
               </Button>
               <FoodSearchInputModal
                 visible={visible}
-                onSave={onSave}
-                onCancel={() => {
-                  setVisible(false);
-                }}
+                dataFetchStatus={dataFetchStatus}
                 response={response}
+                setVisible={setVisible}
                 searchFood={searchFood}
+                saveFood={saveFood}
+                clearFoodSearchList={clearFoodSearchList}
               />
             </div>
           </Col>
@@ -98,10 +92,12 @@ TopBar.propTypes = {
   response: PropTypes.shape({
     message: PropTypes.string,
   }).isRequired,
+  dataFetchStatus: PropTypes.string.isRequired,
   dataFetchResponseMessages: PropTypes.shape({
     error: PropTypes.string,
   }).isRequired,
   searchFood: PropTypes.func.isRequired,
+  clearFoodSearchList: PropTypes.func.isRequired,
   saveFood: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
 };

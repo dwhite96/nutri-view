@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import ReactOnRails from 'react-on-rails';
+import { hasIn, upperCase } from 'lodash';
 
 import { CALL_API } from '../middleware/api';
 import {
@@ -271,18 +272,21 @@ const saveFoodToDatabase = (data) => ({
         'Content-Type': 'application/json',
         'X-CSRF-Token': ReactOnRails.authenticityToken(),
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ data }),
     },
   },
 });
 
 // Save food to Rails database thunk
-export const saveFood = (foodFDCID) => (dispatch) => (
-  dispatch(FDCFoodFetch(foodFDCID))
+export const saveFood = (values) => (dispatch) => {
+  if (hasIn(values, 'description')) {
+    values.description = upperCase(values.description);
+
+    return dispatch(saveFoodToDatabase(values));
+  }
+
+  return dispatch(FDCFoodFetch(values.selectedFood))
     .then(
-      (response) => {
-        const data = { data: response.data };
-        dispatch(saveFoodToDatabase(data));
-      },
-    )
-);
+      (response) => dispatch(saveFoodToDatabase(response.data)),
+    );
+};
