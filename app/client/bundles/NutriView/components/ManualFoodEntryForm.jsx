@@ -14,6 +14,12 @@ const initialValues = {
     fat: {
       value: 0,
     },
+    saturatedFat: {
+      value: 0,
+    },
+    transFat: {
+      value: 0,
+    },
     cholesterol: {
       value: 0,
     },
@@ -23,10 +29,46 @@ const initialValues = {
     carbohydrates: {
       value: 0,
     },
+    fiber: {
+      value: 0,
+    },
     sugars: {
       value: 0,
     },
+    addedSugar: {
+      value: 0,
+    },
     protein: {
+      value: 0,
+    },
+    calcium: {
+      value: 0,
+    },
+    iron: {
+      value: 0,
+    },
+    potassium: {
+      value: 0,
+    },
+    vitaminA: {
+      value: 0,
+    },
+    vitaminC: {
+      value: 0,
+    },
+    vitaminD: {
+      value: 0,
+    },
+    vitaminB6: {
+      value: 0,
+    },
+    vitaminB12: {
+      value: 0,
+    },
+    copper: {
+      value: 0,
+    },
+    zinc: {
       value: 0,
     },
   },
@@ -36,8 +78,8 @@ const ManualFoodEntryForm = ({ form }) => (
   <Form
     form={form}
     name="manual_food_entry"
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
+    labelCol={{ span: 10 }}
+    wrapperCol={{ span: 14 }}
     initialValues={initialValues}
   >
     <Row gutter={24}>
@@ -142,7 +184,7 @@ const ManualFoodEntryForm = ({ form }) => (
         </Form.Item>
 
         <Form.Item
-          label="Total Fat"
+          label="Total Fat (g)"
           name={['labelNutrients', 'fat', 'value']}
           rules={[
             {
@@ -155,21 +197,21 @@ const ManualFoodEntryForm = ({ form }) => (
         </Form.Item>
 
         <Form.Item
-          label="Saturated Fat"
+          label="Saturated Fat (g)"
           name={['labelNutrients', 'saturatedFat', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Trans Fat"
+          label="Trans Fat (g)"
           name={['labelNutrients', 'transFat', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Cholesterol"
+          label="Cholesterol (mg)"
           name={['labelNutrients', 'cholesterol', 'value']}
           rules={[
             {
@@ -182,7 +224,7 @@ const ManualFoodEntryForm = ({ form }) => (
         </Form.Item>
 
         <Form.Item
-          label="Sodium"
+          label="Sodium (mg)"
           name={['labelNutrients', 'sodium', 'value']}
           rules={[
             {
@@ -195,7 +237,7 @@ const ManualFoodEntryForm = ({ form }) => (
         </Form.Item>
 
         <Form.Item
-          label="Total Carbohydrates"
+          label="Total Carbohydrates (g)"
           name={['labelNutrients', 'carbohydrates', 'value']}
           rules={[
             {
@@ -208,14 +250,14 @@ const ManualFoodEntryForm = ({ form }) => (
         </Form.Item>
 
         <Form.Item
-          label="Dietary Fiber"
+          label="Dietary Fiber (g)"
           name={['labelNutrients', 'fiber', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Total Sugars"
+          label="Total Sugars (g)"
           name={['labelNutrients', 'sugars', 'value']}
           rules={[
             {
@@ -228,14 +270,14 @@ const ManualFoodEntryForm = ({ form }) => (
         </Form.Item>
 
         <Form.Item
-          label="Added Sugars"
+          label="Added Sugars (g)"
           name={['labelNutrients', 'addedSugar', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Protein"
+          label="Protein (g)"
           name={['labelNutrients', 'protein', 'value']}
           rules={[
             {
@@ -252,70 +294,70 @@ const ManualFoodEntryForm = ({ form }) => (
         <Title level={5}>Micronutrients</Title>
 
         <Form.Item
-          label="Calcium"
+          label="Calcium (mg)"
           name={['labelNutrients', 'calcium', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Iron"
+          label="Iron (mg)"
           name={['labelNutrients', 'iron', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Potassium"
+          label="Potassium (mg)"
           name={['labelNutrients', 'potassium', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Vitamin A"
+          label="Vitamin A (mcg)"
           name={['labelNutrients', 'vitaminA', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Vitamin C"
+          label="Vitamin C (mg)"
           name={['labelNutrients', 'vitaminC', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Vitamin D"
+          label="Vitamin D (mcg)"
           name={['labelNutrients', 'vitaminD', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Vitamin B6"
+          label="Vitamin B6 (mg)"
           name={['labelNutrients', 'vitaminB6', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Vitamin B12"
+          label="Vitamin B12 (mcg)"
           name={['labelNutrients', 'vitaminB12', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Copper"
+          label="Copper (mg)"
           name={['labelNutrients', 'copper', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
         </Form.Item>
 
         <Form.Item
-          label="Zinc"
+          label="Zinc (mg)"
           name={['labelNutrients', 'zinc', 'value']}
         >
           <InputNumber size="small" min={0} max={1000} step={0.1} />
