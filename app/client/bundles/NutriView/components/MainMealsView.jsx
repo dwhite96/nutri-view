@@ -59,7 +59,7 @@ const MainMealsView = ({
       >
         <Content />
       </PageHeader>
-      <Row gutter={16} align="bottom">
+      <Row gutter={12} align="bottom" wrap={false}>
         <Col className="gutter-row" flex="157px" order={0}>
           <List size="small">
             <List.Item>
@@ -88,7 +88,7 @@ const MainMealsView = ({
 
         <MealCollection meals={meals} />
 
-        <Col className="gutter-row" flex="155px" order={11}>
+        <Col className="gutter-row" flex="152px" order={11}>
           <Card bodyStyle={{ padding: 0 }}>
             <Table
               rowKey="nutrient"

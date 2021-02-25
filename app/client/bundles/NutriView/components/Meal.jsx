@@ -30,7 +30,7 @@ const Meal = ({
   const handleAddFoodItemClick = () => setVisible(true);
 
   return (
-    <Col className="gutter-row" flex="155px" order={meal.number}>
+    <Col className="gutter-row" flex="152px" order={meal.number}>
       <Card bodyStyle={{ padding: 0 }}>
         <Card
           size="small"

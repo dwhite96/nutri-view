@@ -4,16 +4,15 @@
   "engines": {
     "node": "12.14.0",
     "npm": "6.13.4",
-    "yarn": "1.22.0"
+    "yarn": "1.22.10"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.1.0",
     "@babel/preset-react": "^7.7.4",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
-    "antd": "^4.1.1",
+    "antd": "^4.12.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "core-js": "^3.6.4",
     "cross-fetch": "^3.0.4",
