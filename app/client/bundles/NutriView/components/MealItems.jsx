@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Dropdown, Button, Empty, Menu,
 } from 'antd';
-import {
-  DownOutlined,
-} from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 
 const MealItems = ({ mealId, foodItems, removeFoodItemFromMeal }) => {
   const handleClick = ({ key }, foodItem) => {

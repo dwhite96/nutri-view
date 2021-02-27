@@ -114,6 +114,12 @@ const MainMealsView = ({
           </Card>
         </Col>
       </Row>
+
+      <Row>
+        <p>
+          % Daily Value based on 2000 calories a day.
+        </p>
+      </Row>
     </div>
   );
 };
