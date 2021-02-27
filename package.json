@@ -7,6 +7,7 @@
     "yarn": "1.22.10"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.5.0",
     "@babel/preset-react": "^7.7.4",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
