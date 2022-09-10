@@ -6,9 +6,10 @@ import {
   removeFromMealButtonClicked,
 } from '../actions/mealActionCreators';
 
-const mapStateToProps = ({ foodItems, nutrientTypes }, { meal }) => ({
+const mapStateToProps = ({ foodItems, mealFoodItems, nutrientTypes }, { meal }) => ({
   meal,
-  foodItems: meal.foodItems.map((id) => foodItems.byId[id]),
+  foodItems,
+  mealFoodItems: meal.mealFoodItems.map((id) => mealFoodItems.byId[id]),
   nutrientsData: nutrientTypes.map((key) => (
     meal.nutrientsData[key]
   )),

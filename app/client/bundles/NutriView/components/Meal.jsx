@@ -15,6 +15,7 @@ const { Column } = Table;
 const Meal = ({
   meal,
   foodItems,
+  mealFoodItems,
   nutrientsData,
   deleteMeal,
   removeFoodItemFromMeal,
@@ -58,6 +59,7 @@ const Meal = ({
           <MealItems
             mealId={meal.id}
             foodItems={foodItems}
+            mealFoodItems={mealFoodItems}
             removeFoodItemFromMeal={removeFoodItemFromMeal}
           />
 
@@ -75,7 +77,7 @@ const Meal = ({
           tableLayout="fixed"
           pagination={{ hideOnSinglePage: true }}
         >
-          <Column title="Amount /serving" dataIndex="value" width={41} />
+          <Column title="Meal Amount" dataIndex="value" width={41} />
           <Column
             title="% Daily Value"
             dataIndex="percentDailyValue"
@@ -95,7 +97,8 @@ Meal.propTypes = {
     number: PropTypes.number.isRequired,
     foodItems: PropTypes.arrayOf(PropTypes.number).isRequired,
   }).isRequired,
-  foodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  foodItems: PropTypes.shape({}).isRequired,
+  mealFoodItems: PropTypes.arrayOf(PropTypes.object).isRequired,
   nutrientsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteMeal: PropTypes.func.isRequired,
   removeFoodItemFromMeal: PropTypes.func.isRequired,
